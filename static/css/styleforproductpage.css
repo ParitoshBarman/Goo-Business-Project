@@ -1,0 +1,64 @@
+
+.productdetiles{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.productIMG{
+    width: 55vw;
+    height: 33.8vw;
+    border: 2px solid lightgray;
+    margin-left: 3vw;
+    margin-top: 8px;
+    border-radius: 11px;
+    box-shadow: -11px 12px 10px #abaaaa78;
+}
+
+
+.productname{
+    font-size: 28px;
+    font-weight:bolder;
+    font-family: sans-serif;
+    margin: 25px 3vw 16px 3vw;
+}
+.pricingTbl{
+    margin: 10px 0px 0px 15px;
+}
+.border{border: 2px solid #0000000a; border-radius: 11px;}
+.border-down{border-bottom: 2px solid black;}
+.border-down-gray{border-bottom: 1px solid rgb(217 217 217);}
+.border-right-gray{border-right: 1px solid #141212;}
+
+.cellSize{height: 8vw; width: 12vw;}
+.center{text-align: center;}
+.thAll{font-size: xx-large;font-family: sans-serif;text-decoration: underline;text-shadow: 0px 17px 4px #00000061;}
+.tdAll{font-size: larger;font-family: sans-serif;}
+.small{font-size: large;}
+.silver{background-color: #c0c0c01f;}
+.gold{background-color: #ffd700e3;}
+.diamond{background-color: #b9f2ff;}
+
+.detiles{width: 90vw;margin: 0px auto;}
+.dtlsLB{font-weight: bold;font-family: sans-serif;margin: 5px 0px;}
+.descText{overflow-x: auto;white-space: pre-wrap;word-wrap: break-word;font-family: sans-serif;padding: 10px;}
+
+.costomSection{width: 90vw;background-color: #b9f2ff8f;margin: 0px auto;margin-top:40px;border-radius: 9px;font-size: 30px;font-family: sans-serif;text-align: center;padding: 18px;}
+
+.serviceproductoption{display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;align-items: center;width: 70vw;margin: 0px auto;}
+
+.inline{display:block;}
+.formcl{margin: 38px 4vw; padding:28px;border: 1px solid #8f8f8f4a;background-color:#d0cdd517;border-radius:9px;font-family: sans-serif;font-size: 15px;}
+.left-right-margin{margin: 0px 3vw;}
+.fileAndReqDsc{margin-top: 50px;}
+.formcl label{    font-size: 20px;font-family: sans-serif;}
+.formcl input,select,textarea{font-size: large;margin: 10px 0px;}
+textarea{width: 60vw;margin: 10px 1vw;border-radius: 6px;}
+.downmargin{margin-bottom: 30px;}
+.personal{width: 70vw;margin: 5px auto;}
+.personal input{width: 40vw;margin-top: 24px;font-size:larger;}
+.productIDcl{display: none;}

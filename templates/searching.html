@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Searching for services - Goo Business{% endblock title %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'css/styleforsearchingpage.css' %}">
+
+{% endblock head%}
+
+{% block body %}
+
+<main>
+    <div class="container222">
+        {% if totalResult == 0 %}
+        <div class="result">No result found</div>
+        {% else %}
+        <div class="result">Total result: {{totalResult}}</div>
+        {% endif %}
+        <div class="products">
+            <!-- ++++++++++++++++++++++++++++- -->
+             {% comment %} {% if length(filteredProducts)==0 %}
+            <div class="result">No Products are available...</div>
+             {% endcomment %}
+
+            {% comment %} {% else %}  {% endcomment %}
+            {% for filteredProduct in filteredProducts %}
+            <a class="singleproductlink" href="/servicepage/{{filteredProduct.slag}}/{{filteredProduct.slID}}"><div class="product">
+                <img src="{{filteredProduct.selectImage.url}}" class="imagecl" width="280px" height="172px">
+                <div class="productnamecl">{{filteredProduct.name|slice:"0:30"}}..</div>
+                <div class="priceingcl"><span class="mainpricecl">&#36;{{filteredProduct.silverPrice}}</span> per {{filteredProduct.silverLeads}}<span class="marketpricecl">&nbsp;&nbsp;&nbsp;{{filteredProduct.Offer}}% Off</span></div>
+                <a href="/servicepage/{{filteredProduct.slag}}/{{filteredProduct.slID}}" class="moredtls">More Details</a>
+            </div></a>
+
+            {% endfor %}
+            {% comment %} {% endif %} {% endcomment %}
+        </div>      
+    </div>
+</main>
+{% endblock body %}

@@ -1,0 +1,11 @@
+h1, h2, h3{
+    font-family: sans-serif;
+    margin: 27px 10vw;
+}
+h1{
+    color: green;
+    font-family: sans-serif;
+}
+.data{
+    color: blueviolet;
+}

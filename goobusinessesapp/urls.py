@@ -1,0 +1,25 @@
+from django.contrib import admin
+from django.urls import path
+from goobusinessesapp import views
+
+urlpatterns = [
+    path("", views.index, name='home'),
+    path("searching", views.searching, name='searching'),
+    path("freetrail", views.freetrail, name='freetrail'),
+    path("servicepage/<str:slag>/<int:slID>", views.servicepage, name='servicepage'),
+    path("ordercontinue", views.ordercontinue, name='ordercontinue'),
+    path("ordersuccessfull", views.ordersuccessfull, name='ordersuccessfull'),
+    path("about", views.about, name='about'),
+    path("ordertraking/<str:email>/<str:phone>/<int:otp>/<int:slID>", views.ordertraking, name='ordertraking'),
+    path("freetrialcheck", views.freetrialcheck, name='freetrialcheck'),
+    path("successfulysendunderhumanreview", views.successfulysendunderhumanreview, name='successfulysendunderhumanreview'),
+    path("contact", views.contact, name='contact'),
+    path("whyus", views.whyus, name='whyus'),
+    path("emailseen/<str:email>/<str:msgtitle>", views.emailseen, name='emailseen'),
+    path("openvia/<str:email>/<str:opentype>/<str:openmessage>", views.openvia, name='openvia'),
+    path("unsubscribe/<str:email>", views.unsubscribe, name='unsubscribe'),
+    path("subscribe/<str:email>", views.subscribe, name='subscribe'),
+    path("timeck", views.timeck, name='timeck'),
+
+    
+]

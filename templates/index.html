@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% block title %}Home page of Goo Business The best B2B Lead Generation Company{% endblock title %}
+{% block body %}
+
+<main>
+
+    <div class="container">
+
+
+        <div class="slider">
+            <div class="sliderImg1"></div>
+            <div class="sliderImg2"></div>
+            <div class="sliderImg3"></div>
+        </div>
+
+        <div id = "clock" onload="currentTime()" style="font-family: sans-serif;"></div>
+        
+        <div class="working" style="text-align: right;font-family:'Trebuchet MS', sans-serif;margin-right: 20px;margin-top: 8px;font-size: large;">
+            <div class="orderprogress" style="margin-bottom: 5px;"><span style="font-weight: bolder;">{{numberoforder}}</span><span>&nbsp;orders are in progress</span></div>
+            <div class="lastdelivery"><span>Last delivery&nbsp;</span><span style="font-weight: bolder;">{{lastdeliverytime}}</span><span>&nbsp;minutes ago</span></div>
+        </div>
+
+        <div class="card">
+            <h2 class="my-1">B2B Lead Generation</h2>
+            <div class="card-items">
+
+
+                {% for leadGenerationProduct in leadGenerationProducts %}
+                <div class="card-item">
+                    <a href="/servicepage/{{leadGenerationProduct.slag}}/{{leadGenerationProduct.slID}}"><img class="pimg" src="{{leadGenerationProduct.selectImage.url}}" width="260px" height="160px" alt=""></a>
+
+                    <div class="lines">
+                        <a class="nameA" href="/servicepage/{{leadGenerationProduct.slag}}/{{leadGenerationProduct.slID}}"><p class="line1 text-center my-sm">{{leadGenerationProduct.name|slice:"0:30"}}..</p></a>
+                        <p class="line2 text-center my-sm"><span class="priceperlead">${{leadGenerationProduct.silverPrice}}</span>&nbsp;per {{leadGenerationProduct.silverLeads}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="offer">{{leadGenerationProduct.Offer}}%Off</span></p>
+                        <a href="/servicepage/{{leadGenerationProduct.slag}}/{{leadGenerationProduct.slID}}"><p class="line3 text-center my-sm">Grab Now</p></a>
+                    </div>
+
+                </div>
+            
+                {% endfor %}
+
+            </div>
+            
+        </div>
+
+
+        <div class="card">
+            <h2 class="my-1">LinkedIn Special</h2>
+            <div class="card-items">
+
+                {% for LinkedInSpecialProduct in LinkedInSpecialProducts %}
+                <div class="card-item">
+                    <a href="/servicepage/{{LinkedInSpecialProduct.slag}}/{{LinkedInSpecialProduct.slID}}"><img class="pimg" src="{{LinkedInSpecialProduct.selectImage.url}}" width="260px" height="160px" alt=""></a>
+
+                    <div class="lines">
+                        <a class="nameA" href="/servicepage/{{LinkedInSpecialProduct.slag}}/{{LinkedInSpecialProduct.slID}}"><p class="line1 text-center my-sm">{{LinkedInSpecialProduct.name|slice:"0:30"}}..</p></a>
+                        <p class="line2 text-center my-sm"><span class="priceperlead">${{LinkedInSpecialProduct.silverPrice}}</span>&nbsp;per {{LinkedInSpecialProduct.silverLeads}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="offer">{{LinkedInSpecialProduct.Offer}}%Off</span></p>
+                        <p class="line3 text-center my-sm">Grab Now</p>
+                    </div>
+
+                </div>
+                {% endfor %}
+
+            </div>
+            
+        </div>
+
+
+        
+        <div class="card">
+            <h2 class="my-1">Web Research</h2>
+            <div class="card-items">
+                {% for WebResearchProduct in WebResearchProducts %}
+                <div class="card-item">
+                    <a href="/servicepage/{{WebResearchProduct.slag}}/{{WebResearchProduct.slID}}"><img class="pimg" src="{{WebResearchProduct.selectImage.url}}" width="260px" height="160px" alt=""></a>
+
+                    <div class="lines">
+                        <a class="nameA" href="/servicepage/{{WebResearchProduct.slag}}/{{WebResearchProduct.slID}}"><p class="line1 text-center my-sm">{{WebResearchProduct.name|slice:"0:30"}}..</p></a>
+                        <p class="line2 text-center my-sm"><span class="priceperlead">${{WebResearchProduct.silverPrice}}</span>&nbsp;per {{WebResearchProduct.silverLeads}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="offer">{{WebResearchProduct.Offer}}%Off</span></p>
+                        <p class="line3 text-center my-sm">Grab Now</p>
+                    </div>
+
+                </div>
+                {% endfor %}
+
+            </div>
+            
+        </div>
+
+
+
+        <div class="card">
+            <h2 class="my-1">Data Scraping</h2>
+            <div class="card-items">
+                {% for DataScrapingProduct in DataScrapingProducts%}
+                <div class="card-item">
+                    <a href="/servicepage/{{DataScrapingProduct.slag}}/{{DataScrapingProduct.slID}}"><img class="pimg" src="{{DataScrapingProduct.selectImage.url}}" width="260px" height="160px" alt=""></a>
+
+                    <div class="lines">
+                        <a class="nameA" href="/servicepage/{{DataScrapingProduct.slag}}/{{DataScrapingProduct.slID}}"><p class="line1 text-center my-sm">{{DataScrapingProduct.name|slice:"0:30"}}..</p></a>
+                        <p class="line2 text-center my-sm"><span class="priceperlead">${{DataScrapingProduct.silverPrice}}</span>&nbsp;per {{DataScrapingProduct.silverLeads}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="offer">{{DataScrapingProduct.Offer}}%Off</span></p>
+                        <p class="line3 text-center my-sm">Grab Now</p>
+                    </div>
+
+                </div>
+                {% endfor %}
+
+            </div>
+            
+        </div>
+
+
+
+
+        <div class="card">
+            <h2 class="my-1">Data Entry Special</h2>
+            <div class="card-items">
+
+
+                {% for DataEntrySpecialProduct in DataEntrySpecialProducts %}
+                <div class="card-item">
+                    <a href="/servicepage/{{DataEntrySpecialProduct.slag}}/{{DataEntrySpecialProduct.slID}}"><img class="pimg" src="{{DataEntrySpecialProduct.selectImage.url}}" width="260px" height="160px" alt=""></a>
+
+                    <div class="lines">
+                        <a class="nameA" href="/servicepage/{{DataEntrySpecialProduct.slag}}/{{DataEntrySpecialProduct.slID}}"><p class="line1 text-center my-sm">{{DataEntrySpecialProduct.name|slice:"0:30"}}..</p></a>
+                        <p class="line2 text-center my-sm"><span class="priceperlead">${{DataEntrySpecialProduct.silverPrice}}</span>&nbsp;per {{DataEntrySpecialProduct.silverLeads}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="offer">{{DataEntrySpecialProduct.Offer}}%Off</span></p>
+                        <p class="line3 text-center my-sm">Grab Now</p>
+                    </div>
+
+                </div>
+                {% endfor %}
+
+            </div>
+            
+        </div>
+
+
+
+
+
+        <div class="card">
+            <h2 class="my-1">For custom service</h2>
+            <div class="card-items">
+
+
+                
+                <div class="card-item">
+                    <div class="lines">
+                        <p class="line2 text-center my-sm">For custom service, click on any service, choose custom requirements, set your budget, fill in your instructions or requirements, and place the order.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+    </div>
+</main>
+
+{% endblock body %}

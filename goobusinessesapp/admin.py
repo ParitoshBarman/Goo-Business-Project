@@ -1,0 +1,80 @@
+from django.contrib import admin
+from goobusinessesapp.models import AllServices, ClickHistry, UserDetails, PerDayOrderPerUser, OrderList, FreeTrialUser, FreeTrialRequest, FreeTrialUnderReview, ContactMessage, ControlWeb, WhyUsDB, AboutDB, EmailSeenDB, ExtraImageDB, OpenViaEmail, InternalVisit, ClickHistryByUser, UnsubscribeList, SubscribeList
+from import_export.admin import ImportExportModelAdmin
+
+# Register your models here.
+class AllServicesV(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display=('name','slID','selectImage','homepagecatagori','date')
+admin.site.register(AllServices,AllServicesV)
+
+class ClickHistryV(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display=('name','slID','productLink','totalClick','timee','date')
+admin.site.register(ClickHistry,ClickHistryV)
+
+class ClickHistryByUserV(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display=('userAuthDt','name','slID','productLink','totalClick','timee','date')
+admin.site.register(ClickHistryByUser,ClickHistryByUserV)
+
+class UserDetailsV(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display=('fullname','email','totalSpent','totalPaymentReceived','lastOrderdate','joiningdate')
+admin.site.register(UserDetails, UserDetailsV)
+
+class PerDayOrderPerUserV(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display=('fullname','email','phone','orderNo','date')
+admin.site.register(PerDayOrderPerUser, PerDayOrderPerUserV)
+
+class FreeTrialRequestV(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display=('fullname','email','date')
+admin.site.register(FreeTrialRequest, FreeTrialRequestV)
+
+class FreeTrialUnderReviewV(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display=('fullname','email','date')
+admin.site.register(FreeTrialUnderReview, FreeTrialUnderReviewV)
+
+class ControlWebV(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display=('VarName','charecterVar','integetVar','emailVar')
+admin.site.register(ControlWeb, ControlWebV)
+
+class ContactMessageV(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display=('fullname','email','subject','message','dateee')
+admin.site.register(ContactMessage,ContactMessageV)
+
+class OrderListAdminV(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display=('slID','fullname','email','servicesOption','otpStatus','expectedDeliveryDate','date','odrTime')
+admin.site.register(OrderList,OrderListAdminV)
+
+class UserAdminNC(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display=('fullname','email','freeTrialStatus')
+admin.site.register(FreeTrialUser, UserAdminNC)
+
+
+class WhyUsDBV(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display=('Title','Subtitle','ImagePic','description')
+admin.site.register(WhyUsDB, WhyUsDBV)
+class AboutDBV(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display=('Title','Subtitle','ImagePic','description')
+admin.site.register(AboutDB, AboutDBV)
+
+class EmailSeenDBV(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display=('email','numberOfSeen','Title','lastSeen','lastseenTime')
+admin.site.register(EmailSeenDB, EmailSeenDBV)
+
+class ExtraImageDBV(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display=('Title','selectImage','upTime','date')
+admin.site.register(ExtraImageDB, ExtraImageDBV)
+
+class OpenViaEmailv(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display=('email','openType','openNo','opnmessage','lastTime','date')
+admin.site.register(OpenViaEmail, OpenViaEmailv)
+
+class InternalVisitV(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display=('email','openType','openNo','opnmessage','lastTime','date')
+admin.site.register(InternalVisit, InternalVisitV)
+
+class UnsubscribeListV(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display=('email','timee','date')
+admin.site.register(UnsubscribeList, UnsubscribeListV)
+
+class SubscribeListV(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display=('email','count','timee','date')
+admin.site.register(SubscribeList, SubscribeListV)

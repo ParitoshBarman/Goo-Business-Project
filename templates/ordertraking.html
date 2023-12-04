@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% block title %}Order Traking - Goo Business{% endblock title %}
+{% block head %}
+<style>
+    .personalinfo{font-size: x-large;font-family: sans-serif;margin: 4vw 4vw;}
+    .personalinfo div{margin: 15px 0px;}
+    .pt{display: flex;flex-direction: row;justify-content:space-around;flex-wrap: wrap;font-family: sans-serif;font-size: x-large;}
+    table{min-height: 150px;background-color: #1000ff2e;border-radius: 10px;margin: 20px auto;font-family: sans-serif;font-size: larger;}
+    th{border-bottom: 1px solid black;}
+    td{text-align: center;}
+    .buttonstl{border-radius: 5px;}
+</style>
+
+{% endblock head%}
+
+{% block body %}
+<main style="min-height: 80vh;">
+    
+<h1 style="text-align: center;margin: 15px 0px;font-family: Arial, Helvetica, sans-serif;">Order Tracking</h1>
+{% if bakiAcheTime != "" %}
+<div class="bakiachetime" id="deldeldel" style="text-align: right;padding: 0px 30px; font-family: sans-serif;font-size: large;color: #6a6a6a;"><span>Delivery in&nbsp;</span><span id="bakitimeabcd" style="color: white;font-size: large;font-weight: bold;display: inline-block;background-color: #ff0000;border-radius: 5px;padding: 2px 5px;">{{bakiAcheTime}}</span></div>
+{% else %}
+<span id="bakitimeabcd" style="display: none;"></span>
+{% endif %}
+<div class="personalinfo">
+    <div><span class="wish" id="wishID"></span><span><b> {{name}}</b></span></div>
+    
+    <div>{{email}}</div>
+    <div>{{phone}}</div>
+</div>
+<div class="pt">
+    <div>Package: {{package}}</div>
+    <div>Total: ${{total}}</div>
+</div>
+<table style="width: 90vw;height:10vw;">
+    <tr>
+        <th>Order Status</th>
+        <th>Order Completion</th>
+        <th>Payment</th>
+    </tr>
+    <tr>
+        <td><span class="buttonstl" id="odstID" style="padding: 4px 10px;">{{orderstatus}}</span></td>
+        <td><meter value="{{ordercomplition}}" min="0" max="100" id="odrcomplitionID" style="width: 70%;"></meter><label for="odrcomplitionID">{{ordercomplition}}%</label></td>
+        <td><span class="buttonstl" id="pmstID" style="padding: 4px 10px;">{{paymentstatus}}</span></td>
+    </tr>
+</table>
+<div class="peymentsection" style="width: 90vw;margin:50px auto;">
+    <div style="font-size: x-large;font-family: sans-serif;margin-bottom: 10px;">Payment Section</div>
+{% if paymentLink == "" %}<span style="font-size:large;font-family: sans-serif;margin:0px 5px;color: #5f6368;;">Wait for payment...  When we have completed a portion of your work, you will be eligible for payment, and we will notify you via message.</span>
+{% else %}
+<a class="payment-btn" href="{{paymentLink}}" style="display: inline-block;padding: 0.5em 1em;background-color: #00aaff;color: #fff;text-decoration: none;font-family: sans-serif;text-align: center;font-weight:600;">
+    <span>Pay Now</span>
+  </a>
+{% endif %}
+<div style="width: 90vw;margin:50px auto;">
+    <div style="font-size: x-large;font-family: sans-serif;margin-bottom: 10px;">Job Download Section</div>
+{% if jobDownloadLink == "" %}<span style="font-size:large;font-family: sans-serif;margin:0px 5px;color: #5f6368;;">Wait for the download... When we have completed your work and the payment is successful, you will be eligible for the download and we will notify you via message.</span>
+{% else %}
+<a href="{{jobDownloadLink}}" download="{{jobDownloadLink}}" style="display: inline-block;padding: 0.5em 1em;background-color: #00aaff;color: #fff;text-decoration: none;font-family: sans-serif;text-align: center;font-weight:600;">
+    <span>Download</span>
+  </a>
+{% endif %}
+</div>
+</main>
+
+<script>
+    let date = new Date();
+    let hh = date.getHours();
+    let wishMsg = "Good Morning..,"
+    if (hh==12){wishMsg="Good Noon,"} else if (hh<12){wishMsg="Good Morning,"} else if (hh<18 && hh>=12){wishMsg="Good Afternoon,"} else if (hh<24 && hh>=18){wishMsg="Good Evening,"};
+    document.getElementById("wishID").innerHTML=wishMsg;
+
+    if (document.getElementById('odstID').innerHTML == "received"){
+        document.getElementById('odstID').style.backgroundColor = "orange";
+    } else if (document.getElementById('odstID').innerHTML.includes("working")){
+        document.getElementById('odstID').style.backgroundColor = "#31ff18";
+    } else if (document.getElementById('odstID').innerHTML.includes("complete")){
+        document.getElementById('odstID').style.backgroundColor = "yellow";
+    } else if (document.getElementById('odstID').innerHTML.includes("delivered")){
+        document.getElementById('odstID').style.backgroundColor = "white";
+    } 
+
+
+
+    if (document.getElementById('pmstID').innerHTML == "due"){
+        document.getElementById('pmstID').style.backgroundColor = "red";
+    } else if (document.getElementById('pmstID').innerHTML.includes("uccessful")){
+        document.getElementById('pmstID').style.backgroundColor = "rgb(0 169 90)";
+        document.getElementById('pmstID').style.color = "white";
+    } else if (document.getElementById('pmstID').innerHTML.includes("ending")){
+        document.getElementById('pmstID').style.backgroundColor = "yellow";
+    }
+    if (document.getElementById("bakitimeabcd").innerHTML!=""){
+    if (document.getElementById('bakitimeabcd').innerHTML.includes("day")==false){
+        document.getElementById("bakitimeabcd").innerHTML='0 day, '+document.getElementById("bakitimeabcd").innerHTML;
+    };
+};
+    if (document.getElementById("bakitimeabcd").innerHTML!=""){
+    let timeString = document.getElementById("bakitimeabcd").innerHTML;
+    let timeParts = timeString.split(' ');
+    let days = parseInt(timeParts[0]);
+    let time = timeParts[2];
+    let timeParts2 = time.split(':');
+    let hours = parseInt(timeParts2[0]);
+    let minutes = parseInt(timeParts2[1]);
+    let seconds = parseInt(timeParts2[2]);
+    
+    let milliseconds = (days * 86400000) + (hours * 3600000) + (minutes * 60000) + (seconds * 1000);
+    var distance=milliseconds;
+    
+    var x = setInterval(function() {
+
+// Get today's date and time
+
+// Find the distance between now and the count down date
+
+
+distance = distance - 1000;
+
+// Time calculations for days, hours, minutes and seconds
+var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+// Display the result in the element with id="demo"
+document.getElementById("bakitimeabcd").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+// If the count down is finished, write some text
+if (distance < 0) {
+  clearInterval(x);
+  document.getElementById("deldeldel").style.display = "none";
+}
+}, 1000);
+
+    };
+</script>
+{% endblock body %}

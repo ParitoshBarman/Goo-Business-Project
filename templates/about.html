@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}About Us - Goo Business{% endblock title %}
+{% block head %}
+<style>
+    .content {
+        width: 90vw;
+        margin: 0px auto;
+        font-family: sans-serif;
+        font-size: 18px;
+    }
+
+    .descText {
+        overflow-x: auto;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        font-family: sans-serif;
+        padding: 10px;
+        line-height: 28px;
+        color: #5f6368;
+    }
+</style>
+{% endblock head%}
+
+{% block body %}
+<main style="min-height: 80vh;">
+
+    <h1 style="text-align: center;margin: 15px 0px;font-family: Arial, Helvetica, sans-serif;">About Us</h1>
+    <div class="content">
+        <span style="font-size: larger ;">Hi there,&nbsp;</span><span id="wishID" style="font-size: larger ;">Good
+            Morning!</span>
+        <h2 class="title" style="margin:30px 0px 30px 0px;letter-spacing: 1px;color: #4007a2;">Welcome to Goo Business!
+        </h2>
+        <div class="image" style="width: 100%;display: flex;justify-content: center;align-items: center;">
+            <video style="width: 80vw;border-radius: 7px;margin: 25px 0px;max-width: 850px;" src="{% static 'img/Goo Business.mp4' %}" controls autoplay controlsList="nodownload"></video>
+        </div>
+        {% for whyusContent in whyusContents %}
+        <div class="databasedata">
+            {% if whyusContent.Title %}
+            <div style="font-size: 28px;font-family: sans-serif;">{{whyusContent.Title}}</div>
+            {% endif %}
+            {% if whyusContent.Subtitle %}
+            <div style="margin: 8px 0px;font-family: cursive, sans-serif;">{{whyusContent.Subtitle}}</div>
+            {% endif %}
+            {% if whyusContent.ImagePic %}
+            <div class="image" style="width: 100%;display: flex;justify-content: center;align-items: center;">
+                <img style="width: {{whyusContent.imageWidth}};height: {{whyusContent.imageHeight}};border-radius: 7px;margin: 25px 0px;max-width: 850px;"
+                    src="{{whyusContent.ImagePic.url}}">
+            </div>
+            {% endif %}
+            {% if whyusContent.description %}
+            <div class="detiles">
+                <pre class="descText">{{whyusContent.description}}</pre>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+
+
+
+    </div>
+
+</main>
+<script>
+    let date = new Date();
+    let hh = date.getHours();
+    let wishMsg = "Good Morning,"
+    if (hh == 12) { wishMsg = "Good Noon!" } else if (hh < 12) { wishMsg = "Good Morning!" } else if (hh < 18 && hh >= 12) { wishMsg = "Good Afternoon!" } else if (hh < 24 && hh >= 18) { wishMsg = "Good Evening!" };
+    document.getElementById("wishID").innerHTML = wishMsg;
+</script>
+
+{% endblock body %}

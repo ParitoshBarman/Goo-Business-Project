@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Unsubscribed{% endblock title %}
+{% block head %}
+
+<style>
+    main{font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;}
+.breadcrumbs {
+    background: #79aec8;
+    padding: 10px 40px;
+    border: none;
+    color: #c4dce8;
+    text-align: left;
+}
+.iss:link, .iss:visited {
+    color: #447e9b;
+    text-decoration: none;
+    transition: color 0.15s, 0.15s;
+}
+</style>
+
+{% endblock head%}
+
+{% block body %}
+<main style="min-height: 80vh;">
+    <div class="breadcrumbs"><a href="/" style="text-decoration: none;color: white;" class="iss">Home</a></div>
+    
+    <div id="content" class="colM" style="padding: 20px 40px;">
+          
+        <h1 style="margin: 0 0 20px;font-weight: 300;font-size: 1.25rem;color: #666;">Unsubscribed</h1>
+        
+        
+    
+    <p style="padding: 0;line-height: 140%;">Thanks for spending some quality time with us today.</p>
+    
+    <p style="padding: 0;line-height: 140%;"><a href="/subscribe/{{email}}" class="iss">Subscribe again</a></p>
+    
+    
+        
+        <br class="clear">
+      </div>
+
+</main>
+
+{% endblock body %}
