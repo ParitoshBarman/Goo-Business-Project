@@ -1,5 +1,5 @@
 from django.contrib import admin
-from goobusinessesapp.models import AllServices, ClickHistry, UserDetails, PerDayOrderPerUser, OrderList, FreeTrialUser, FreeTrialRequest, FreeTrialUnderReview, ContactMessage, ControlWeb, WhyUsDB, AboutDB, EmailSeenDB, ExtraImageDB, OpenViaEmail, InternalVisit, ClickHistryByUser, UnsubscribeList, SubscribeList
+from goobusinessesapp.models import RegistationFormDB, InternUserDetails, AllServices, ClickHistry, UserDetails, PerDayOrderPerUser, OrderList, FreeTrialUser, FreeTrialRequest, FreeTrialUnderReview, ContactMessage, ControlWeb, WhyUsDB, AboutDB, EmailSeenDB, ExtraImageDB, OpenViaEmail, InternalVisit, ClickHistryByUser, UnsubscribeList, SubscribeList
 from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
@@ -18,6 +18,10 @@ admin.site.register(ClickHistryByUser,ClickHistryByUserV)
 class UserDetailsV(ImportExportModelAdmin, admin.ModelAdmin):
     list_display=('fullname','email','totalSpent','totalPaymentReceived','lastOrderdate','joiningdate')
 admin.site.register(UserDetails, UserDetailsV)
+
+class InternUserDetailsV(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display=('fullname','email','totalInternshipApply','totalInternshipCompleted','totalPaymentReceived','joiningdate')
+admin.site.register(InternUserDetails, InternUserDetailsV)
 
 class PerDayOrderPerUserV(ImportExportModelAdmin, admin.ModelAdmin):
     list_display=('fullname','email','phone','orderNo','date')
@@ -42,6 +46,10 @@ admin.site.register(ContactMessage,ContactMessageV)
 class OrderListAdminV(ImportExportModelAdmin, admin.ModelAdmin):
     list_display=('slID','fullname','email','servicesOption','otpStatus','expectedDeliveryDate','date','odrTime')
 admin.site.register(OrderList,OrderListAdminV)
+
+class RegistationFormDBAdminV(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display=('slID','fullname','email','phone','otpStatus','date','odrTime','LinkedInProfile','ResumePDF')
+admin.site.register(RegistationFormDB, RegistationFormDBAdminV)
 
 class UserAdminNC(ImportExportModelAdmin, admin.ModelAdmin):
     list_display=('fullname','email','freeTrialStatus')

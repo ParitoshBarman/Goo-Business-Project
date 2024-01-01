@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.http import FileResponse
 from django.contrib.auth import authenticate, login, logout
-from goobusinessesapp.models import AllServices, ClickHistry, UserDetails, PerDayOrderPerUser, OrderList, FreeTrialUser, FreeTrialRequest, FreeTrialUnderReview, ContactMessage, WhyUsDB, AboutDB, ControlWeb, EmailSeenDB, OpenViaEmail, InternalVisit, ClickHistryByUser, UnsubscribeList, SubscribeList
+from goobusinessesapp.models import RegistationFormDB, InternUserDetails, AllServices, ClickHistry, UserDetails, PerDayOrderPerUser, OrderList, FreeTrialUser, FreeTrialRequest, FreeTrialUnderReview, ContactMessage, WhyUsDB, AboutDB, ControlWeb, EmailSeenDB, OpenViaEmail, InternalVisit, ClickHistryByUser, UnsubscribeList, SubscribeList
 import random
 import re
 from email.message import EmailMessage
@@ -837,3 +837,77 @@ def subscribe(request, email):
         
 def timeck(request):
     return HttpResponse(f"{datetime.now()}")
+
+def registationform(request):
+    return render(request, "registationform.html")
+
+def registationcontinue(request):
+    if request.method == 'POST':
+        fullname = request.POST.get('fullName')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+
+        ChooseJobOrInternship = request.POST.get('jobType')
+        ChooseFieldOfInterest = request.POST.get('fieldOfInterest')
+        HighestQualification = request.POST.get('highestQualification')
+        CollegeName = request.POST.get('collegeName')
+        MajorFieldOfStudy = request.POST.get('major')
+        YearOfGraduation = request.POST.get('graduationYear')
+        WorkExperienceIfAny = request.POST.get('workExperience')
+        GitHubProfile = request.POST.get('github')
+        LinkedInProfile = request.POST.get('linkedin')
+
+        if type(request.POST.get('resume')) != str:
+            file = request.FILES['resume']
+        else:
+            file = None
+
+        try:
+            ccckkee = InternUserDetails.objects.get(email=email)
+        except:
+            InternUserDetailsDB = InternUserDetails(fullname=fullname, phone=phone, email=email)
+            InternUserDetailsDB.save()
+        otp = random.randint(1000, 9999)
+        try:
+            # sendEmail(email, str(otp))
+            thithi = threading.Thread(target=sendEmail, args=[email, str(otp)])
+            thithi.start()
+        except:
+            sendEmailFaild("OTP can't send please cheack the system")
+            # print('Faild...')
+        # print('********************1212121212121212121212121212121')
+        OrderListDB = RegistationFormDB(ResumePDF=file, fullname=fullname, email=email, phone=phone, otp=otp, otpStatus="oneChance", peymentStatus="due", ChooseJobOrInternship=ChooseJobOrInternship, ChooseFieldOfInterest=ChooseFieldOfInterest, HighestQualification=HighestQualification, CollegeName=CollegeName, MajorFieldOfStudy=MajorFieldOfStudy, YearOfGraduation=YearOfGraduation, WorkExperienceIfAny=WorkExperienceIfAny, GitHubProfile=GitHubProfile, LinkedInProfile=LinkedInProfile)
+        # OrderListDB = OrderList(fullname=fullname, email=email, phone=phone, whatsapp=whatsapp, totalprice=totalprice, countryoption=countryoption, servicesOption=servicesOption, enterbuget=enterbuget, numberofleads=numberofleads, requirmentdesc=requirmentdesc, productID=productID, onlyCountryCode=onlyCountryCode, otp=otp, otpStatus="oneChance", orderStatus="received", orderCoplition=0, peymentStatus="due")
+        OrderListDB.save()
+        passingSLID = OrderListDB.slID
+        # print(passingSLID)
+        # print('********************1313131313131313131313131313113')
+        return render(request, 'varification.html', {'slid':passingSLID})
+            
+
+               
+def registationsuccessfull(request):
+    if request.method == 'POST':
+        otp = request.POST.get('otp')
+        slid = request.POST.get('slid')
+        OrderDetails = RegistationFormDB.objects.get(slID=int(slid))
+        dbotp = OrderDetails.otp
+
+        if OrderDetails.otpStatus == "oneChance" and dbotp==int(otp):
+            OrderDetails.otpStatus = "OTP Verified"
+            OrderDetails.save()
+            
+            # try:
+            #     thithi2 = threading.Thread(target=sendSuccessfullEmail, args=[OrderDetails.email, OrderDetails.trakingLink, OrderDetails.productLink])
+            #     thithi2.start()
+            # except:
+            #     sendEmailFaild("OTP can't send please cheack the system")
+                # print('Faild...')
+            UserUpdt = InternUserDetails.objects.get(email=OrderDetails.email)
+            UserUpdt.totalInternshipApply+=1
+            UserUpdt.save()
+            return render(request, 'registationsuccessfull.html')
+        else:
+            OrderDetails.otpStatus = "Verification Faild"
+            OrderDetails.save()
+            return render(request, 'verificationfail.html')

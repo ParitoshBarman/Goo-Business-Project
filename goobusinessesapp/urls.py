@@ -20,6 +20,9 @@ urlpatterns = [
     path("unsubscribe/<str:email>", views.unsubscribe, name='unsubscribe'),
     path("subscribe/<str:email>", views.subscribe, name='subscribe'),
     path("timeck", views.timeck, name='timeck'),
+    path("hire", views.registationform, name='registationform'),
+    path("registationcontinue", views.registationcontinue, name='registationcontinue'),
+    path("registationsuccessfull", views.registationsuccessfull, name='registationsuccessfull'),
 
     
 ]

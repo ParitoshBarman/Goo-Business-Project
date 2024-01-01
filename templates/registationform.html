@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Form</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        form {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 600px;
+            width: 100%;
+            box-sizing: border-box;
+            text-align: left;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="file"] {
+            cursor: pointer;
+        }
+
+        input:focus, select:focus {
+            border-color: #4CAF50;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            border-color: #4CAF50;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            display: inline-block;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+
+<form id="jobApplicationForm" method="post" enctype="multipart/form-data" action="/registationcontinue">
+    {% csrf_token %}
+    <h2>Job Application Form</h2>
+
+    <!-- Personal Information -->
+    <label for="fullName">Full Name:</label>
+    <input type="text" id="fullName" name="fullName" required>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="phone">Phone:</label>
+    <input type="tel" id="phone" name="phone" required>
+
+    <!-- Job or Internship -->
+    <label for="jobType">Choose Job or Internship:</label>
+    <select id="jobType" name="jobType" required>
+        <option value="">Choose Job or Internship</option>
+        <option value="Job" disabled>Job</option>
+        <option value="Internship">Internship</option>
+    </select>
+
+    <!-- Field of Interest -->
+    <label for="fieldOfInterest">Choose Field of Interest:</label>
+    <select id="fieldOfInterest" name="fieldOfInterest" required>
+        <option value="">Choose Field of Interest</option>
+        <option value="Web">Web Developer</option>
+        <option value="Python">Python Developer</option>
+        <option value="Android">Android Developer</option>
+        <option value="React">React Developer</option>
+        <option value="Java">Java Developer</option>
+        <option value="Data Science">Data Science</option>
+        <option value="ML Engineer">ML Engineer</option>
+        <!-- Add more options as needed -->
+    </select>
+
+    <!-- Education -->
+    <label for="highestQualification">Highest Qualification:</label>
+    <select id="highestQualification" name="highestQualification" required>
+        <option value="High School/Intermediate (10+2)">High School/Intermediate (10+2)</option>
+        <option value="Graduation">Graduation</option>
+        <option value="Post Graduation">Post Graduation</option>
+    </select>
+
+    <label for="collegeName">College Name:</label>
+    <input type="text" id="collegeName" name="collegeName" required>
+
+    <label for="major">Major/Field of Study:</label>
+    <input type="text" id="major" name="major" required>
+
+    <label for="graduationYear">Year of Graduation:</label>
+    <input type="number" id="graduationYear" name="graduationYear">
+
+    <!-- Work Experience -->
+    <label for="workExperience">Work Experience (if any):</label>
+    <textarea id="workExperience" name="workExperience" rows="4"></textarea>
+
+    <!-- GitHub and LinkedIn Profiles -->
+    <label for="github">GitHub Profile:</label>
+    <input type="url" id="github" name="github" placeholder="https://github.com/yourusername">
+
+    <label for="linkedin">LinkedIn Profile:</label>
+    <input type="url" id="linkedin" name="linkedin" placeholder="https://www.linkedin.com/in/yourusername">
+
+    <!-- Upload Resume -->
+    <label for="resume">Upload Resume (PDF only):</label>
+    <input type="file" id="resume" name="resume" accept=".pdf" required>
+
+    <button type="submit">Submit Application</button>
+</form>
+
+<!-- <script>
+    function submitForm() {
+        var form = document.getElementById("jobApplicationForm");
+        var formData = new FormData(form);
+
+        // You can now send formData to the server using AJAX or any other method
+        // For simplicity, let's just log the data to the console for this example
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ': ' + pair[1]);
+        }
+    }
+</script> -->
+
+</body>
+</html>
