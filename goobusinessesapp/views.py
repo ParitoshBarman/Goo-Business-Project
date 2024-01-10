@@ -1,7 +1,11 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.http import FileResponse
 from django.contrib.auth import authenticate, login, logout
-from goobusinessesapp.models import RegistationFormDB, InternUserDetails, AllServices, ClickHistry, UserDetails, PerDayOrderPerUser, OrderList, FreeTrialUser, FreeTrialRequest, FreeTrialUnderReview, ContactMessage, WhyUsDB, AboutDB, ControlWeb, EmailSeenDB, OpenViaEmail, InternalVisit, ClickHistryByUser, UnsubscribeList, SubscribeList
+from django.contrib.auth.models import User
+# from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from goobusinessesapp.models import RegistationFormDB, InternUserDetails, AllServices, ClickHistry, UserDetails, PerDayOrderPerUser, OrderList, FreeTrialUser, FreeTrialRequest, FreeTrialUnderReview, ContactMessage, WhyUsDB, AboutDB, ControlWeb, EmailSeenDB, OpenViaEmail, InternalVisit, ClickHistryByUser, UnsubscribeList, SubscribeList, BatchesInstractions, AllInternBatchs
+from django.http import JsonResponse
 import random
 import re
 from email.message import EmailMessage
@@ -13,8 +17,10 @@ from datetime import datetime
 from datetime import timedelta
 # import datetime as dtpari
 import threading
+import markdown
+import json
 
-OurMainURL = "http://3.110.50.15/"
+OurMainURL = "https://goo-business.com/"
 
 global lastUpdatetime
 lastUpdatetime = datetime.now()
@@ -25,6 +31,7 @@ def sendEmail(emailReceiver,otp):
     if emailReceiver!="":
         senderEmail = ControlWeb.objects.get(VarName="Fail cheack email").emailVar
         ePassword = ControlWeb.objects.get(VarName="Fail cheack email").charecterVar
+        smtpServerName = ControlWeb.objects.get(VarName="smtpServerName").charecterVar
         messagee = MIMEMultipart("alternative")
         messagee["Subject"] = f'OTP Varification {datetime.now()}'
         messagee["From"] = senderEmail
@@ -58,7 +65,7 @@ h1{color: rgb(9, 164, 9);margin: 10px;text-align: center;}
         messagee.attach(part2)
         try:
             context = ssl.create_default_context()
-            with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+            with smtplib.SMTP_SSL(smtpServerName, 465, context=context) as server:
                 server.login(senderEmail, ePassword)
                 server.sendmail(senderEmail, emailReceiver, messagee.as_string())
                 # emailStatus = 'Email also successfully received.....'
@@ -66,11 +73,57 @@ h1{color: rgb(9, 164, 9);margin: 10px;text-align: center;}
         except:
             sendEmailFaild('Faild to send OTP')
 
+def sendEmailAndPassword(emailReceiver,users_password):
+    if emailReceiver!="":
+        senderEmail = ControlWeb.objects.get(VarName="Fail cheack email").emailVar
+        ePassword = ControlWeb.objects.get(VarName="Fail cheack email").charecterVar
+        smtpServerName = ControlWeb.objects.get(VarName="smtpServerName").charecterVar
+        messagee = MIMEMultipart("alternative")
+        messagee["Subject"] = f'Successfully accepted your resume {datetime.now()}'
+        messagee["From"] = senderEmail
+        messagee["To"] = emailReceiver
+        htmlHead = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+*{margin: 0;padding: 0;font-family: Arial, Helvetica, sans-serif;
+}
+.header{background-color: #2874f0;width: 100%;min-height: 54px;}
+h1{color: rgb(9, 164, 9);margin: 10px;text-align: center;}
+.data{color: blueviolet;}
+.msg{margin:60px 0px;color: #5f6368;text-align: center;}
+</style>
+</head>"""
+        htmlBody = f"""<body>
+<div class="header"></div>
+<h1>Goo Business<br>Successfully accepted your resume</h1>
+<div class="msg">Your login credential:<br><br>Dashboard: <a href="{OurMainURL}dashboard">"{OurMainURL}dashboard"</a><br>Username: "{emailReceiver}"<br>Password: "{users_password}"</div>
+<div class="msg">Please do not share your login credential with anyone.</div>
+<img src="{OurMainURL}emailseen/{emailReceiver}/intern01batchusernamepassword" alt="Image not found" hidden>
+</body>
+</html>"""
+        html = htmlHead + htmlBody
+        part2 = MIMEText(html, "html")
+        messagee.attach(part2)
+        try:
+            context = ssl.create_default_context()
+            with smtplib.SMTP_SSL(smtpServerName, 465, context=context) as server:
+                server.login(senderEmail, ePassword)
+                server.sendmail(senderEmail, emailReceiver, messagee.as_string())
+                # emailStatus = 'Email also successfully received.....'
+                # print('Success......')
+        except:
+            sendEmailFaild('Faild to send LogIn credential')
+
 
 def sendEmailFaild(messageText):
     emailReceiver="barmanpari163@gmail.com"
     emailSender = ControlWeb.objects.get(VarName="Fail cheack email").emailVar
     ePassword = ControlWeb.objects.get(VarName="Fail cheack email").charecterVar
+    smtpServerName = ControlWeb.objects.get(VarName="smtpServerName").charecterVar
     subject = f"Website send Email Faild {datetime.now()}"
     body =messageText
 
@@ -80,7 +133,7 @@ def sendEmailFaild(messageText):
     em['subject'] = subject
     em.set_content(body)
     context = ssl.create_default_context()
-    with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
+    with smtplib.SMTP_SSL(smtpServerName, 465, context=context) as smtp:
         smtp.login(emailSender, ePassword)
         smtp.sendmail(emailSender, emailReceiver, em.as_string())
 
@@ -88,6 +141,7 @@ def sendEmailForTraking(emailReceiver,trakingLink,serviceLink):
     if emailReceiver!="":
         senderEmail = ControlWeb.objects.get(VarName="Fail cheack email").emailVar
         ePassword = ControlWeb.objects.get(VarName="Fail cheack email").charecterVar
+        smtpServerName = ControlWeb.objects.get(VarName="smtpServerName").charecterVar
         messagee = MIMEMultipart("alternative")
         messagee["Subject"] = f'Order traking details {datetime.now()}'
         messagee["From"] = senderEmail
@@ -122,7 +176,7 @@ h1{color: rgb(6, 173, 6);margin: 10px;text-align: center;}
         messagee.attach(part2)
         try:
             context = ssl.create_default_context()
-            with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+            with smtplib.SMTP_SSL(smtpServerName, 465, context=context) as server:
                 server.login(senderEmail, ePassword)
                 server.sendmail(senderEmail, emailReceiver, messagee.as_string())
                 # emailStatus = 'Email also successfully received.....'
@@ -298,7 +352,7 @@ def servicepage(request, slag, slID):
             clickProdectByUsr.totalClick = clickProdectByUsr.totalClick + 1
             clickProdectByUsr.save()
         except:
-            addclickProdectByUsr = ClickHistryByUser(userAuthDt=request.user.get_username(), productLink=f"{OurMainURL}/servicepage/{filteredProducts.slag}/{slID}", slID=slID, name=filteredProducts.name, totalClick=1)
+            addclickProdectByUsr = ClickHistryByUser(userAuthDt=request.user.get_username(), productLink=f"{OurMainURL}servicepage/{filteredProducts.slag}/{slID}", slID=slID, name=filteredProducts.name, totalClick=1)
             addclickProdectByUsr.save()
     thuthuthu = threading.Thread(target=odrNDlastTime)
     thuthuthu.start()
@@ -311,7 +365,7 @@ def servicepage(request, slag, slID):
         clickProdect.totalClick = clickProdect.totalClick + 1
         clickProdect.save()
     except:
-        addclickProdect = ClickHistry(productLink=f"{OurMainURL}/servicepage/{filteredProducts.slag}/{searchingValue}", slID=filteredProducts.slID, name=filteredProducts.name, totalClick=1)
+        addclickProdect = ClickHistry(productLink=f"{OurMainURL}servicepage/{filteredProducts.slag}/{searchingValue}", slID=filteredProducts.slID, name=filteredProducts.name, totalClick=1)
         addclickProdect.save()
     return render(request, 'servicepage.html', flVar)
 def ordercontinue(request):
@@ -486,9 +540,9 @@ def ordersuccessfull(request):
         # print(slid)
         OrderDetails = OrderList.objects.get(slID=int(slid))
         dbotp = OrderDetails.otp
-        OrderDetails.trakingLink = f"{OurMainURL}/ordertraking/{OrderDetails.email}/{OrderDetails.phone}/{OrderDetails.otp}/{OrderDetails.slID}"
+        OrderDetails.trakingLink = f"{OurMainURL}ordertraking/{OrderDetails.email}/{OrderDetails.phone}/{OrderDetails.otp}/{OrderDetails.slID}"
         pID = OrderDetails.productID
-        OrderDetails.productLink = f"{OurMainURL}/servicepage/yourorder/{pID}"
+        OrderDetails.productLink = f"{OurMainURL}servicepage/yourorder/{pID}"
         OrderDetails.save()
         OrderedServiseDetails = AllServices.objects.get(slID=pID)
         todayDate = datetime.today()
@@ -625,6 +679,7 @@ def contact(request):
         cmsgdb.save()
         senderEmail = ControlWeb.objects.get(VarName="Fail cheack email").emailVar
         ePassword = ControlWeb.objects.get(VarName="Fail cheack email").charecterVar
+        smtpServerName = ControlWeb.objects.get(VarName="smtpServerName").charecterVar
         receiverEmail = ControlWeb.objects.get(VarName="Receiver Email").emailVar
         # receiverEmail = "systemready2014@gmail.com"
         messagee = MIMEMultipart("alternative")
@@ -684,7 +739,7 @@ def contact(request):
         messagee.attach(part2)
         try:
             context = ssl.create_default_context()
-            with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+            with smtplib.SMTP_SSL(smtpServerName, 465, context=context) as server:
                 server.login(senderEmail, ePassword)
                 server.sendmail(senderEmail, receiverEmail, messagee.as_string())
                 # emailStatus = 'Email also successfully received.....'
@@ -911,3 +966,86 @@ def registationsuccessfull(request):
             OrderDetails.otpStatus = "Verification Faild"
             OrderDetails.save()
             return render(request, 'verificationfail.html')
+
+
+def Login(request):
+    return render(request, "login.html")
+def loginsuccess(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect("/dashboard")
+        else:
+            return render(request, "login.html", {"msg":"Invalid Credential!"})
+    else:
+        return redirect("/login")
+
+
+
+def dashboard(request):
+    if request.user.is_authenticated:
+        # The user is logged in
+        # Perform actions for authenticated users
+        try:
+            searchStudent = AllInternBatchs.objects.get(email=request.user.username)
+            data = BatchesInstractions.objects.get(batchName=searchStudent.batchName)
+            htmldata = markdown.markdown(data.Instractions)
+        except:
+            htmldata = '<h2 style="color:red;">Sorry you are no longer participant!</h2>'
+        return render(request, "dashboard.html", {"htmldata":htmldata, "studentName":searchStudent.fullname})
+    else:
+        # The user is not logged in
+        # Perform actions for unauthenticated users
+        return redirect("/login")
+    
+
+def newadminmanagingdashboard(request):
+    if request.user.is_active and request.user.is_superuser:
+        obj = RegistationFormDB.objects.filter(ChooseFieldOfInterest="Web", otpStatus="OTP Verified").all().order_by("slID")
+        
+        return render(request, "newadminmanagingdashboard.html", {'serverdata':obj[:30]})
+    else:
+        return HttpResponse("<h1>Sorry you have not permition to access</h1>")
+
+
+@csrf_exempt
+def userbatchandemailrequest(request):
+    if request.method == 'POST':
+        objdata = json.loads(request.body.decode('utf-8'))
+        slid = objdata["slid"]
+        email = objdata["email"]
+        try:
+            user = User.objects.create_user(email, email, "Intern123")
+            user.save()
+
+            searchData = RegistationFormDB.objects.get(slID=int(slid), email=email)
+            searchData.otpStatus = "Complete"
+
+            newData = AllInternBatchs(batchName="intrn_01", fullname=searchData.fullname, email=searchData.email, phone=searchData.phone, ChooseJobOrInternship=searchData.ChooseJobOrInternship, ChooseFieldOfInterest=searchData.ChooseFieldOfInterest, HighestQualification=searchData.HighestQualification, CollegeName=searchData.CollegeName, MajorFieldOfStudy=searchData.MajorFieldOfStudy, YearOfGraduation=searchData.YearOfGraduation, WorkExperienceIfAny=searchData.WorkExperienceIfAny, GitHubProfile=searchData.GitHubProfile, LinkedInProfile=searchData.LinkedInProfile)
+            newData.save()
+            searchData.save()
+
+            newData.EmployeeID = f"intrn01_{newData.slID}"
+            newData.save()
+
+            sendEmailAndPassword(email, "Intern123")
+            try:
+                openEmail = EmailSeenDB.objects.get(email=email, Title="intern01batchusernamepassword")
+                openEmail.numberOfSeen = 0
+                openEmail.Title = "intern01batchusernamepassword"
+                openEmail.save()
+            except:
+                addopenEmail = EmailSeenDB(Title="intern01batchusernamepassword",email=email,numberOfSeen=0)
+                addopenEmail.save()
+
+
+            return JsonResponse({'massage':'success'})
+        except:
+            searchData = RegistationFormDB.objects.get(slID=int(slid), email=email)
+            searchData.otpStatus = "Multi try"
+            searchData.save()
+            return JsonResponse({'massage':'Alrady exist!'})
+    return JsonResponse({'massage':'faild'})

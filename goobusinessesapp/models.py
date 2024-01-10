@@ -161,6 +161,7 @@ class EmailSeenDB(models.Model):
     lastseenTime = models.TimeField(auto_now=True)
     lastSeen = models.DateField(auto_now=True)
 
+
     
 class ExtraImageDB(models.Model):
     Title = models.CharField(null=True,blank=True,max_length=50)
@@ -244,3 +245,46 @@ class InternUserDetails(models.Model):
     joiningdate = models.DateField(auto_now_add=True)
     def __str__(self):
         return self.fullname
+
+class BatchesInstractions(models.Model):
+    batchName = models.CharField(max_length=50)
+    Instractions = models.TextField(null=True, blank=True)
+    lastUpdate = models.DateField(auto_now=True)
+    startDate = models.DateField(auto_now_add=True)
+    def __str__(self):
+        return self.batchName
+
+class AllInternBatchs(models.Model):
+    slID = models.AutoField(primary_key=True)
+    EmployeeID = models.CharField(max_length=40)
+    batchName = models.CharField(max_length=30)
+    fullname = models.CharField(max_length=122)
+    email = models.EmailField(max_length=254)
+    phone = models.CharField(max_length=20)
+    whatsapp = models.CharField(max_length=20 , null=True, blank=True)
+    ChooseJobOrInternship = models.CharField(max_length=50)
+    ChooseFieldOfInterest = models.CharField(max_length=50)
+    HighestQualification = models.CharField(max_length=50)
+    CollegeName = models.CharField(max_length=100)
+    MajorFieldOfStudy = models.CharField(max_length=50)
+    YearOfGraduation = models.IntegerField(null=True, blank=True)
+    WorkExperienceIfAny = models.TextField(null=True, blank=True)
+    GitHubProfile = models.URLField(blank=True, default="")
+    LinkedInProfile = models.URLField(blank=True, default="")
+    address = models.CharField(max_length=60)
+    country = models.CharField(max_length=60)
+    countryCode = models.CharField(max_length=6)
+    pinCode = models.CharField(max_length=6)
+    payment = models.BooleanField(default=False)
+    paymentStatus = models.CharField(max_length=30,null=True,blank=True)
+    paymentAmount = models.IntegerField(null=True,blank=True,default=0)
+    projectGitHubLinkCount = models.IntegerField(null=True,blank=True,default=0)
+    liveLinkCount = models.IntegerField(null=True,blank=True,default=0)
+    totalMassage = models.IntegerField(null=True,blank=True,default=0)
+    confidenceMarks = models.IntegerField(null=True,blank=True,default=0)
+    codingMarks = models.IntegerField(null=True,blank=True,default=0)
+    outputMarks = models.IntegerField(null=True,blank=True,default=0)
+    onTimeSubmitMarks = models.IntegerField(null=True,blank=True,default=0)
+    remark = models.CharField(max_length=30)
+    acceptTime = models.TimeField(auto_now_add=True)
+    acceptdate = models.DateField(auto_now_add=True)

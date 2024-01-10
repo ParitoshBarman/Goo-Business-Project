@@ -23,6 +23,11 @@ urlpatterns = [
     path("hire", views.registationform, name='registationform'),
     path("registationcontinue", views.registationcontinue, name='registationcontinue'),
     path("registationsuccessfull", views.registationsuccessfull, name='registationsuccessfull'),
+    path("login", views.Login, name='login'),
+    path("loginsuccess", views.loginsuccess, name='loginsuccess'),
+    path("dashboard", views.dashboard, name='dashboard'),
+    path("newadminmanagingdashboard", views.newadminmanagingdashboard, name='newadminmanagingdashboard'),
+    path("userbatchandemailrequest", views.userbatchandemailrequest, name='userbatchandemailrequest'),
 
     
 ]

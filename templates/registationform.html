@@ -91,6 +91,7 @@
 
 <form id="jobApplicationForm" method="post" enctype="multipart/form-data" action="/registationcontinue">
     {% csrf_token %}
+    <div style="color:red;text-align:center;">Form has been closed</div>
     <h2>Job Application Form</h2>
 
     <!-- Personal Information -->
@@ -157,7 +158,7 @@
     <label for="resume">Upload Resume (PDF only):</label>
     <input type="file" id="resume" name="resume" accept=".pdf" required>
 
-    <button type="submit">Submit Application</button>
+    <button type="submit" disabled style="background-color:#6c7e8b;">Submit Application</button>
 </form>
 
 <!-- <script>
