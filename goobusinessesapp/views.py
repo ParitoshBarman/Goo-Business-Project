@@ -993,9 +993,10 @@ def dashboard(request):
             searchStudent = AllInternBatchs.objects.get(email=request.user.username)
             data = BatchesInstractions.objects.get(batchName=searchStudent.batchName)
             htmldata = markdown.markdown(data.Instractions)
+            return render(request, "dashboard.html", {"htmldata":htmldata, "studentName":searchStudent.fullname})
         except:
             htmldata = '<h2 style="color:red;">Sorry you are no longer participant!</h2>'
-        return render(request, "dashboard.html", {"htmldata":htmldata, "studentName":searchStudent.fullname})
+            return render(request, "dashboard.html", {"htmldata":htmldata, "studentName":"Employee Dashboard"})
     else:
         # The user is not logged in
         # Perform actions for unauthenticated users
