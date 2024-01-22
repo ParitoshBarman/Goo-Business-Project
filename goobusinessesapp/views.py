@@ -20,7 +20,7 @@ import threading
 import markdown
 import json
 
-OurMainURL = "https://goo-business.com/"
+OurMainURL = "https://goobusiness.autoimg.xyz/"
 
 global lastUpdatetime
 lastUpdatetime = datetime.now()
@@ -1007,14 +1007,14 @@ def newadminmanagingdashboard(request):
     if request.user.is_active and request.user.is_superuser:
         obj = RegistationFormDB.objects.filter(ChooseFieldOfInterest="Web", otpStatus="OTP Verified").all().order_by("slID")
         
-        return render(request, "newadminmanagingdashboard.html", {'serverdata':obj[:30]})
+        return render(request, "newadminmanagingdashboard.html", {'serverdata':obj[:5], "totalReamin":len(obj)})
     else:
         return HttpResponse("<h1>Sorry you have not permition to access</h1>")
 
 
 @csrf_exempt
 def userbatchandemailrequest(request):
-    if request.method == 'POST':
+    if request.method == 'POST' and request.user.is_staff:
         objdata = json.loads(request.body.decode('utf-8'))
         slid = objdata["slid"]
         email = objdata["email"]
@@ -1032,7 +1032,7 @@ def userbatchandemailrequest(request):
             newData.EmployeeID = f"intrn01_{newData.slID}"
             newData.save()
 
-            sendEmailAndPassword(email, "Intern123")
+            # sendEmailAndPassword(email, "Intern123")
             try:
                 openEmail = EmailSeenDB.objects.get(email=email, Title="intern01batchusernamepassword")
                 openEmail.numberOfSeen = 0
@@ -1049,4 +1049,33 @@ def userbatchandemailrequest(request):
             searchData.otpStatus = "Multi try"
             searchData.save()
             return JsonResponse({'massage':'Alrady exist!'})
+    return JsonResponse({'massage':'faild'})
+
+
+
+
+
+
+def notlogin(request, startnum):
+    if request.user.is_active and request.user.is_staff:
+        obj = User.objects.filter(last_login=None).all().order_by("date_joined")
+        
+        return render(request, "notlogin.html", {'serverdata':obj[startnum:startnum+5], "totalReamin":len(obj)})
+    else:
+        return HttpResponse("<h1>Sorry you have not permition to access</h1>")
+
+
+
+
+@csrf_exempt
+def contactdata(request):
+    if request.method == 'POST' and request.user.is_staff:
+        objdata = json.loads(request.body.decode('utf-8'))
+        email = objdata["email"]
+        try:
+            searchData = AllInternBatchs.objects.get(email=email)
+            print({'massage':'success', 'name':searchData.fullname, 'phone':searchData.phone})
+            return JsonResponse({'massage':'success', 'name':searchData.fullname, 'phone':searchData.phone, 'choosefild':searchData.ChooseFieldOfInterest})
+        except:
+            return JsonResponse({'massage':'Invalid Request!'})
     return JsonResponse({'massage':'faild'})

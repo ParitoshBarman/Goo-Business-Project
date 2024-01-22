@@ -10,63 +10,88 @@
         tr,
         td {
             border: 1px solid gray;
-            padding:10px 5px;
+            padding: 10px 5px;
         }
 
-        td button{
+        td button {
             padding: 5px;
             border-radius: 4px;
             border: 1px solid gray;
         }
-        
+
+        #Data a{
+            padding: 10px;
+            background-color: #0089ff;
+            text-decoration: none;
+            border-radius: 8px 13px;
+            color: white;
+            font-weight: 600;
+        }
     </style>
 </head>
 
 <body>
     <main>
+        <div id="Data">
+
+        </div>
         <h2>Total Remain(Baki ache): {{totalReamin}}</h2>
         <table>
             <thead>
                 <tr>
-                    <th>SlId</th>
-                    <th>Name</th>
+
+
                     <th>Email</th>
-                    <th>Phone</th>
-                    <th>Fild</th>
-                    <th>OTPstatus</th>
-                    <th>Date</th>
+
+                    <th>LogIn Status</th>
+                    <th>Except Date</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 {% for singledata in serverdata %}
                 <tr>
-                    <td>{{singledata.slID}}</td>
-                    <td>{{singledata.fullname}}</td>
                     <td>{{singledata.email}}</td>
-                    <td>{{singledata.phone}}</td>
-                    <td>{{singledata.ChooseFieldOfInterest}}</td>
-                    <td>{{singledata.otpStatus}}</td>
-                    <td>{{singledata.date}}</td>
-                    <td><button id="{{singledata.slID}}" data-slid="{{singledata.slID}}" data-email="{{singledata.email}}" data-clickstatus="false" onclick="tigFunc(this)">Except</button></td>
+                    <td>{{singledata.last_login}}</td>
+
+                    <td>{{singledata.date_joined}}</td>
+                    <td><button id="{{singledata.email}}" data-email="{{singledata.email}}" data-clickstatus="false"
+                            onclick="tigFunc(this)">Get Data</button></td>
+
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </main>
 
+
+
     <script>
+
+        function showData(obj, eleId) {
+            let parentEle = document.getElementById(eleId);
+            console.log("This is: ", obj)
+
+            let rawHtml = `<h3>Name: ${obj.name}</h3>
+            <h3>Phone: <span>${obj.phone}</span>  <a href="tel:${obj.phone}">Click to Call</a></h3>
+            <p>Choose Fild: ${obj.choosefild}</p>`
+            console.log("This is: ", rawHtml)
+            parentEle.innerHTML = rawHtml;
+
+        }
+
+
         let workig = false;
 
         async function tigFunc(e) {
-            if(workig == false && e.getAttribute("data-clickstatus") == "false") {
+            console.log(e.getAttribute("data-email"));
+            if (workig == false && e.getAttribute("data-clickstatus") == "false") {
                 workig = true;
                 e.setAttribute("data-clickstatus", "true");
 
                 options = {
                     method: "POST",
                     body: JSON.stringify({
-                        slid: e.getAttribute("data-slid"),
                         email: e.getAttribute("data-email")
                     }),
                     headers: {
@@ -78,9 +103,16 @@
                 ele.style.backgroundColor = "yellow";
                 ele.textContent = "Working...";
 
-                let res = await fetch("/userbatchandemailrequest", options);
+                let res = await fetch("/contactdata", options);
 
                 let getData = await res.json();
+                console.log(getData);
+                if (getData.massage == "success") {
+                    showData(getData, "Data");
+                }
+                else {
+                    document.getElementById("Data").innerHTML = "<h2>No Data Found</h2>";
+                }
 
 
 
@@ -94,6 +126,7 @@
 
         }
     </script>
+
 </body>
 
 </html>

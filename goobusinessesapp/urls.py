@@ -28,6 +28,8 @@ urlpatterns = [
     path("dashboard", views.dashboard, name='dashboard'),
     path("newadminmanagingdashboard", views.newadminmanagingdashboard, name='newadminmanagingdashboard'),
     path("userbatchandemailrequest", views.userbatchandemailrequest, name='userbatchandemailrequest'),
+    path("notlogin/<int:startnum>", views.notlogin, name='notlogin'),
+    path("contactdata", views.contactdata, name='contactdata'),
 
     
 ]
