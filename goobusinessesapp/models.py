@@ -288,3 +288,18 @@ class AllInternBatchs(models.Model):
     remark = models.CharField(max_length=30)
     acceptTime = models.TimeField(auto_now_add=True)
     acceptdate = models.DateField(auto_now_add=True)
+
+class CallingConverssionTrack(models.Model):
+    slID = models.IntegerField(null=True,blank=True,default=0)
+    EmployeeID = models.CharField(max_length=40)
+    batchName = models.CharField(max_length=30)
+    fullname = models.CharField(max_length=122)
+    email = models.EmailField(max_length=254)
+    phone = models.CharField(max_length=20)
+    payment = models.BooleanField(default=False)
+    paymentStatus = models.CharField(max_length=30,null=True,blank=True)
+    paymentAmount = models.IntegerField(null=True,blank=True,default=0)
+    lastUpdateTime = models.TimeField(auto_now=True)
+    lastUpdatedate = models.DateField(auto_now=True)
+    acceptTime = models.TimeField(auto_now_add=True)
+    acceptdate = models.DateField(auto_now_add=True)

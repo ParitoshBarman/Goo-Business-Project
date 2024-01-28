@@ -19,7 +19,7 @@
             border: 1px solid gray;
         }
 
-        #Data a{
+        #Data a {
             padding: 10px;
             background-color: #0089ff;
             text-decoration: none;
@@ -32,7 +32,7 @@
 
 <body>
     <main>
-        <div id="Data">
+        <div id="Data" inert>
 
         </div>
         <h2>Total Remain(Baki ache): {{totalReamin}}</h2>
@@ -45,6 +45,7 @@
 
                     <th>LogIn Status</th>
                     <th>Except Date</th>
+                    <th>Resent Action</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -55,6 +56,8 @@
                     <td>{{singledata.last_login}}</td>
 
                     <td>{{singledata.date_joined}}</td>
+                    <td><button id="{{singledata.email}}emailagain" data-email="{{singledata.email}}"
+                            data-clickstatus="false" onclick="tigemailFunc(this)">Sent Again</button></td>
                     <td><button id="{{singledata.email}}" data-email="{{singledata.email}}" data-clickstatus="false"
                             onclick="tigFunc(this)">Get Data</button></td>
 
@@ -62,7 +65,7 @@
                 {% endfor %}
             </tbody>
         </table>
-    </main>
+    </maini>
 
 
 
@@ -70,12 +73,15 @@
 
         function showData(obj, eleId) {
             let parentEle = document.getElementById(eleId);
-            console.log("This is: ", obj)
 
             let rawHtml = `<h3>Name: ${obj.name}</h3>
             <h3>Phone: <span>${obj.phone}</span>  <a href="tel:${obj.phone}">Click to Call</a></h3>
-            <p>Choose Fild: ${obj.choosefild}</p>`
-            console.log("This is: ", rawHtml)
+            <p>Choose Fild: ${obj.choosefild}</p>
+            <p>YearOfGraduation: ${obj.YearOfGraduation}</p>
+            <p>HighestQualification: ${obj.HighestQualification}</p>
+            <p>CollegeName: ${obj.CollegeName}</p>
+            <p>MajorFieldOfStudy: ${obj.MajorFieldOfStudy}</p>
+            <p>WorkExperienceIfAny: ${obj.WorkExperienceIfAny}</p>`
             parentEle.innerHTML = rawHtml;
 
         }
@@ -84,7 +90,6 @@
         let workig = false;
 
         async function tigFunc(e) {
-            console.log(e.getAttribute("data-email"));
             if (workig == false && e.getAttribute("data-clickstatus") == "false") {
                 workig = true;
                 e.setAttribute("data-clickstatus", "true");
@@ -106,7 +111,6 @@
                 let res = await fetch("/contactdata", options);
 
                 let getData = await res.json();
-                console.log(getData);
                 if (getData.massage == "success") {
                     showData(getData, "Data");
                 }
@@ -117,6 +121,45 @@
 
 
                 workig = false;
+                ele.style.backgroundColor = "green";
+                ele.style.color = "white";
+                ele.textContent = "Done";
+
+
+            }
+
+        }
+
+
+
+        let workig2 = false;
+
+        async function tigemailFunc(e) {
+            if (workig2 == false && e.getAttribute("data-clickstatus") == "false") {
+                workig2 = true;
+                e.setAttribute("data-clickstatus", "true");
+
+                options = {
+                    method: "POST",
+                    body: JSON.stringify({
+                        email: e.getAttribute("data-email")
+                    }),
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8"
+                    }
+                }
+
+                let ele = document.getElementById(e.getAttribute("id"));
+                ele.style.backgroundColor = "yellow";
+                ele.textContent = "Working...";
+
+                let res = await fetch("/resentuserbatchandemailrequest", options);
+
+                let getData = await res.json();
+
+
+
+                workig2 = false;
                 ele.style.backgroundColor = "green";
                 ele.style.color = "white";
                 ele.textContent = "Done";

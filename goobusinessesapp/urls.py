@@ -30,6 +30,7 @@ urlpatterns = [
     path("userbatchandemailrequest", views.userbatchandemailrequest, name='userbatchandemailrequest'),
     path("notlogin/<int:startnum>", views.notlogin, name='notlogin'),
     path("contactdata", views.contactdata, name='contactdata'),
+    path("resentuserbatchandemailrequest", views.resentuserbatchandemailrequest, name='resentuserbatchandemailrequest'),
 
     
 ]

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from goobusinessesapp.models import RegistationFormDB, InternUserDetails, AllServices, ClickHistry, UserDetails, PerDayOrderPerUser, OrderList, FreeTrialUser, FreeTrialRequest, FreeTrialUnderReview, ContactMessage, ControlWeb, WhyUsDB, AboutDB, EmailSeenDB, ExtraImageDB, OpenViaEmail, InternalVisit, ClickHistryByUser, UnsubscribeList, SubscribeList, BatchesInstractions, AllInternBatchs
+from goobusinessesapp.models import RegistationFormDB, InternUserDetails, AllServices, ClickHistry, UserDetails, PerDayOrderPerUser, OrderList, FreeTrialUser, FreeTrialRequest, FreeTrialUnderReview, ContactMessage, ControlWeb, WhyUsDB, AboutDB, EmailSeenDB, ExtraImageDB, OpenViaEmail, InternalVisit, ClickHistryByUser, UnsubscribeList, SubscribeList, BatchesInstractions, AllInternBatchs, CallingConverssionTrack
 from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
@@ -97,3 +97,7 @@ admin.site.register(BatchesInstractions, BatchesInstractionsV)
 class AllInternBatchsV(ImportExportModelAdmin, admin.ModelAdmin):
     list_display=('slID', 'EmployeeID', 'batchName', 'fullname', 'email', 'countryCode', 'phone', 'whatsapp', 'ChooseJobOrInternship', 'ChooseFieldOfInterest', 'HighestQualification', 'CollegeName', 'MajorFieldOfStudy', 'YearOfGraduation', 'WorkExperienceIfAny', 'GitHubProfile', 'LinkedInProfile', 'address', 'country', 'pinCode', 'payment', 'paymentStatus', 'paymentAmount', 'projectGitHubLinkCount', 'liveLinkCount', 'totalMassage', 'confidenceMarks', 'codingMarks', 'outputMarks', 'onTimeSubmitMarks', 'remark', 'acceptTime', 'acceptdate')
 admin.site.register(AllInternBatchs, AllInternBatchsV)
+
+class CallingConverssionTrackV(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display=('slID', 'EmployeeID', 'batchName', 'fullname', 'email', 'phone', 'payment', 'paymentStatus', 'paymentAmount', 'lastUpdateTime', 'lastUpdatedate', 'acceptTime', 'acceptdate')
+admin.site.register(CallingConverssionTrack, CallingConverssionTrackV)

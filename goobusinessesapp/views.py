@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 # from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-from goobusinessesapp.models import RegistationFormDB, InternUserDetails, AllServices, ClickHistry, UserDetails, PerDayOrderPerUser, OrderList, FreeTrialUser, FreeTrialRequest, FreeTrialUnderReview, ContactMessage, WhyUsDB, AboutDB, ControlWeb, EmailSeenDB, OpenViaEmail, InternalVisit, ClickHistryByUser, UnsubscribeList, SubscribeList, BatchesInstractions, AllInternBatchs
+from goobusinessesapp.models import RegistationFormDB, InternUserDetails, AllServices, ClickHistry, UserDetails, PerDayOrderPerUser, OrderList, FreeTrialUser, FreeTrialRequest, FreeTrialUnderReview, ContactMessage, WhyUsDB, AboutDB, ControlWeb, EmailSeenDB, OpenViaEmail, InternalVisit, ClickHistryByUser, UnsubscribeList, SubscribeList, BatchesInstractions, AllInternBatchs, CallingConverssionTrack
 from django.http import JsonResponse
 import random
 import re
@@ -1051,6 +1051,16 @@ def userbatchandemailrequest(request):
             return JsonResponse({'massage':'Alrady exist!'})
     return JsonResponse({'massage':'faild'})
 
+@csrf_exempt
+def resentuserbatchandemailrequest(request):
+    if request.method == 'POST' and request.user.is_staff:
+        objdata = json.loads(request.body.decode('utf-8'))
+        email = objdata["email"]
+        # sendEmailAndPassword(email, "Intern123")
+        print("Successfully Sent Email...")
+        return JsonResponse({'massage':'success'})
+    return JsonResponse({'massage':'faild'})
+
 
 
 
@@ -1074,8 +1084,14 @@ def contactdata(request):
         email = objdata["email"]
         try:
             searchData = AllInternBatchs.objects.get(email=email)
-            print({'massage':'success', 'name':searchData.fullname, 'phone':searchData.phone})
-            return JsonResponse({'massage':'success', 'name':searchData.fullname, 'phone':searchData.phone, 'choosefild':searchData.ChooseFieldOfInterest})
+            try:
+                trackData = CallingConverssionTrack.objects.get(slID=searchData.slID)
+                trackData.save()
+            except:
+                trackData = CallingConverssionTrack(slID=searchData.slID, EmployeeID=searchData.EmployeeID, batchName=searchData.batchName, fullname=searchData.fullname, email=searchData.email, phone=searchData.phone, payment=searchData.payment, paymentStatus=searchData.paymentStatus, paymentAmount=searchData.paymentAmount)
+                trackData.save()
+            # print({'massage':'success', 'name':searchData.fullname, 'phone':searchData.phone, 'HighestQualification':searchData.HighestQualification, 'CollegeName':searchData.CollegeName, 'MajorFieldOfStudy':searchData.MajorFieldOfStudy, 'YearOfGraduation':searchData.YearOfGraduation, 'WorkExperienceIfAny':searchData.WorkExperienceIfAny})
+            return JsonResponse({'massage':'success', 'name':searchData.fullname, 'phone':searchData.phone, 'choosefild':searchData.ChooseFieldOfInterest, 'HighestQualification':searchData.HighestQualification, 'CollegeName':searchData.CollegeName, 'MajorFieldOfStudy':searchData.MajorFieldOfStudy, 'YearOfGraduation':searchData.YearOfGraduation, 'WorkExperienceIfAny':searchData.WorkExperienceIfAny})
         except:
             return JsonResponse({'massage':'Invalid Request!'})
     return JsonResponse({'massage':'faild'})
