@@ -31,6 +31,7 @@ urlpatterns = [
     path("notlogin/<int:startnum>", views.notlogin, name='notlogin'),
     path("contactdata", views.contactdata, name='contactdata'),
     path("resentuserbatchandemailrequest", views.resentuserbatchandemailrequest, name='resentuserbatchandemailrequest'),
+    path("offerletter/<str:email>/<str:batchname>/<str:empid>", views.offerletter, name='offerletter'),
 
     
 ]

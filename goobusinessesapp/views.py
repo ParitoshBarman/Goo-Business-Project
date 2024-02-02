@@ -19,11 +19,80 @@ from datetime import timedelta
 import threading
 import markdown
 import json
+import os
+from spire.pdf.common import *
+from spire.pdf import *
+from PyPDF2 import PdfWriter, PdfReader
+import time
 
 OurMainURL = "https://goobusiness.autoimg.xyz/"
 
 global lastUpdatetime
 lastUpdatetime = datetime.now()
+
+############# 28th jan 2024 ################
+deletExtraImagesRUNNINGstatus = True
+
+def deletExtraImages():
+    global deletExtraImagesRUNNINGstatus
+    time.sleep(15)
+    if deletExtraImagesRUNNINGstatus:
+        deletExtraImagesRUNNINGstatus = False
+        mainDir = "./media/publicofferlater"
+        allfiles = os.listdir(mainDir)
+        for file in allfiles:
+            created = os.path.getctime(f"{mainDir}/{file}")
+            if((datetime.fromtimestamp(created)+timedelta(minutes=1)) < datetime.now()):
+                os.remove(f"{mainDir}/{file}")
+
+        deletExtraImagesRUNNINGstatus = True
+        
+
+
+
+
+def pdfGenaretor(candName, candbatch, emplyid, exceptDate):
+    # Create an object of the PdfDocument class
+    
+    doc = PdfDocument()
+    # Load a PDF file
+    doc.LoadFromFile(f"./media/offerlater/{candbatch}.pdf")
+    # Iterate through the pages in the document
+    
+    for i in range(doc.Pages.Count):
+        # Get the current page
+        page = doc.Pages[i]    
+        # Create an object of the PdfTextReplace class and pass the page to the constructor of the class as a parameter
+        replacer = PdfTextReplacer(page)
+        # Replace All instances of a specific text with new text
+        replacer.ReplaceAllText("Name25163,", f"{candName},")
+        # Replace All instances of a specific text with new text and set text color
+        #replacer.ReplaceAllText("Adobe Acrobat", "PDF Editor", Color.get_Yellow())
+    for i in range(doc.Pages.Count):
+        # Get the current page
+        page = doc.Pages[i]    
+        replacer = PdfTextReplacer(page)
+        # Replace All instances of a specific text with new text
+        replacer.ReplaceAllText("empid5163", f"{emplyid}")
+
+    # Save the resulting file
+    # fileUnicName = f"pdf{datetime.now()}.pdf"
+    fileUnicName = f"./media/publicofferlater/pdfofferlatter{emplyid}.pdf"
+    doc.SaveToFile(fileUnicName)
+    doc.Close()
+    reader = PdfReader(fileUnicName)
+    page = reader.pages[0]
+    writer = PdfWriter()
+    for page in reader.pages:
+        page.cropbox.upper_right = (900, 0)
+        page.cropbox.lower_left = (0, 815)
+    
+    writer.add_page(page) 
+
+    with open(fileUnicName,'wb') as fp:
+        writer.write(fp) 
+    
+    return fileUnicName
 
 
 # for email functions
@@ -993,7 +1062,7 @@ def dashboard(request):
             searchStudent = AllInternBatchs.objects.get(email=request.user.username)
             data = BatchesInstractions.objects.get(batchName=searchStudent.batchName)
             htmldata = markdown.markdown(data.Instractions)
-            return render(request, "dashboard.html", {"htmldata":htmldata, "studentName":searchStudent.fullname})
+            return render(request, "dashboard.html", {"htmldata":htmldata, "studentName":searchStudent.fullname, "email":searchStudent.email, "batchname":searchStudent.batchName, "empid":searchStudent.EmployeeID})
         except:
             htmldata = '<h2 style="color:red;">Sorry you are no longer participant!</h2>'
             return render(request, "dashboard.html", {"htmldata":htmldata, "studentName":"Employee Dashboard"})
@@ -1095,3 +1164,39 @@ def contactdata(request):
         except:
             return JsonResponse({'massage':'Invalid Request!'})
     return JsonResponse({'massage':'faild'})
+
+
+
+############## 28th jan 2024 ################ 
+@csrf_exempt
+def offerletter(request, email, batchname, empid):
+    try:
+        searchStudent = AllInternBatchs.objects.get(email=email, batchName=batchname, EmployeeID=empid)
+        try:
+            OfferLaterTotalDownload = ControlWeb.objects.get(VarName="OfferLaterTotalDownload")
+            OfferLaterTotalDownload.integetVar += 1
+            OfferLaterTotalDownload.save()
+        except:
+            OfferLaterTotalDownload = ControlWeb(VarName="OfferLaterTotalDownload", integetVar=1)
+            OfferLaterTotalDownload.save()
+        
+        candName = searchStudent.fullname
+        candbatch = searchStudent.batchName
+        emplyid = searchStudent.EmployeeID
+        exceptDate = searchStudent.acceptdate
+
+        fileUnicName = pdfGenaretor(candName, candbatch, emplyid, exceptDate)
+
+        thithi2 = threading.Thread(target=deletExtraImages)
+        thithi2.start()
+
+        pdf = open(fileUnicName, 'rb')
+        response = FileResponse(pdf)
+        
+        return response
+        
+        
+
+    except:
+        return HttpResponse("<h1>Sorry Request Not Found</h1>")
+    
