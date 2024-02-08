@@ -37,13 +37,13 @@ nav ul{
 
 nav ul li{
     list-style: none;
-    margin: 0px 10px;
+    margin: 0px 7px;
 }
 
 nav ul li a{
     color: white;
     text-decoration: none;
-    font-weight: bold;
+    /* font-weight: bold; */
 }
 
 .freeTrl{
@@ -88,14 +88,14 @@ a{
 .navallproduct{
     color: white;
     text-decoration: none;
-    margin-left: 30px;
-    font-weight: bold;
+    margin-left: 13px;
+    /* font-weight: bold; */
 }
 
 .navallproduct:hover{
     font-size: 18px;
 text-decoration: underline;
-font-weight: bold;
+/* font-weight: bold; */
 background-color: rgba(134, 147, 207, 0.692);
 }
 
@@ -105,15 +105,15 @@ nav{display: flex;
 justify-content: flex-start;
 align-items: center;}
 .logo{display: flex;
-margin: 0px 20px;}
+margin: 0px 8px;}
 
 /* .search{width: 200px;
 background-color: red; */
 /* } */
 .form-ele1{
-    width: 20vw;
+    width: 120px;
     height: 25px;
-    margin: 0px 6px 0px 20px;
+    margin: 0px 4px 0px 10px;
     border-radius: 6px;
 }
 

@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Terms and Conditions - Goo Business{% endblock title %}
+{% block head %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        h1,
+        h2 {
+            color: #333;
+            /* text-align: center; */
+        }
+
+        h2 {
+            margin-top: 30px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li::before {
+            content: '\2022';
+            color: #007bff;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+    </style>
+{% endblock head%}
+
+{% block body %}
+    <div class="container">
+        <h1>Terms and Conditions</h1>
+        <p>Last Updated: February 3, 2024</p>
+
+        <h2>1. Introduction</h2>
+        <p>Welcome to Goo Business. These terms and conditions outline the rules and regulations for the use of Goo Business's Website.</p>
+
+        <h2>2. Web Development Services</h2>
+        <p>We provide high-quality web development services tailored to meet our clients' needs.</p>
+
+        <h2>3. Mobile App and Software Development Services</h2>
+        <p>Our team specializes in mobile app and software development, delivering innovative solutions to our clients.</p>
+
+        <h2>4. Development Related Courses</h2>
+        <p>We offer courses related to web development, mobile app development, and software engineering to individuals seeking to enhance their skills.</p>
+
+        <h2>5. Hiring Top Students</h2>
+        <p>We prioritize hiring from our top-performing students to ensure a talented workforce and maintain the quality of our services.</p>
+
+        <h2>6. Contact Us</h2>
+        <p>If you have any questions about these terms and conditions, please contact us at <a href="mailto:contact@goo-business.com">contact@goo-business.com</a>.</p>
+    </div>
+    {% endblock body %}

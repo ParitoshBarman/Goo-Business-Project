@@ -31,9 +31,32 @@
             Morning!</span>
         <h2 class="title" style="margin:30px 0px 30px 0px;letter-spacing: 1px;color: #4007a2;">Welcome to Goo Business!
         </h2>
+
+        <div class="databasedata">
+            
+            <div style="font-size: 28px;font-family: sans-serif;">Our Mission in Development field</div>
+            
+            <div class="detiles">
+                <p class="descText">At Goo Business, our mission is to provide top-quality web development, mobile app development, and software engineering services to our clients.</p>
+            </div>
+            
+        </div>
+        <br>
+        <br>
+        <br>
+        <hr>
+        <br>
+        <div class="databasedata">
+            
+            <div style="font-size: 28px;font-family: sans-serif;">Our Mission in B2B field</div>
+        </div>
+        <br>
+        
+        
         <div class="image" style="width: 100%;display: flex;justify-content: center;align-items: center;">
             <video style="width: 80vw;border-radius: 7px;margin: 25px 0px;max-width: 850px;" src="https://github.com/ParitoshBarman/videodb/raw/master/Goo%20Business.mp4" controls autoplay controlsList="nodownload"></video>
         </div>
+        
         {% for whyusContent in whyusContents %}
         <div class="databasedata">
             {% if whyusContent.Title %}
@@ -56,10 +79,17 @@
         </div>
         {% endfor %}
 
-
-
-
+        <div class="databasedata">
+            
+            <div style="font-size: 28px;font-family: sans-serif;">Get in Touch</div>
+            
+            <div class="detiles">
+                <p class="descText">If you have any questions or inquiries, please don't hesitate to contact us at <a href="mailto:contact@goo-business.com">contact@goo-business.com</a>.</p>
+            </div>
+            
+        </div>
     </div>
+
 
 </main>
 <script>

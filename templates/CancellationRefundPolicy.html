@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Cancellation/Refund Policy - Goo Business{% endblock title %}
+{% block head %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        h1,
+        h2 {
+            color: #333;
+            /* text-align: center; */
+        }
+
+        h2 {
+            margin-top: 30px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li::before {
+            content: '\2022';
+            color: #007bff;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+    </style>
+{% endblock head%}
+
+{% block body %}
+    <div class="container">
+        <h1>Cancellation/Refund Policy</h1>
+        <p>Last Updated: February 3, 2024</p>
+
+        <h2>1. Cancellation Policy</h2>
+        <p>Customers can cancel their order or service within 24 hours of placing it. After this timeframe, cancellations will not be accepted.</p>
+
+        <h2>2. Refund Policy</h2>
+        <p>We offer refunds for cancellations made within the specified timeframe. Refunds will be processed within 7-10 business days via the original payment method.</p>
+
+        <h2>3. Contact Us</h2>
+        <p>If you have any questions about our cancellation/refund policy, please contact us at <a href="mailto:contact@goo-business.com">contact@goo-business.com</a>.</p>
+    </div>
+    {% endblock body %}

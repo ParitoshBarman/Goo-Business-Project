@@ -1199,4 +1199,13 @@ def offerletter(request, email, batchname, empid):
 
     except:
         return HttpResponse("<h1>Sorry Request Not Found</h1>")
-    
+
+############## 5th Feb 2024 ################
+def termsandconditions(request):
+    return render(request, 'termsandconditions.html')
+def CancellationRefundPolicy(request):
+    return render(request, 'CancellationRefundPolicy.html')
+def courses(request):
+    return render(request, 'courses.html')
+def privacypolicy(request):
+    return render(request, 'privacypolicy.html')

@@ -32,6 +32,12 @@ urlpatterns = [
     path("contactdata", views.contactdata, name='contactdata'),
     path("resentuserbatchandemailrequest", views.resentuserbatchandemailrequest, name='resentuserbatchandemailrequest'),
     path("offerletter/<str:email>/<str:batchname>/<str:empid>", views.offerletter, name='offerletter'),
+############## 5th Feb 2024 ################
+    path("termsandconditions", views.termsandconditions, name='termsandconditions'),
+    path("CancellationRefundPolicy", views.CancellationRefundPolicy, name='CancellationRefundPolicy'),
+    path("courses", views.courses, name='courses'),
+    path("privacypolicy", views.privacypolicy, name='privacypolicy'),
+
 
     
 ]
