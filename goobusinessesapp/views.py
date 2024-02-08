@@ -51,12 +51,12 @@ def deletExtraImages():
 
 
 
-def pdfGenaretor(candName, candbatch, emplyid, exceptDate):
+def pdfGenaretor(candName, candbatch, emplyid, exceptDate, documentType):
     # Create an object of the PdfDocument class
     
     doc = PdfDocument()
     # Load a PDF file
-    doc.LoadFromFile(f"./media/offerlater/{candbatch}.pdf")
+    doc.LoadFromFile(f"./media/offerlater/{candbatch}{documentType}.pdf")
     # Iterate through the pages in the document
     
     for i in range(doc.Pages.Count):
@@ -74,6 +74,12 @@ def pdfGenaretor(candName, candbatch, emplyid, exceptDate):
         replacer = PdfTextReplacer(page)
         # Replace All instances of a specific text with new text
         replacer.ReplaceAllText("empid5163", f"{emplyid}")
+    for i in range(doc.Pages.Count):
+        # Get the current page
+        page = doc.Pages[i]    
+        replacer = PdfTextReplacer(page)
+        # Replace All instances of a specific text with new text
+        replacer.ReplaceAllText("exceptDate5163", f"{exceptDate}")
 
     # Save the resulting file
     # fileUnicName = f"pdf{datetime.now()}.pdf"
@@ -1185,7 +1191,10 @@ def offerletter(request, email, batchname, empid):
         emplyid = searchStudent.EmployeeID
         exceptDate = searchStudent.acceptdate
 
-        fileUnicName = pdfGenaretor(candName, candbatch, emplyid, exceptDate)
+        try:
+            fileUnicName = pdfGenaretor(candName, candbatch, emplyid, exceptDate, "")
+        except:
+            return HttpResponse("<h1>Sorry, your document has not been created yet.</h1>")
 
         thithi2 = threading.Thread(target=deletExtraImages)
         thithi2.start()
