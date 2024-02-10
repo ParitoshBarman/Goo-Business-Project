@@ -37,6 +37,9 @@ urlpatterns = [
     path("CancellationRefundPolicy", views.CancellationRefundPolicy, name='CancellationRefundPolicy'),
     path("courses", views.courses, name='courses'),
     path("privacypolicy", views.privacypolicy, name='privacypolicy'),
+    path("paymentVaryfyForInt", views.paymentVaryfyForInt, name='paymentVaryfyForInt'),
+    path("paymentRejectForEmp", views.paymentRejectForEmp, name='paymentRejectForEmp'),
+    path("intrnpaymentrequest", views.intrnpaymentrequest, name='intrnpaymentrequest'),
 
 
     

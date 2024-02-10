@@ -1,5 +1,5 @@
 from django.contrib import admin
-from goobusinessesapp.models import RegistationFormDB, InternUserDetails, AllServices, ClickHistry, UserDetails, PerDayOrderPerUser, OrderList, FreeTrialUser, FreeTrialRequest, FreeTrialUnderReview, ContactMessage, ControlWeb, WhyUsDB, AboutDB, EmailSeenDB, ExtraImageDB, OpenViaEmail, InternalVisit, ClickHistryByUser, UnsubscribeList, SubscribeList, BatchesInstractions, AllInternBatchs, CallingConverssionTrack
+from goobusinessesapp.models import RegistationFormDB, InternUserDetails, AllServices, ClickHistry, UserDetails, PerDayOrderPerUser, OrderList, FreeTrialUser, FreeTrialRequest, FreeTrialUnderReview, ContactMessage, ControlWeb, WhyUsDB, AboutDB, EmailSeenDB, ExtraImageDB, OpenViaEmail, InternalVisit, ClickHistryByUser, UnsubscribeList, SubscribeList, BatchesInstractions, AllInternBatchs, CallingConverssionTrack, TransectionHistory
 from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
@@ -101,3 +101,7 @@ admin.site.register(AllInternBatchs, AllInternBatchsV)
 class CallingConverssionTrackV(ImportExportModelAdmin, admin.ModelAdmin):
     list_display=('slID', 'EmployeeID', 'batchName', 'fullname', 'email', 'phone', 'payment', 'paymentStatus', 'paymentAmount', 'lastUpdateTime', 'lastUpdatedate', 'acceptTime', 'acceptdate')
 admin.site.register(CallingConverssionTrack, CallingConverssionTrackV)
+
+class TransectionHistoryV(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display=('slID', 'fullname', 'email', 'phone', 'payment', 'paymentStatus', 'paymentAmount', 'lastUpdateTime', 'lastUpdatedate', 'acceptTime', 'acceptdate','razorpay_payment_iddb','razorpay_order_iddb','razorpay_signaturedb')
+admin.site.register(TransectionHistory, TransectionHistoryV)

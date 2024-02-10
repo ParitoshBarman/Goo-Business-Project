@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Page Goo Business</title>
+</head>
+
+<body>
+
+    <h1>Please do not refresh the page....</h1>
+
+
+
+    <button id="rzp-button1" hidden>Pay with Razorpay</button>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        var options = {
+            "key": "{{pid}}", // Enter the Key ID generated from the Dashboard
+            "name": "Goo Business",
+            "description": "Payment for buying Front end course",
+            "image": "https://goobusines.com/static/img/Goo%20Businesses.png",
+            "order_id": "{{odr.id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            "handler": function (response) {
+                window.location.href = `/paymentVaryfyForInt?pmtid=${response.razorpay_payment_id}&odrid=${response.razorpay_order_id}&sigid=${response.razorpay_signature}&amount={{price}}`
+            },
+            "prefill": {
+                "name": "{{odr.notes.customername}}",
+                "email": "{{odr.notes.customeremail}}",
+                "contact": "{{odr.notes.customerphone}}"
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+        };
+        var rzp1 = new Razorpay(options);
+        rzp1.on('payment.failed', function (response) {
+            // alert(response.error.code);
+            // alert(response.error.description);
+            // alert(response.error.source);
+            // alert(response.error.step);
+            // alert(response.error.reason);
+            // alert(response.error.metadata.order_id);
+            // alert(response.error.metadata.payment_id);
+            alert("Payment has been failed...");
+        });
+        document.getElementById('rzp-button1').onclick = function (e) {
+            rzp1.open();
+            e.preventDefault();
+        }
+    </script>
+
+    <script>
+        window.onload = function () {
+            document.getElementById('rzp-button1').click();
+        }
+    </script>
+
+</body>
+
+</html>

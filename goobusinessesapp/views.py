@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 # from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-from goobusinessesapp.models import RegistationFormDB, InternUserDetails, AllServices, ClickHistry, UserDetails, PerDayOrderPerUser, OrderList, FreeTrialUser, FreeTrialRequest, FreeTrialUnderReview, ContactMessage, WhyUsDB, AboutDB, ControlWeb, EmailSeenDB, OpenViaEmail, InternalVisit, ClickHistryByUser, UnsubscribeList, SubscribeList, BatchesInstractions, AllInternBatchs, CallingConverssionTrack
+from goobusinessesapp.models import RegistationFormDB, InternUserDetails, AllServices, ClickHistry, UserDetails, PerDayOrderPerUser, OrderList, FreeTrialUser, FreeTrialRequest, FreeTrialUnderReview, ContactMessage, WhyUsDB, AboutDB, ControlWeb, EmailSeenDB, OpenViaEmail, InternalVisit, ClickHistryByUser, UnsubscribeList, SubscribeList, BatchesInstractions, AllInternBatchs, CallingConverssionTrack, TransectionHistory
 from django.http import JsonResponse
 import random
 import re
@@ -20,6 +20,7 @@ import threading
 import markdown
 import json
 import os
+import razorpay # pip install razorpay
 from spire.pdf.common import *
 from spire.pdf import *
 from PyPDF2 import PdfWriter, PdfReader
@@ -29,6 +30,8 @@ OurMainURL = "https://goobusiness.autoimg.xyz/"
 
 global lastUpdatetime
 lastUpdatetime = datetime.now()
+key_id = "rzp_test_RVMxgfe1OWFMM7"
+key_secret = "LC2iktMC9Q52rLgWdkVuFsCO"
 
 ############# 28th jan 2024 ################
 deletExtraImagesRUNNINGstatus = True
@@ -1067,6 +1070,8 @@ def dashboard(request):
         try:
             searchStudent = AllInternBatchs.objects.get(email=request.user.username)
             data = BatchesInstractions.objects.get(batchName=searchStudent.batchName)
+            if(searchStudent.payment!=True):
+                return render(request, "pymentforemp.html", {"paymentmsg":"We charge 99 INR to cover the costs of our thorough code review, final project, and final interview round, ensuring a quality experience for all participants.", "redirectEndpoint":"dashboard"})
             htmldata = markdown.markdown(data.Instractions)
             return render(request, "dashboard.html", {"htmldata":htmldata, "studentName":searchStudent.fullname, "email":searchStudent.email, "batchname":searchStudent.batchName, "empid":searchStudent.EmployeeID})
         except:
@@ -1178,6 +1183,8 @@ def contactdata(request):
 def offerletter(request, email, batchname, empid):
     try:
         searchStudent = AllInternBatchs.objects.get(email=email, batchName=batchname, EmployeeID=empid)
+        if(searchStudent.payment!=True):
+            HttpResponse("<h1>Sorry, your payment has not been completed.</h1>")
         try:
             OfferLaterTotalDownload = ControlWeb.objects.get(VarName="OfferLaterTotalDownload")
             OfferLaterTotalDownload.integetVar += 1
@@ -1218,3 +1225,52 @@ def courses(request):
     return render(request, 'courses.html')
 def privacypolicy(request):
     return render(request, 'privacypolicy.html')
+
+############## 8th Feb 2024 ################
+def paymentVaryfyForInt(request):
+    pmtid = request.GET['pmtid']
+    odrid = request.GET['odrid']
+    sigid = request.GET['sigid']
+    amount = request.GET['amount']
+    client = razorpay.Client(auth=(ControlWeb.objects.get(VarName="key_id").charecterVar, ControlWeb.objects.get(VarName="key_secret").charecterVar))
+    dictData = {'razorpay_payment_id': pmtid, 'razorpay_order_id': odrid, 'razorpay_signature': sigid}
+    try:
+        client.utility.verify_payment_signature(dictData)
+        searchStudent = AllInternBatchs.objects.get(email=request.user.username)
+        searchStudent.payment = True
+        searchStudent.paymentStatus = "Success"
+        searchStudent.paymentAmount = int(amount)
+        searchStudent.save()
+        trnsHistry = TransectionHistory(slID=searchStudent.slID,fullname=searchStudent.fullname, email=searchStudent.email, phone=searchStudent.phone, payment=searchStudent.payment, paymentStatus="Success", paymentAmount=int(amount), razorpay_payment_iddb=pmtid, razorpay_order_iddb=odrid, razorpay_signaturedb=sigid)
+        trnsHistry.save()
+        try:
+            totalPaymentReceive = ControlWeb.objects.get(VarName="totalPaymentReceive")
+            totalPaymentReceive.integetVar += int(amount)
+            totalPaymentReceive.save()
+        except:
+            totalPaymentReceive = ControlWeb(VarName="totalPaymentReceive", integetVar=int(amount))
+            totalPaymentReceive.save()
+        return redirect("/dashboard")
+    except:
+        return HttpResponse("<h1>Sorry, your payment has been failed...(illegal activity detected!)</h1>")
+    
+def paymentRejectForEmp(request):
+    searchStudent = AllInternBatchs.objects.get(email=request.user.username)
+    searchStudent.payment = False
+    searchStudent.save()
+    return redirect("/dashboard")
+
+def intrnpaymentrequest(request):
+    searchStudent = AllInternBatchs.objects.get(email=request.user.username)
+    client = razorpay.Client(auth=(ControlWeb.objects.get(VarName="key_id").charecterVar, ControlWeb.objects.get(VarName="key_secret").charecterVar))
+    price = 99
+    data = { "amount": price*100, "currency": "INR", "receipt": f"{searchStudent.EmployeeID}", "notes":{
+    "customername":f"{searchStudent.fullname}",
+    'customeremail':f"{searchStudent.email}",
+    'customerphone':f"{searchStudent.phone}",
+    "payfor":"For interview request"
+    } }
+
+    order = client.order.create(data=data)
+    print(order)
+    return render(request, 'intrnpaymentrequest.html', {'odr':order, 'pid':ControlWeb.objects.get(VarName="key_id").charecterVar, 'price':price})
