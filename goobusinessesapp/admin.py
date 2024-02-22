@@ -48,7 +48,7 @@ class OrderListAdminV(ImportExportModelAdmin, admin.ModelAdmin):
 admin.site.register(OrderList,OrderListAdminV)
 
 class RegistationFormDBAdminV(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display=('slID','fullname','email','phone','otpStatus','date','odrTime','LinkedInProfile','ResumePDF')
+    list_display=('slID','fullname','email','phone','otpStatus','date','odrTime','LinkedInProfile','ResumePDF', 'AcceptAllAgriment')
 admin.site.register(RegistationFormDB, RegistationFormDBAdminV)
 
 class UserAdminNC(ImportExportModelAdmin, admin.ModelAdmin):
@@ -95,7 +95,7 @@ admin.site.register(BatchesInstractions, BatchesInstractionsV)
 
 
 class AllInternBatchsV(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display=('slID', 'EmployeeID', 'batchName', 'fullname', 'email', 'countryCode', 'phone', 'whatsapp', 'ChooseJobOrInternship', 'ChooseFieldOfInterest', 'HighestQualification', 'CollegeName', 'MajorFieldOfStudy', 'YearOfGraduation', 'WorkExperienceIfAny', 'GitHubProfile', 'LinkedInProfile', 'address', 'country', 'pinCode', 'payment', 'paymentStatus', 'paymentAmount', 'projectGitHubLinkCount', 'liveLinkCount', 'totalMassage', 'confidenceMarks', 'codingMarks', 'outputMarks', 'onTimeSubmitMarks', 'remark', 'acceptTime', 'acceptdate')
+    list_display=('slID', 'EmployeeID', 'batchName', 'fullname', 'email', 'countryCode', 'phone', 'whatsapp', 'ChooseJobOrInternship', 'ChooseFieldOfInterest', 'HighestQualification', 'CollegeName', 'MajorFieldOfStudy', 'YearOfGraduation', 'WorkExperienceIfAny', 'GitHubProfile', 'LinkedInProfile', 'address', 'country', 'pinCode', 'payment', 'paymentStatus', 'paymentAmount', 'projectGitHubLinkCount', 'liveLinkCount', 'totalMassage', 'confidenceMarks', 'codingMarks', 'outputMarks', 'onTimeSubmitMarks', 'remark','lastUpdateTime', 'lastUpdatedate', 'acceptTime', 'acceptdate','AcceptAllAgriment')
 admin.site.register(AllInternBatchs, AllInternBatchsV)
 
 class CallingConverssionTrackV(ImportExportModelAdmin, admin.ModelAdmin):

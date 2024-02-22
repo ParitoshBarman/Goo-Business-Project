@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Learn More - Goo Business{% endblock title %}
+{% block head %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        h1,
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+    </style>
+{% endblock head%}
+
+{% block body %}
+    <div class="container">
+        <h1>Learn More</h1>
+
+        <p>Welcome to the Learn More page of Goo Business. Here you can find more information about our recruitment process and the fees associated with the interview and skills testing.</p>
+
+        <h2>Recruitment Process</h2>
+        <p>Our recruitment process involves an interview round and skills testing to assess candidates' qualifications and suitability for the position.</p>
+
+        <h2>Interview and Testing Fees</h2>
+        <p>To ensure serious candidates and prevent unnecessary applications, we charge a nominal fee for the interview and skills testing process. This fee helps cover administrative costs and ensures a more efficient recruitment process.</p>
+
+        <h2>Contact Us</h2>
+        <p>If you have any questions about our recruitment process or fees, please contact us at <a href="mailto:recruitment@goo-business.com">recruitment@goo-business.com</a>.</p>
+    </div>
+    {% endblock body %}

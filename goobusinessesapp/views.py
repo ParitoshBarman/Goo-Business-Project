@@ -26,7 +26,7 @@ from spire.pdf import *
 from PyPDF2 import PdfWriter, PdfReader
 import time
 
-OurMainURL = "https://goobusiness.autoimg.xyz/"
+OurMainURL = "https://goobusines.com/"
 
 global lastUpdatetime
 lastUpdatetime = datetime.now()
@@ -54,7 +54,7 @@ def deletExtraImages():
 
 
 
-def pdfGenaretor(candName, candbatch, emplyid, exceptDate, documentType):
+def pdfGenaretor(candName, candbatch, emplyid, exceptDate, documentType, upper_rightP, lower_leftP):
     # Create an object of the PdfDocument class
     
     doc = PdfDocument()
@@ -68,7 +68,7 @@ def pdfGenaretor(candName, candbatch, emplyid, exceptDate, documentType):
         # Create an object of the PdfTextReplace class and pass the page to the constructor of the class as a parameter
         replacer = PdfTextReplacer(page)
         # Replace All instances of a specific text with new text
-        replacer.ReplaceAllText("Name25163,", f"{candName},")
+        replacer.ReplaceAllText("Name25163,", f"{candName}")
         # Replace All instances of a specific text with new text and set text color
         #replacer.ReplaceAllText("Adobe Acrobat", "PDF Editor", Color.get_Yellow())
     for i in range(doc.Pages.Count):
@@ -93,8 +93,10 @@ def pdfGenaretor(candName, candbatch, emplyid, exceptDate, documentType):
     page = reader.pages[0]
     writer = PdfWriter()
     for page in reader.pages:
-        page.cropbox.upper_right = (900, 0)
-        page.cropbox.lower_left = (0, 815)
+        # page.cropbox.upper_right = (900, 0)
+        # page.cropbox.lower_left = (0, 815)
+        page.cropbox.upper_right = upper_rightP
+        page.cropbox.lower_left = lower_leftP
     
     writer.add_page(page) 
 
@@ -976,10 +978,13 @@ def registationform(request):
 
 def registationcontinue(request):
     if request.method == 'POST':
+        
         fullname = request.POST.get('fullName')
         email = request.POST.get('email')
         phone = request.POST.get('phone')
-
+        if(User.objects.filter(username=email)):
+            return render(request, "registationform.html", {'errmsg':'Sorry, this user already exists.'})
+        
         ChooseJobOrInternship = request.POST.get('jobType')
         ChooseFieldOfInterest = request.POST.get('fieldOfInterest')
         HighestQualification = request.POST.get('highestQualification')
@@ -989,6 +994,10 @@ def registationcontinue(request):
         WorkExperienceIfAny = request.POST.get('workExperience')
         GitHubProfile = request.POST.get('github')
         LinkedInProfile = request.POST.get('linkedin')
+        address = request.POST.get('address')
+        country = request.POST.get('country')
+        countryCode = request.POST.get('countryCode')
+        pinCode = request.POST.get('pinCode')
 
         if type(request.POST.get('resume')) != str:
             file = request.FILES['resume']
@@ -1009,10 +1018,22 @@ def registationcontinue(request):
             sendEmailFaild("OTP can't send please cheack the system")
             # print('Faild...')
         # print('********************1212121212121212121212121212121')
-        OrderListDB = RegistationFormDB(ResumePDF=file, fullname=fullname, email=email, phone=phone, otp=otp, otpStatus="oneChance", peymentStatus="due", ChooseJobOrInternship=ChooseJobOrInternship, ChooseFieldOfInterest=ChooseFieldOfInterest, HighestQualification=HighestQualification, CollegeName=CollegeName, MajorFieldOfStudy=MajorFieldOfStudy, YearOfGraduation=YearOfGraduation, WorkExperienceIfAny=WorkExperienceIfAny, GitHubProfile=GitHubProfile, LinkedInProfile=LinkedInProfile)
+        # OrderListDB = RegistationFormDB(ResumePDF=file, fullname=fullname, email=email, phone=phone, otp=otp, otpStatus="oneChance", peymentStatus="due", ChooseJobOrInternship=ChooseJobOrInternship, ChooseFieldOfInterest=ChooseFieldOfInterest, HighestQualification=HighestQualification, CollegeName=CollegeName, MajorFieldOfStudy=MajorFieldOfStudy, YearOfGraduation=YearOfGraduation, WorkExperienceIfAny=WorkExperienceIfAny, GitHubProfile=GitHubProfile, LinkedInProfile=LinkedInProfile)
+        OrderListDB = AllInternBatchs(ResumePDF=file, batchName=f"{ChooseJobOrInternship}{ChooseFieldOfInterest}", fullname=fullname, email=email, phone=phone, ChooseJobOrInternship=ChooseJobOrInternship, ChooseFieldOfInterest=ChooseFieldOfInterest, HighestQualification=HighestQualification, CollegeName=CollegeName, MajorFieldOfStudy=MajorFieldOfStudy, YearOfGraduation=YearOfGraduation, WorkExperienceIfAny=WorkExperienceIfAny, GitHubProfile=GitHubProfile, LinkedInProfile=LinkedInProfile, address=address,country=country,countryCode=countryCode,pinCode=pinCode, otp=otp, otpStatus="oneChance")
         # OrderListDB = OrderList(fullname=fullname, email=email, phone=phone, whatsapp=whatsapp, totalprice=totalprice, countryoption=countryoption, servicesOption=servicesOption, enterbuget=enterbuget, numberofleads=numberofleads, requirmentdesc=requirmentdesc, productID=productID, onlyCountryCode=onlyCountryCode, otp=otp, otpStatus="oneChance", orderStatus="received", orderCoplition=0, peymentStatus="due")
         OrderListDB.save()
         passingSLID = OrderListDB.slID
+        OrderListDB.EmployeeID = f"{OrderListDB.batchName}_{OrderListDB.slID}"
+        if OrderListDB.ChooseJobOrInternship=="j":
+            OrderListDB.paymentAmount = 199
+        elif OrderListDB.ChooseJobOrInternship=="i":
+            OrderListDB.paymentAmount = 99
+        else:
+            OrderListDB.paymentAmount = 499
+        OrderListDB.paymentStatus = "Due"
+        OrderListDB.save()
+        user = User.objects.create_user(OrderListDB.email, OrderListDB.email, OrderListDB.EmployeeID)
+        user.save()
         # print(passingSLID)
         # print('********************1313131313131313131313131313113')
         return render(request, 'varification.html', {'slid':passingSLID})
@@ -1023,7 +1044,7 @@ def registationsuccessfull(request):
     if request.method == 'POST':
         otp = request.POST.get('otp')
         slid = request.POST.get('slid')
-        OrderDetails = RegistationFormDB.objects.get(slID=int(slid))
+        OrderDetails = AllInternBatchs.objects.get(slID=int(slid))
         dbotp = OrderDetails.otp
 
         if OrderDetails.otpStatus == "oneChance" and dbotp==int(otp):
@@ -1039,7 +1060,11 @@ def registationsuccessfull(request):
             UserUpdt = InternUserDetails.objects.get(email=OrderDetails.email)
             UserUpdt.totalInternshipApply+=1
             UserUpdt.save()
-            return render(request, 'registationsuccessfull.html')
+            # return render(request, 'registationsuccessfull.html')
+            sendEmailAndPassword(OrderDetails.email, OrderDetails.EmployeeID)
+
+            return render(request, "applicationpaymentrequest.html", {"paymentmsg":"To ensure serious candidates and prevent unnecessary applications, we charge a nominal fee (for Internship 99 INR and Job 199 INR) for the interview and skills testing process to cover the costs of our thorough code review, final project, and interview round, ensuring a quality experience for all participants.", "redirectEndpoint":f"applicationpaymentrequest?slId={slid}"})
+            # return render(request, 'applicationpaymentrequest.html')
         else:
             OrderDetails.otpStatus = "Verification Faild"
             OrderDetails.save()
@@ -1071,12 +1096,12 @@ def dashboard(request):
             searchStudent = AllInternBatchs.objects.get(email=request.user.username)
             data = BatchesInstractions.objects.get(batchName=searchStudent.batchName)
             if(searchStudent.payment!=True):
-                return render(request, "pymentforemp.html", {"paymentmsg":"We charge 99 INR to cover the costs of our thorough code review, final project, and final interview round, ensuring a quality experience for all participants.", "redirectEndpoint":"dashboard"})
+                return render(request, "pymentforemp.html", {"paymentmsg":"To ensure serious candidates and prevent unnecessary applications, we charge a nominal fee (for Internship 99 INR and Job 199 INR) for the interview and skills testing process to cover the costs of our thorough code review, final project, and interview round, ensuring a quality experience for all participants.", "redirectEndpoint":"dashboard"})
             htmldata = markdown.markdown(data.Instractions)
             return render(request, "dashboard.html", {"htmldata":htmldata, "studentName":searchStudent.fullname, "email":searchStudent.email, "batchname":searchStudent.batchName, "empid":searchStudent.EmployeeID})
         except:
-            htmldata = '<h2 style="color:red;">Sorry you are no longer participant!</h2>'
-            return render(request, "dashboard.html", {"htmldata":htmldata, "studentName":"Employee Dashboard"})
+            htmldata = '<h2 style="color:red;">Sorry your batch has not been created yet Please wait.</h2>'
+            return render(request, "dashboard.html", {"htmldata":htmldata, "studentName":searchStudent.fullname, "email":searchStudent.email, "batchname":searchStudent.batchName, "empid":searchStudent.EmployeeID})
     else:
         # The user is not logged in
         # Perform actions for unauthenticated users
@@ -1184,7 +1209,7 @@ def offerletter(request, email, batchname, empid):
     try:
         searchStudent = AllInternBatchs.objects.get(email=email, batchName=batchname, EmployeeID=empid)
         if(searchStudent.payment!=True):
-            HttpResponse("<h1>Sorry, your payment has not been completed.</h1>")
+            HttpResponse("<h1>Sorry, not found.</h1>")
         try:
             OfferLaterTotalDownload = ControlWeb.objects.get(VarName="OfferLaterTotalDownload")
             OfferLaterTotalDownload.integetVar += 1
@@ -1199,7 +1224,7 @@ def offerletter(request, email, batchname, empid):
         exceptDate = searchStudent.acceptdate
 
         try:
-            fileUnicName = pdfGenaretor(candName, candbatch, emplyid, exceptDate, "")
+            fileUnicName = pdfGenaretor(candName, candbatch, emplyid, exceptDate, "", (900, 0), (0, 815))
         except:
             return HttpResponse("<h1>Sorry, your document has not been created yet.</h1>")
 
@@ -1210,9 +1235,38 @@ def offerletter(request, email, batchname, empid):
         response = FileResponse(pdf)
         
         return response
+    except:
+        return HttpResponse("<h1>Sorry Request Not Found</h1>")
+@csrf_exempt
+def cirtificate(request, email, batchname, empid):
+    try:
+        searchStudent = AllInternBatchs.objects.get(email=email, batchName=batchname, EmployeeID=empid)
+        if(searchStudent.payment!=True):
+            HttpResponse("<h1>Sorry, not found.</h1>")
+        try:
+            OfferLaterTotalDownload = ControlWeb.objects.get(VarName="OfferLaterTotalDownload")
+            OfferLaterTotalDownload.integetVar += 1
+            OfferLaterTotalDownload.save()
+        except:
+            OfferLaterTotalDownload = ControlWeb(VarName="OfferLaterTotalDownload", integetVar=1)
+            OfferLaterTotalDownload.save()
         
-        
+        candName = searchStudent.fullname
+        candbatch = searchStudent.batchName
+        emplyid = searchStudent.EmployeeID
+        exceptDate = searchStudent.acceptdate
 
+        try:
+            fileUnicName = pdfGenaretor(candName, candbatch, emplyid, exceptDate, "cir", (900, 0), (0, 583))
+        except:
+            return HttpResponse("<h1>Sorry, your document has not been created yet.</h1>")
+
+        thithi2 = threading.Thread(target=deletExtraImages)
+        thithi2.start()
+
+        pdf = open(fileUnicName, 'rb')
+        response = FileResponse(pdf)
+        return response
     except:
         return HttpResponse("<h1>Sorry Request Not Found</h1>")
 
@@ -1225,6 +1279,8 @@ def courses(request):
     return render(request, 'courses.html')
 def privacypolicy(request):
     return render(request, 'privacypolicy.html')
+def LearnMoreaboutrqt(request):
+    return render(request, 'LearnMoreaboutrqt.html')
 
 ############## 8th Feb 2024 ################
 def paymentVaryfyForInt(request):
@@ -1263,14 +1319,52 @@ def paymentRejectForEmp(request):
 def intrnpaymentrequest(request):
     searchStudent = AllInternBatchs.objects.get(email=request.user.username)
     client = razorpay.Client(auth=(ControlWeb.objects.get(VarName="key_id").charecterVar, ControlWeb.objects.get(VarName="key_secret").charecterVar))
-    price = 99
+    if searchStudent.paymentAmount!=0:
+        price = searchStudent.paymentAmount
+    else:
+        price = 99
+
     data = { "amount": price*100, "currency": "INR", "receipt": f"{searchStudent.EmployeeID}", "notes":{
     "customername":f"{searchStudent.fullname}",
     'customeremail':f"{searchStudent.email}",
     'customerphone':f"{searchStudent.phone}",
-    "payfor":"For interview request"
+    "payfor":"For code review interview request"
     } }
 
     order = client.order.create(data=data)
-    print(order)
+    # print(order)
     return render(request, 'intrnpaymentrequest.html', {'odr':order, 'pid':ControlWeb.objects.get(VarName="key_id").charecterVar, 'price':price})
+
+def applicationpaymentrequest(request):
+    slId = request.GET['slId']
+    searchStudent = AllInternBatchs.objects.get(slID=slId)
+    user = authenticate(request, username=searchStudent.email, password=searchStudent.EmployeeID)
+    if user is not None:
+        login(request, user)
+
+    client = razorpay.Client(auth=(ControlWeb.objects.get(VarName="key_id").charecterVar, ControlWeb.objects.get(VarName="key_secret").charecterVar))
+    price = searchStudent.paymentAmount
+    data = { "amount": price*100, "currency": "INR", "receipt": f"{searchStudent.EmployeeID}", "notes":{
+    "customername":f"{searchStudent.fullname}",
+    'customeremail':f"{searchStudent.email}",
+    'customerphone':f"{searchStudent.phone}",
+    "payfor":"Application fee"
+    } }
+
+    order = client.order.create(data=data)
+    # print(order)
+    return render(request, 'intrnpaymentrequest.html', {'odr':order, 'pid':ControlWeb.objects.get(VarName="key_id").charecterVar, 'price':price})
+
+############## Just for test ################
+def bardatlogin(request):
+    if(User.objects.filter(username="bardatloginusere")):
+        print("User present...")
+    else:
+        print("Sorry not present....")
+    try:
+        user = User.objects.create_user("bardatloginusere", "bardatloginemail.com", "Intern123")
+        user.save()
+        return HttpResponse("<h1>Successfully User createted </h1>")
+    except:
+        print("Failed...........................")
+        return HttpResponse("<h1>Sorry, User creation failed</h1>")

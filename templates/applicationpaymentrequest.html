@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}Payment Page - Goo Business{% endblock title %}
 {% block head %}
-        <style>
+<style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -53,10 +53,10 @@
     {% block body %}
 
     <div class="container">
-        <h1>Request Details</h1>
+        <h1>Payment Details</h1>
         <p>{{paymentmsg}} <a href="/LearnMoreaboutrqt" target="_blank">&nbsp;Learn more</a>.</p>
         <p>Please click the button below to proceed with the payment.</p>
-        <a href="/intrnpaymentrequest" class="payment-button" onclick="processPayment()">Request and Pay Now</a>
+        <a href="/{{redirectEndpoint}}" class="payment-button" onclick="processPayment()">Pay Now</a>
 
 
     </div>

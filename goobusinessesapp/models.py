@@ -229,6 +229,7 @@ class RegistationFormDB(models.Model):
     peymentStatus = models.CharField(max_length=50)
     odrTime = models.TimeField(auto_now_add=True)
     date = models.DateField(auto_now_add=True)
+    AcceptAllAgriment = models.BooleanField(default=True)
 
 
 
@@ -273,8 +274,9 @@ class AllInternBatchs(models.Model):
     LinkedInProfile = models.URLField(blank=True, default="")
     address = models.CharField(max_length=60)
     country = models.CharField(max_length=60)
-    countryCode = models.CharField(max_length=6)
+    countryCode = models.CharField(max_length=30)
     pinCode = models.CharField(max_length=6)
+    ResumePDF = models.FileField(null=True, blank=True, upload_to="Resumes")
     payment = models.BooleanField(default=False)
     paymentStatus = models.CharField(max_length=30,null=True,blank=True)
     paymentAmount = models.IntegerField(null=True,blank=True,default=0)
@@ -286,8 +288,13 @@ class AllInternBatchs(models.Model):
     outputMarks = models.IntegerField(null=True,blank=True,default=0)
     onTimeSubmitMarks = models.IntegerField(null=True,blank=True,default=0)
     remark = models.CharField(max_length=30)
+    lastUpdateTime = models.TimeField(auto_now=True)
+    lastUpdatedate = models.DateField(auto_now=True)
     acceptTime = models.TimeField(auto_now_add=True)
     acceptdate = models.DateField(auto_now_add=True)
+    AcceptAllAgriment = models.BooleanField(default=True)
+    otp = models.IntegerField(default=0)
+    otpStatus = models.CharField(max_length=50, default="")
 
 class CallingConverssionTrack(models.Model):
     slID = models.IntegerField(null=True,blank=True,default=0)

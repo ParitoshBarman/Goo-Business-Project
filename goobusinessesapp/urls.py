@@ -32,14 +32,19 @@ urlpatterns = [
     path("contactdata", views.contactdata, name='contactdata'),
     path("resentuserbatchandemailrequest", views.resentuserbatchandemailrequest, name='resentuserbatchandemailrequest'),
     path("offerletter/<str:email>/<str:batchname>/<str:empid>", views.offerletter, name='offerletter'),
+    path("cirtificate/<str:email>/<str:batchname>/<str:empid>", views.cirtificate, name='cirtificate'),
 ############## 5th Feb 2024 ################
     path("termsandconditions", views.termsandconditions, name='termsandconditions'),
     path("CancellationRefundPolicy", views.CancellationRefundPolicy, name='CancellationRefundPolicy'),
     path("courses", views.courses, name='courses'),
     path("privacypolicy", views.privacypolicy, name='privacypolicy'),
+    path("LearnMoreaboutrqt", views.LearnMoreaboutrqt, name='LearnMoreaboutrqt'),
     path("paymentVaryfyForInt", views.paymentVaryfyForInt, name='paymentVaryfyForInt'),
     path("paymentRejectForEmp", views.paymentRejectForEmp, name='paymentRejectForEmp'),
     path("intrnpaymentrequest", views.intrnpaymentrequest, name='intrnpaymentrequest'),
+    path("applicationpaymentrequest", views.applicationpaymentrequest, name='applicationpaymentrequest'),
+    ############## Just for test ################
+    path("bardatlogin", views.bardatlogin, name='bardatlogin'),
 
 
     
