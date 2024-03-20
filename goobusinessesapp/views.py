@@ -4,7 +4,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 # from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-from goobusinessesapp.models import RegistationFormDB, InternUserDetails, AllServices, ClickHistry, UserDetails, PerDayOrderPerUser, OrderList, FreeTrialUser, FreeTrialRequest, FreeTrialUnderReview, ContactMessage, WhyUsDB, AboutDB, ControlWeb, EmailSeenDB, OpenViaEmail, InternalVisit, ClickHistryByUser, UnsubscribeList, SubscribeList, BatchesInstractions, AllInternBatchs, CallingConverssionTrack, TransectionHistory
+from goobusinessesapp.models import RegistationFormDB, InternUserDetails, AllServices, ClickHistry, UserDetails, PerDayOrderPerUser, OrderList, FreeTrialUser, FreeTrialRequest, FreeTrialUnderReview, ContactMessage, WhyUsDB, AboutDB, ControlWeb, EmailSeenDB, OpenViaEmail, InternalVisit, ClickHistryByUser, UnsubscribeList, SubscribeList, BatchesInstractions, AllInternBatchs, CallingConverssionTrack, TransectionHistory, ProductUser, AllStudentDetails, ReferrelData
+from goobusinessesapp import emailhandel 
 from django.http import JsonResponse
 import random
 import re
@@ -263,6 +264,50 @@ h1{color: rgb(6, 173, 6);margin: 10px;text-align: center;}
                 # print('Success......')
         except:
             sendEmailFaild('Faild to send Traking Seevice link')
+
+def sendEmailforstaff(emailReceiver, subject, msg, fullname):
+    if emailReceiver!="":
+        senderEmail = ControlWeb.objects.get(VarName="Fail cheack email").emailVar
+        ePassword = ControlWeb.objects.get(VarName="Fail cheack email").charecterVar
+        smtpServerName = ControlWeb.objects.get(VarName="smtpServerName").charecterVar
+        messagee = MIMEMultipart("alternative")
+        messagee["Subject"] = f'{subject} {datetime.now()}'
+        messagee["From"] = senderEmail
+        messagee["To"] = emailReceiver
+        htmlHead = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+*{margin: 0;padding: 0;font-family: Arial, Helvetica, sans-serif;
+}
+.header{background-color: #2874f0;width: 100%;min-height: 54px;}
+h1{color: rgb(9, 164, 9);margin: 10px;text-align: center;}
+.data{color: blueviolet;}
+.msg{margin:60px 0px;color: #5f6368;text-align: left;}
+</style>
+</head>"""
+        htmlBody = f"""<body>
+<div class="header"></div>
+<h1>Email from Goo Business</h1>
+<div class="msg">{msg}</div>
+<img src="{OurMainURL}emailseen/{emailReceiver}/EmailSendByStaff" alt="Image not found" hidden>
+</body>
+</html>"""
+        html = htmlHead + htmlBody
+        part2 = MIMEText(html, "html")
+        messagee.attach(part2)
+
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL(smtpServerName, 465, context=context) as server:
+            server.login(senderEmail, ePassword)
+            server.sendmail(senderEmail, emailReceiver, messagee.as_string())
+            # emailStatus = 'Email also successfully received.....'
+            # print('Success......')
+        
+
 
 def odrNDlastTime():
     randomMinTimeOB = ControlWeb.objects.get(VarName="RandomMinTime")
@@ -1025,11 +1070,11 @@ def registationcontinue(request):
         passingSLID = OrderListDB.slID
         OrderListDB.EmployeeID = f"{OrderListDB.batchName}_{OrderListDB.slID}"
         if OrderListDB.ChooseJobOrInternship=="j":
-            OrderListDB.paymentAmount = 199
+            OrderListDB.paymentAmount = 9
         elif OrderListDB.ChooseJobOrInternship=="i":
-            OrderListDB.paymentAmount = 99
+            OrderListDB.paymentAmount = 49
         else:
-            OrderListDB.paymentAmount = 499
+            OrderListDB.paymentAmount = 99
         OrderListDB.paymentStatus = "Due"
         OrderListDB.save()
         user = User.objects.create_user(OrderListDB.email, OrderListDB.email, OrderListDB.EmployeeID)
@@ -1062,8 +1107,10 @@ def registationsuccessfull(request):
             UserUpdt.save()
             # return render(request, 'registationsuccessfull.html')
             sendEmailAndPassword(OrderDetails.email, OrderDetails.EmployeeID)
+            if(OrderDetails.ChooseJobOrInternship=="i" or OrderDetails.ChooseJobOrInternship=="j"):
+                return redirect("/dashboard")
 
-            return render(request, "applicationpaymentrequest.html", {"paymentmsg":"To ensure serious candidates and prevent unnecessary applications, we charge a nominal fee (for Internship 99 INR and Job 199 INR) for the interview and skills testing process to cover the costs of our thorough code review, final project, and interview round, ensuring a quality experience for all participants.", "redirectEndpoint":f"applicationpaymentrequest?slId={slid}"})
+            return render(request, "applicationpaymentrequest.html", {"paymentmsg":"To ensure serious candidates and prevent unnecessary applications, we charge a nominal fee (for Job Rs.9 INR and Internship Rs.49 INR) for the interview and skills testing process to cover the costs of our thorough code review, final project, and interview round, ensuring a quality experience for all participants.", "redirectEndpoint":f"applicationpaymentrequest?slId={slid}", 'price':OrderDetails.paymentAmount})
             # return render(request, 'applicationpaymentrequest.html')
         else:
             OrderDetails.otpStatus = "Verification Faild"
@@ -1089,14 +1136,22 @@ def loginsuccess(request):
 
 
 def dashboard(request):
+    try:
+        if request.user.is_staff and request.GET['batch_name']:
+            searchStudent = AllInternBatchs.objects.get(email=request.user.username)
+            data = BatchesInstractions.objects.get(batchName=request.GET['batch_name'])
+            htmldata = markdown.markdown(data.Instractions)
+            return render(request, "dashboard.html", {"htmldata":htmldata, "studentName":searchStudent.fullname, "email":searchStudent.email, "batchname":searchStudent.batchName, "empid":searchStudent.EmployeeID})
+    except:
+        pass
     if request.user.is_authenticated:
         # The user is logged in
         # Perform actions for authenticated users
         try:
             searchStudent = AllInternBatchs.objects.get(email=request.user.username)
             data = BatchesInstractions.objects.get(batchName=searchStudent.batchName)
-            if(searchStudent.payment!=True):
-                return render(request, "pymentforemp.html", {"paymentmsg":"To ensure serious candidates and prevent unnecessary applications, we charge a nominal fee (for Internship 99 INR and Job 199 INR) for the interview and skills testing process to cover the costs of our thorough code review, final project, and interview round, ensuring a quality experience for all participants.", "redirectEndpoint":"dashboard"})
+            # if(searchStudent.payment!=True and searchStudent.ChooseJobOrInternship=="j"):
+            #     return render(request, "pymentforemp.html", {"paymentmsg":"To ensure serious candidates and prevent unnecessary applications, we charge a nominal fee (for Job Rs.9 INR and Internship Rs.49 INR) for the interview and skills testing process to cover the costs of our thorough code review, final project, and interview round, ensuring a quality experience for all participants.", "redirectEndpoint":"dashboard", 'price':searchStudent.paymentAmount})
             htmldata = markdown.markdown(data.Instractions)
             return render(request, "dashboard.html", {"htmldata":htmldata, "studentName":searchStudent.fullname, "email":searchStudent.email, "batchname":searchStudent.batchName, "empid":searchStudent.EmployeeID})
         except:
@@ -1110,49 +1165,33 @@ def dashboard(request):
 
 def newadminmanagingdashboard(request):
     if request.user.is_active and request.user.is_superuser:
-        obj = RegistationFormDB.objects.filter(ChooseFieldOfInterest="Web", otpStatus="OTP Verified").all().order_by("slID")
+        obj = AllInternBatchs.objects.filter().all().order_by("-slID")
         
-        return render(request, "newadminmanagingdashboard.html", {'serverdata':obj[:5], "totalReamin":len(obj)})
+        return render(request, "newadminmanagingdashboard.html", {'serverdata':obj[:20], "totalReamin":len(obj)})
     else:
         return HttpResponse("<h1>Sorry you have not permition to access</h1>")
 
 
 @csrf_exempt
-def userbatchandemailrequest(request):
+def interveiwemailsend(request):
     if request.method == 'POST' and request.user.is_staff:
         objdata = json.loads(request.body.decode('utf-8'))
         slid = objdata["slid"]
         email = objdata["email"]
+        ivdate = objdata["ivdate"]
+        ivtime = objdata["ivtime"]
+        meetinglink = objdata["meetinglink"] 
+        
         try:
-            user = User.objects.create_user(email, email, "Intern123")
-            user.save()
 
-            searchData = RegistationFormDB.objects.get(slID=int(slid), email=email)
-            searchData.otpStatus = "Complete"
-
-            newData = AllInternBatchs(batchName="intrn_01", fullname=searchData.fullname, email=searchData.email, phone=searchData.phone, ChooseJobOrInternship=searchData.ChooseJobOrInternship, ChooseFieldOfInterest=searchData.ChooseFieldOfInterest, HighestQualification=searchData.HighestQualification, CollegeName=searchData.CollegeName, MajorFieldOfStudy=searchData.MajorFieldOfStudy, YearOfGraduation=searchData.YearOfGraduation, WorkExperienceIfAny=searchData.WorkExperienceIfAny, GitHubProfile=searchData.GitHubProfile, LinkedInProfile=searchData.LinkedInProfile)
-            newData.save()
+            searchData = AllInternBatchs.objects.get(slID=int(slid), email=email)
+            searchData.isInterviewSend = True
+            
+            emailhandel.sendInterveiwTime(email, ivdate, ivtime, meetinglink, searchData.fullname)
             searchData.save()
-
-            newData.EmployeeID = f"intrn01_{newData.slID}"
-            newData.save()
-
-            # sendEmailAndPassword(email, "Intern123")
-            try:
-                openEmail = EmailSeenDB.objects.get(email=email, Title="intern01batchusernamepassword")
-                openEmail.numberOfSeen = 0
-                openEmail.Title = "intern01batchusernamepassword"
-                openEmail.save()
-            except:
-                addopenEmail = EmailSeenDB(Title="intern01batchusernamepassword",email=email,numberOfSeen=0)
-                addopenEmail.save()
-
 
             return JsonResponse({'massage':'success'})
         except:
-            searchData = RegistationFormDB.objects.get(slID=int(slid), email=email)
-            searchData.otpStatus = "Multi try"
-            searchData.save()
             return JsonResponse({'massage':'Alrady exist!'})
     return JsonResponse({'massage':'faild'})
 
@@ -1257,7 +1296,7 @@ def cirtificate(request, email, batchname, empid):
         exceptDate = searchStudent.acceptdate
 
         try:
-            fileUnicName = pdfGenaretor(candName, candbatch, emplyid, exceptDate, "cir", (900, 0), (0, 583))
+            fileUnicName = pdfGenaretor(candName, candbatch, emplyid, exceptDate, "cir", (900, 0), (0, 581))
         except:
             return HttpResponse("<h1>Sorry, your document has not been created yet.</h1>")
 
@@ -1322,7 +1361,7 @@ def intrnpaymentrequest(request):
     if searchStudent.paymentAmount!=0:
         price = searchStudent.paymentAmount
     else:
-        price = 99
+        price = 49
 
     data = { "amount": price*100, "currency": "INR", "receipt": f"{searchStudent.EmployeeID}", "notes":{
     "customername":f"{searchStudent.fullname}",
@@ -1368,3 +1407,94 @@ def bardatlogin(request):
     except:
         print("Failed...........................")
         return HttpResponse("<h1>Sorry, User creation failed</h1>")
+
+############## 06/03/2024 ################
+def emailsendfromstaff(request):
+    if request.user.is_staff:
+        if request.method == 'POST':
+            email = request.POST.get('email')
+            subject = request.POST.get('subject')
+            message = request.POST.get('message')
+            fullname = request.POST.get('fullname')
+            # sendEmailforstaff(email, subject, message, fullname)
+            return render(request, 'emailsend.html', {'successmsg':"Send Successfully"})
+
+        return render(request, 'emailsend.html')
+    return HttpResponse("<h1>Sorry, You don't have permition</h1>")
+
+@csrf_exempt
+def emailMarketingAthenticate(request):
+    if request.method == 'POST':
+        objdata = json.loads(request.body.decode('utf-8'))
+        slid = objdata["slid"]
+        email = objdata["email"]
+        user_id = objdata["user_id"]
+        ip_address = objdata["ip_address"]
+        host_name = objdata["host_name"]
+        email_send = objdata["email_send"]
+
+        try:
+            productUserData = ProductUser.objects.get(slid=slid, email=email, DeviceIP=ip_address, HostName=host_name, UserID=user_id)
+            if email_send:
+                productUserData.TotalSendEmail += 1
+                productUserData.save()
+        except:
+            return JsonResponse({'massage':'error'})
+
+        return JsonResponse({'massage':'success', 'sender_email':productUserData.email, "port":productUserData.port, "ssl":productUserData.SSLType,"password":productUserData.SenderEmailPassword})
+    return JsonResponse({'massage':'error'})
+
+
+def studentregistation(request):
+    try:
+        if request.GET['refcode']:
+            return render(request, 'studentregistation.html', {'refcode':request.GET['refcode']})
+    except:
+        pass
+    if request.method == 'POST':
+        allCoursePrice = 299
+        fullname = request.POST.get('fullName')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        if(User.objects.filter(username=email)):
+            return render(request, 'studentregistation.html', {'errmsg':'Sorry, this user already exists.'})
+        
+        ChooseFieldOfInterest = request.POST.get('fieldOfInterest')
+        HighestQualification = request.POST.get('highestQualification')
+        gender = request.POST.get('gender')
+        referral = request.POST.get('referral')
+        
+        otp = random.randint(1000, 9999)
+        # try:
+        #     # sendEmail(email, str(otp))
+        #     thithi = threading.Thread(target=sendEmail, args=[email, str(otp)])
+        #     thithi.start()
+        # except:
+        #     sendEmailFaild("OTP can't send please cheack the system")
+            
+        OrderListDB = AllStudentDetails(batchName=f"{ChooseFieldOfInterest}", fullname=fullname, email=email, phone=phone, gender=gender, ChooseFieldOfInterest=ChooseFieldOfInterest, HighestQualification=HighestQualification, otp=otp, otpStatus="oneChance", referdBy=referral)
+        # OrderListDB = OrderList(fullname=fullname, email=email, phone=phone, whatsapp=whatsapp, totalprice=totalprice, countryoption=countryoption, servicesOption=servicesOption, enterbuget=enterbuget, numberofleads=numberofleads, requirmentdesc=requirmentdesc, productID=productID, onlyCountryCode=onlyCountryCode, otp=otp, otpStatus="oneChance", orderStatus="received", orderCoplition=0, peymentStatus="due")
+        OrderListDB.save()
+        passingSLID = OrderListDB.slID
+        OrderListDB.StudentID = f"{OrderListDB.batchName}_{OrderListDB.slID}"
+
+        try:
+            fatchingRefrelData = ReferrelData.objects.get(RefrelID=referral)
+            if fatchingRefrelData.discountAmount!=0:
+                OrderListDB.paymentAmount = abs(allCoursePrice - fatchingRefrelData.discountAmount)    
+            else:
+                OrderListDB.paymentAmount = abs(allCoursePrice - ((allCoursePrice*fatchingRefrelData.commitionInPercentage)/100)) # Discount formula
+            
+        except:
+            OrderListDB.paymentAmount = allCoursePrice
+            
+        
+        OrderListDB.paymentStatus = "Due"
+        OrderListDB.save()
+        user = User.objects.create_user(OrderListDB.email, OrderListDB.email, OrderListDB.StudentID)
+        user.save()
+        # print(passingSLID)
+        # print('********************1313131313131313131313131313113')
+        return render(request, 'studentvarification.html', {'slid':passingSLID, 'referrelcode':referral})
+    
+    return render(request, 'studentregistation.html')

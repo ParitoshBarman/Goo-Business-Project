@@ -35,6 +35,11 @@
                     <th>Fild</th>
                     <th>OTPstatus</th>
                     <th>Date</th>
+                    <th>Resume</th>
+                    <th>Interview Email</th>
+                    <th>Iv Date</th>
+                    <th>Iv Time</th>
+                    <th>Meeting Link</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -42,13 +47,23 @@
                 {% for singledata in serverdata %}
                 <tr>
                     <td>{{singledata.slID}}</td>
-                    <td>{{singledata.fullname}}</td>
+                    <td id="candidatename{{singledata.slID}}">{{singledata.fullname}}</td>
                     <td>{{singledata.email}}</td>
                     <td>{{singledata.phone}}</td>
                     <td>{{singledata.ChooseFieldOfInterest}}</td>
                     <td>{{singledata.otpStatus}}</td>
-                    <td>{{singledata.date}}</td>
-                    <td><button id="{{singledata.slID}}" data-slid="{{singledata.slID}}" data-email="{{singledata.email}}" data-clickstatus="false" onclick="tigFunc(this)">Except</button></td>
+                    <td>{{singledata.acceptdate}}</td>
+                    <td><a href="/media/{{singledata.ResumePDF}}" target="_blank">Resume</a></td>
+                    {% if singledata.isInterviewSend %}
+                    <td style="background-color: green;color: white;" id="emailstatus{{singledata.slID}}">Sent</td>
+                    {% else %}
+                    <td style="background-color: red;color: white;" id="emailstatus{{singledata.slID}}">Not Sent</td>
+                    {% endif %}
+                    
+                    <td><input type="date" name="ivdate" id="ivdate{{singledata.slID}}"></td>
+                    <td><input type="time" name="ivtime" id="ivtime{{singledata.slID}}"></td>
+                    <td><input type="url" name="meetinglink" id="meetinglink{{singledata.slID}}"></td>
+                    <td><button id="{{singledata.slID}}" data-slid="{{singledata.slID}}" data-email="{{singledata.email}}" data-clickstatus="false" onclick="tigFunc(this)">Send Email</button></td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -63,33 +78,50 @@
                 workig = true;
                 e.setAttribute("data-clickstatus", "true");
 
+                let ivdate = document.getElementById(`ivdate${e.getAttribute("id")}`)
+                let ivtime = document.getElementById(`ivtime${e.getAttribute("id")}`)
+                let meetinglink = document.getElementById(`meetinglink${e.getAttribute("id")}`)
+                
                 options = {
                     method: "POST",
                     body: JSON.stringify({
                         slid: e.getAttribute("data-slid"),
-                        email: e.getAttribute("data-email")
+                        email: e.getAttribute("data-email"),
+                        ivdate: ivdate.value,
+                        ivtime: ivtime.value,
+                        meetinglink: meetinglink.value
                     }),
                     headers: {
                         "Content-type": "application/json; charset=UTF-8"
                     }
                 }
-
+                
                 let ele = document.getElementById(e.getAttribute("id"));
                 ele.style.backgroundColor = "yellow";
                 ele.textContent = "Working...";
-
-                let res = await fetch("/userbatchandemailrequest", options);
-
+                
+                let res = await fetch("/interveiwemailsend", options);
+                
                 let getData = await res.json();
-
-
-
+                
+                // console.log(ivdate.value)
+                // console.log(ivtime.value)
+                // console.log(meetinglink.value)
+                
+                
+                
+                
+                
                 workig = false;
                 ele.style.backgroundColor = "green";
                 ele.style.color = "white";
                 ele.textContent = "Done";
-
-
+                
+                let emailstatus = document.getElementById(`emailstatus${e.getAttribute("id")}`)
+                emailstatus.style.backgroundColor = "green";
+                emailstatus.style.color = "white";
+                emailstatus.textContent = "Sent";
+                
             }
 
         }

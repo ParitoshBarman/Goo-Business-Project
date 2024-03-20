@@ -1,0 +1,489 @@
+@import url('https://fonts.googleapis.com/css2?family=Cherry+Swash&family=Chivo:ital,wght@0,100..900;1,100..900&family=Edu+TAS+Beginner:wght@600&family=Playpen+Sans:wght@600&family=Poppins:ital,wght@0,300;0,400;1,200;1,300;1,400&display=swap');
+
+:root {
+    --main-bg-color: #2874f0;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+    /* font: 62.5% / 1; */
+}
+
+
+/* Header */
+
+
+
+/* Main */
+
+/* First Section */
+
+.first-section {
+    background-color: #f8f8f8;
+}
+
+.first-section .content {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    flex-wrap: wrap;
+}
+
+.first-section .content > div {
+    flex: 1;
+}
+
+.first-section .content h1 {
+    font-family: "Chivo", sans-serif;
+    font-weight: 500;
+    font-size: 73px;
+}
+
+.first-section .content p {
+    margin-top: 35px;
+    font-size: 30px;
+}
+
+.first-section .content-img .img {
+    width: 100%;
+}
+
+.blue {
+    color: blue;
+}
+
+.yellow {
+    color: rgb(205, 205, 5);
+}
+
+.red {
+    color: red;
+}
+
+
+/* Second-section */
+
+.second-section {
+    margin: 30px 0;
+}
+
+.second-section .form-content {
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    gap: 50px;
+    flex-wrap: wrap;
+}
+
+.second-section .form-content > div {
+    flex: 1;
+}
+
+.Sri-form {
+    width: 100%;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid rgb(67, 66, 66);
+    box-shadow: 2px 1px 7px 0px rgba(49, 49, 49, 0.75);
+}
+
+.Sri-form label, 
+.Sri-form select,
+.Sri-form input {
+    width: 100%;
+    margin: auto;
+    display: block;
+}
+
+.Sri-form select,
+.Sri-form input {
+    padding: 6px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid rgb(137, 137, 137);
+}
+
+.Sri-form select:focus,
+.Sri-form input:focus {
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(79,198,214,1);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(79,198,214,1);
+    box-shadow: 0px 0px 5px 0px rgba(79,198,214,1);
+}
+
+.Sri-form h4 {
+    font-size: 25px;
+    color: rgb(30, 140, 190);
+    text-decoration: underline;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.Sri-form label {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.Sri-form .btn {
+    background-color: #2874f0;
+    font-size: 18px;
+    font-weight: bold;
+    width: 150px;
+    padding: 8px;
+    border: none;
+    border-radius: 10px;
+    float: right;
+    cursor: pointer;
+    color: white;
+}
+
+.Sri-form .btn:hover {
+    box-shadow: 0px 0px 14px 0px rgba(159, 160, 161, 0.6);
+}
+
+/* Feature Cards */
+
+.feature {
+    width: 100%;
+    display: grid;
+    gap: 50px;
+    place-items: center;
+    
+}
+
+.feature-card {
+    width: 250px;
+    display: flex;
+    gap: 50px;
+}
+
+
+.feature-card .icon i {
+    font-size: 60px;
+    
+}
+
+
+
+.feature-card .description h4,
+.feature-card .description h5 {
+    margin: 0;
+    font-weight: bold;
+}
+
+.rupee {
+    padding: 0px 10px;
+}
+
+.icon-users-div i {
+    font-size: 48px !important;
+}
+
+
+.break {
+    width: 85%;
+    margin: 60px auto;
+    border-radius: 50px;
+    border: 2px solid rgb(91, 88, 88);
+}
+
+.note {
+    text-align: center;
+    line-height: 23px;
+}
+
+
+
+/* Employment Section */
+
+.employ-section {
+    width: 90%;
+    margin: auto;
+}
+
+.employ-div { 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+}
+
+.employ-div-img {
+    width: 80%;
+}
+
+.employ-div-img img {
+    width: 100%;
+}
+
+.employ-div-content {
+    width: 80%;
+}
+
+.employ-div-content h1 {
+    font-size: 35px;
+    font-weight: bold;
+    text-align: center;
+    color:rgb(67, 66, 66);
+    margin-bottom: 30px;
+    
+}
+
+.employ-div-content h1 span {
+    border-bottom: 1px solid rgb(67, 66, 66);
+}
+
+
+.employ-div-content h1 .blue {
+    border-bottom: 1px solid blue;
+}
+
+.employ-div-content p {
+    text-align: justify;
+    text-indent: 40px;
+    font-size: 18px;
+    line-height: 25px;
+}
+
+.employ-div-content p:nth-child(3) {
+    margin-top: 15px;
+}
+
+.employ-div-img img {
+    border-radius: 10px;
+    box-shadow: 2px 1px 7px 0px rgba(49, 49, 49, 0.75);
+}
+
+
+/* Our Agenda */
+
+.agenda-section {
+    background-color: rgba(197, 197, 197, 0.3);
+}
+
+.agenda {
+    width: 90%; 
+    margin: 0 auto;
+}
+
+.agenda h1 {
+    font-size: 35px;
+    padding-top: 30px;
+    font-weight: bold;
+    text-align: center;
+    color:rgb(67, 66, 66);
+    margin-bottom: 30px;
+    
+}
+
+.agenda h1 span {
+    border-bottom: 1px solid rgb(67, 66, 66);
+}
+
+
+.agenda h1 .blue {
+    border-bottom: 1px solid blue;
+}
+
+.agenda p {
+    text-align: justify;
+    text-indent: 40px;
+    font-size: 20px;
+    padding-bottom: 30px;
+    line-height: 25px;
+}
+
+.bottom {
+    margin-bottom: 0;
+}
+
+.up{
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+/* Experience Section */
+
+.experience-section {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.experience-div { 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+}
+
+.emperience-div-img {
+    width: 80%;
+}
+
+.emperience-div-img img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+
+
+.experience-div-content {
+    width: 80%;
+}
+
+.experience-div-content h1 {
+    font-size: 35px;
+    font-weight: bold;
+    text-align: center;
+    color:rgb(67, 66, 66);
+    margin-bottom: 30px;
+    
+}
+
+.experience-div-content h1 span {
+    border-bottom: 1px solid rgb(67, 66, 66);
+}
+
+
+.experience-div-content h1 .blue {
+    border-bottom: 1px solid blue;
+}
+
+.experience-detail {
+    display: flex;
+    align-items: center;
+    margin-top: 25px;
+}
+
+.experience-detail i {
+    color: rgb(7, 146, 246);
+}
+
+.experience-detail p {
+    font-weight: 500;
+    font-size: 20px;
+    padding-left: 10px;
+}
+
+
+/* Tools */
+
+
+.tools-covered {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.tools-div {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.tools-div-detail {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tools-div-detail-icon img {
+    width: 60px;
+}
+
+.tools-div-detail-icon i {
+    font-size: 60px;
+}
+
+
+
+.tools-div-detail-name p {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.tools-covered h1 {
+    font-size: 35px;
+    font-weight: bold;
+    text-align: center;
+    color:rgb(67, 66, 66);
+    margin-bottom: 30px;
+    
+}
+
+.tools-covered h1 span {
+    border-bottom: 1px solid rgb(67, 66, 66);
+}
+
+
+.tools-covered h1 .blue {
+    border-bottom: 1px solid blue;
+}
+
+
+/* join button */
+
+.join-button {
+    width: 90%;
+    margin: auto;
+}
+
+
+
+.join-button-div h1 {
+    font-weight: bold;
+    color:rgb(91, 88, 88);
+    text-align: center;
+    font-size: 25px;
+}
+
+.join-button-div button a {
+    text-decoration: none;
+    font-weight: bolder;
+    color: white;
+}
+
+.join-button-div button {
+    border: none;
+    background-color: rgb(37, 138, 233);
+    padding: 10px;
+    border-radius: 10px;
+    display: block;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.join-button-div button:hover  {
+    transform: scale(1.05);
+}
+
+/* Footer */
+
+.footer-div {
+    height: 150px;
+    background-color:rgb(67, 66, 66); 
+}
+
+.footer-div img {
+    display: block;
+    margin: auto;
+    padding-top: 20px;
+    width: 80px;
+}
+
+.footer-div p {
+    font-size: 13px;
+    color: white;
+    text-align: center;
+    margin-top: 10px;
+
+}

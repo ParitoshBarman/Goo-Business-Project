@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="../static/css/emailsend/style.css">
+    <style>
+        .dcprogres{
+            animation: dicressbar 10s linear forwards;
+        }
+
+        @keyframes dicressbar {
+            from{
+                width: 100%;
+            }
+            to{
+                width: 0%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {% if successmsg %}
+        <div style="color:green;text-align:center;background-color: yellow;padding: 15px;font-size: 18px;position: absolute;top: 0;" id="successmsg">{{successmsg}}<hr style="border-bottom: 3px solid red;margin-top: 8px;" class="dcprogres"></div>
+        {% endif %}
+    <section class="contact">
+
+        <div class="left-side">
+            <h2>Goo Business Email Sender</h2>
+
+            <form action="/emailsendfromstaff" method="post">
+                {% csrf_token %}
+                <div class="input-box">
+                    <div class="input-field field">
+                        <input type="text" placeholder="Full Name" id="name" class="item" autocomplete="off" name="fullname">
+                        <div class="error-txt">Full Name can't be Blank</div>
+                    </div>
+                </div>
+
+                <div class="input-box">
+                    <div class="input-field field">
+                        <input type="email" placeholder="example@gmail.com" id="email" class="item" name="email" required>
+                        <div class="error-txt email">Email can't be Blank</div>
+                    </div>
+                </div>
+
+                <div class="input-box">
+                    <div class="input-field field">
+                        <input type="text" placeholder="subject" id="subject" class="item" name="subject" required>
+                        <div class="error-txt">Subject can't be Blank</div>
+                    </div>
+                </div>
+
+                <div class="textarea-field field">
+                    <textarea name="message" id="message" cols="20" rows="5" placeholder="Message" class="item" autocomplete="off" required></textarea>
+                    <div class="error-txt">Message can't be Blank</div>
+
+                </div>
+
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+
+        <div class="right-side">
+            <img src="../static/img/emailsend/contact us 1.png" alt="Contact us" class="img">
+        </div>
+    </section>
+
+    
+</body>
+
+<script>
+    setTimeout(()=>{
+        document.getElementById("successmsg").style.display = "none";
+    }, 10000)
+</script>
+
+</html>

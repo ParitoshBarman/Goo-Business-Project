@@ -1,0 +1,411 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Student Application - Goo Business{% endblock title %}
+{% block head %}
+<link rel="stylesheet" href="./static/css/courseregform/style.css">
+    <link rel="stylesheet" href="./static/css/courseregform/responsive.css">
+
+
+    <link rel="shortcut icon" href="./static/img/courseregform/Goo Businesses (1).png"> <!--To see the image on chrom's tab -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"> <!--For icons -->
+
+
+{% endblock head %}
+{% block body %}
+{% if errmsg %}
+<h2 style="color:red;text-align:center;background-color: yellow;">{{errmsg}}</h2>
+{% endif %}
+<main>
+    <section id="intro-section" class="first-section">
+        <div class="content">
+            <div class="content-explain">
+                <h1>
+                    Become a 
+                    <span class="blue">
+                        Skilled
+                    </span>
+                    <br>
+
+                    <span class="yellow">
+                        Web Developer
+                    </span>
+                    <br>
+                    and
+                    <span class="red">
+                        Get Hired!
+                    </span>
+                </h1>
+
+                <p>Learn Web development and secure <br>
+                    a job within our growing team.</p>
+            </div>
+
+            <div class="content-img">
+                <img src="./static/img/courseregform/Company-amico.png" alt="search image" class="img">
+            </div>
+        </div>
+
+    </section>
+
+    <section id="form-section" class="second-section">
+        <div class="form-content">
+            <div class="Sri-form">
+                <h4 style="margin-bottom: 5px;">Enroll Now</h4>
+                <form action="/studentregistation" method="post">
+                    {% csrf_token %}
+                    {% if errmsg %}
+                    <div style="color:red;text-align:center;">{{errmsg}}</div>
+                    {% endif %}
+                    <label for="name">Your Name :</label>
+                    <input type="text" id="name" class="form-control" name="fullName" placeholder="Enter your name" required>
+
+                    <label for="mobile">Mobile Number :</label>
+                    <input type="tel" id="mobile" name="phone" class="form-control" placeholder="Mobile number" required>
+
+                    <label for="email">Email Address :</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="example@gmail.com" required>
+
+                    <label for="age">Your Age :</label>
+                    <input type="number" id="age" class="form-control" placeholder="Enter your age" required>
+
+                    <label for="gender">Choose Gender :</label>
+                    <select id="gender" name="gender" class="form-control" required>
+                        <option value="">select gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+
+
+                    <label for="course">Which course are you interested in :</label>
+                    <select id="course" name="fieldOfInterest" class="form-control" required>
+                        <option value="">select course</option>
+                        <option value="web">Full-stack Development</option>
+                        <option value="fw">Front-end Development</option>
+                        <option value="bw">Back-end Development</option>
+                        <option value="ds">Data Science</option>
+                        <option value="ad">Android Development</option>
+                        <option value="grph">Graphic Design</option>
+                        <option value="ML">Machine Learning</option>
+                    </select>
+
+                    <label for="education-level">Level of Education:</label>    
+                    <select id="education-level" name="highestQualification" class="form-control" required>
+                        <option value="">select Education</option>
+                        <option value="high-school">High School</option>
+                        <option value="associate-degree">Associate Degree</option>
+                        <option value="bachelor-degree">Bachelor's Degree</option>
+                        <option value="master-degree">Master's Degree</option>
+                        <option value="phd">PhD</option>
+                    </select>
+
+                    <label for="ref">Enter Referral Code(Optional) : </label>
+                    <input type="text" id="ref" name="referral" value="{{refcode}}" class="form-control" placeholder="Enter your referral code">
+
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </form>
+
+            </div>
+
+            <div class="feature">
+                <div class="feature-card">
+                    <div class="icon">
+                        <i class="fa-solid fa-calendar-check"></i>
+                    </div>
+
+                    <div class="description">
+                        <h4>Batch Start</h4>
+                        <p>20 Feb 2024</p>
+                    </div>
+                </div>
+
+
+                <div class="feature-card">
+                    <div class="icon">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+
+                    <div class="description">
+                        <h4 class="space">Duration</h4>
+                        <p>6 Months</p>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="icon rupee">
+                        <i class="fa fa-inr" aria-hidden="true"></i>
+                    </div>
+
+                    <div class="description">
+                        <h4 class="space">Price</h4>
+                        <p>Rs.299 / Month</p>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="icon icon-users-div">
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                    </div>
+
+                    <div class="description">
+                        <h4 class="space">Eligibility</h4>
+                        <p>12th Pass</p>
+                    </div>
+                </div>
+
+                <div >
+                    <p class="note">
+                        NOTE: Our curses are free to enroll but an nominal service charge applies. For just ₹299 per month, you will gain access to our comprehensive cirriculum, projects, and resources. You can CANCEL the course at anytime.
+                    </p>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <hr class="break">
+
+    <section class="employ-section">
+        <div class="employ-div">
+            <div class="employ-div-img">
+                <img src="./static/img/courseregform/Work anniversary-bro.png" alt="employment">
+            </div>
+
+            <div class="employ-div-content">
+                <h1> 
+                    <span class="blue">
+                        Employment
+                    </span>
+                    <span>
+                        opportunity
+                    </span>
+                    
+                </h1>
+
+                <p>
+                    Successful completion of our courses opens the door to exicing career opportunities
+                    within our compnay. Our top performers have the chance to join our team and work
+                    on cutting-edge projects alongside seasoned professionals.
+                    
+                </p>
+
+                <p>
+                    
+                    At Goo Business, we value talent anddedication. That's why we prioritize hiring 
+                    from within our pool of course graduates. If you perform well and demonstrate your skills,
+                    you could find yourself with a rewarding career right here with us.
+                </p>
+            </div>
+        </div>
+
+    </section>
+
+    <hr class="break bottom">
+
+    <section class="agenda-section">
+        <div class="agenda">
+            <h1>
+                <span class="blue">
+                    Our
+                </span>
+
+                <span>
+                    Agenda
+                </span>
+            </h1>
+
+            <p>
+                At Goo Business, we're on a  mission to bride the gap between demand and supply
+                in web development. Faced with the challenge of finding skilled developers for our
+                projects, we decided to take matters into our own hands by offereing comphrehensive 
+                web development courses.
+            </p>
+        </div>
+    </section>
+
+
+    <hr class="break up">
+
+    <section class="experience-section">
+
+        <div class="experience-div">
+            
+            <div class="experience-div-content">
+                <h1> 
+                    <span class="blue">
+                        Real-World Project 
+                    </span>
+                    <span>
+                        Experience
+                    </span>
+                    
+                </h1>
+
+                
+
+                <div class="experience-detail">
+                    <i class="fa-solid fa-circle-check fa-2xl"></i>
+                    <p>Gain hands-on experience with industry relevant projects.</p>
+                </div>
+
+                <div class="experience-detail">
+                    <i class="fa-solid fa-circle-check fa-2xl"></i>
+                    <p>Apply your newly acquired skills to solve real-world challenges.</p>
+                </div>
+
+                <div class="experience-detail">
+                    <i class="fa-solid fa-circle-check fa-2xl"></i>
+                    <p>Receive feedback and guidance from industry experts as you work on projects.</p>
+                </div>
+
+                <div class="experience-detail">
+                    <i class="fa-solid fa-circle-check fa-2xl"></i>
+                    <p>Collaborate with peers and mentors to develop practical solutions.</p>
+                </div>
+
+            </div>
+
+            <div class="emperience-div-img">
+                <img src="./static/img/courseregform/Live collaboration-rafiki.png" alt="employment">
+            </div>
+
+        </div>
+
+    </section>
+
+
+    
+
+    <section class="tools-covered">
+
+        <h1> 
+            <span class="blue">
+                Tools
+            </span>
+            <span>
+                Covered
+            </span>
+            
+        </h1>
+
+        <div class="tools-div">
+            <div class="tools-div-detail">
+                <div class="tools-div-detail-icon">
+                    <img src="./static/img/courseregform/java.png" alt="Java Image">
+                </div>
+
+                <div class="tools-div-detail-name">
+                    <p>Java Development Kit</p>
+                </div>
+            </div>
+
+
+            <div class="tools-div-detail">
+                <div class="tools-div-detail-icon">
+                    <i class="fa-brands fa-aws" style="color: #e39816;"></i>
+                </div>
+
+                <div class="tools-div-detail-name">
+                    <p>AWS</p>
+                </div>
+            </div>
+
+
+            <div class="tools-div-detail">
+                <div class="tools-div-detail-icon">
+                    <i class="fa-brands fa-github"></i>
+                </div>
+
+                <div class="tools-div-detail-name">
+                    <p>Git Hub</p>
+                </div>
+            </div>
+
+            <div class="tools-div-detail">
+                <div class="tools-div-detail-icon">
+                    <img src="static/img/courseregform/mysql.png" alt="">
+                </div>
+
+                <div class="tools-div-detail-name">
+                    <p>MySQL workbench</p>
+                </div>
+            </div>
+
+            <div class="tools-div-detail">
+                <div class="tools-div-detail-icon">
+                    <img src="static/img/courseregform/physics.png" alt="">
+                </div>
+
+                <div class="tools-div-detail-name">
+                    <p>ReactJs</p>
+                </div>
+            </div>
+
+            <div class="tools-div-detail">
+                <div class="tools-div-detail-icon">
+                    <img src="static/img/courseregform/database.png" alt="">
+                </div>
+
+                <div class="tools-div-detail-name">
+                    <p>PostgreSQL PGadmin</p>
+                </div>
+            </div>
+
+            <div class="tools-div-detail">
+                <div class="tools-div-detail-icon">
+                    <img src="static/img/courseregform/docker.png" alt="">
+                </div>
+
+                <div class="tools-div-detail-name">
+                    <p>Docker</p>
+                </div>
+            </div>
+
+            <div class="tools-div-detail">
+                <div class="tools-div-detail-icon">
+                    <i class="fa-brands fa-bootstrap" style="color: #B197FC;"></i>
+                </div>
+
+                <div class="tools-div-detail-name">
+                    <p>Bootstrap</p>
+                </div>
+            </div>
+
+            <div class="tools-div-detail">
+                <div class="tools-div-detail-icon">
+                    <img src="static/img/courseregform/python.png" alt="">
+                </div>
+
+                <div class="tools-div-detail-name">
+                    <p>Python</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="join-button">
+
+        <div class="join-button-div">
+            <h1>
+                So, are you prepared to enter the tech industry and establish a fulfilling career
+                by mastering the craft of web development?
+            </h1>
+
+            <button>
+                <a href="#form-section">
+                
+                    YES! I WANT TO JOIN
+                
+                </a>
+            </button>
+            
+        </div>
+
+    </section>
+</main>
+
+<br>
+<br>
+
+{% endblock body %}

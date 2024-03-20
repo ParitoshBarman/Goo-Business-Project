@@ -295,6 +295,8 @@ class AllInternBatchs(models.Model):
     AcceptAllAgriment = models.BooleanField(default=True)
     otp = models.IntegerField(default=0)
     otpStatus = models.CharField(max_length=50, default="")
+    isInterviewSend = models.BooleanField(default=False)
+    sendHireMessage = models.BooleanField(default=False)
 
 class CallingConverssionTrack(models.Model):
     slID = models.IntegerField(null=True,blank=True,default=0)
@@ -326,3 +328,94 @@ class TransectionHistory(models.Model):
     razorpay_payment_iddb = models.CharField(max_length=150)
     razorpay_order_iddb = models.CharField(max_length=150)
     razorpay_signaturedb = models.CharField(max_length=150)
+
+class ProductUser(models.Model):
+    slid = models.IntegerField(null=True,blank=True,default=0)
+    UserID = models.CharField(max_length=40)
+    email = models.EmailField(max_length=254, default="")
+    UserName = models.CharField(max_length=122, default="")
+
+    SenderEmail = models.EmailField(max_length=254, default="")
+    SenderEmailPassword = models.CharField(max_length=122, default="")
+    SSLType = models.CharField(max_length=122, default="")
+    port = models.CharField(max_length=122, default="")
+
+
+    DeviceIP = models.CharField(max_length=122, default="")
+    HostName = models.CharField(max_length=122, default="")
+    TotalSendEmail = models.IntegerField(null=True,blank=True,default=0)
+    lastUpdateTime = models.TimeField(auto_now=True)
+    lastUpdatedate = models.DateField(auto_now=True)
+    joinTime = models.TimeField(auto_now_add=True)
+    joindate = models.DateField(auto_now_add=True)
+
+
+
+class AllStudentDetails(models.Model):
+    slID = models.AutoField(primary_key=True)
+    StudentID = models.CharField(max_length=40)
+    batchName = models.CharField(max_length=30)
+    fullname = models.CharField(max_length=122)
+    email = models.EmailField(max_length=254)
+    phone = models.CharField(max_length=20)
+    whatsapp = models.CharField(max_length=20 , null=True, blank=True)
+    age = models.IntegerField(null=True,blank=True,default=0)
+    gender = models.CharField(max_length=20 , null=True, blank=True)
+    ChooseFieldOfInterest = models.CharField(max_length=50)
+    HighestQualification = models.CharField(max_length=50)
+    
+    GitHubProfile = models.URLField(blank=True, default="")
+    LinkedInProfile = models.URLField(blank=True, default="")
+    address = models.CharField(max_length=60)
+    country = models.CharField(max_length=60)
+    countryCode = models.CharField(max_length=30)
+    pinCode = models.CharField(max_length=6)
+
+    payment = models.BooleanField(default=False)
+    paymentStatus = models.CharField(max_length=30,null=True,blank=True)
+    paymentAmount = models.IntegerField(null=True,blank=True,default=0)
+    installmentCount = models.IntegerField(null=True,blank=True,default=0)
+    projectGitHubLinkCount = models.IntegerField(null=True,blank=True,default=0)
+    liveLinkCount = models.IntegerField(null=True,blank=True,default=0)
+    
+    confidenceMarks = models.IntegerField(null=True,blank=True,default=0)
+    codingMarks = models.IntegerField(null=True,blank=True,default=0)
+    outputMarks = models.IntegerField(null=True,blank=True,default=0)
+    onTimeSubmitMarks = models.IntegerField(null=True,blank=True,default=0)
+    remark = models.CharField(max_length=30)
+    lastUpdateTime = models.TimeField(auto_now=True)
+    lastUpdatedate = models.DateField(auto_now=True)
+    acceptTime = models.TimeField(auto_now_add=True)
+    acceptdate = models.DateField(auto_now_add=True)
+    AcceptAllAgriment = models.BooleanField(default=True)
+    otp = models.IntegerField(default=0)
+    otpStatus = models.CharField(max_length=50, default="")
+    referdBy = models.CharField(max_length=30,null=True,blank=True, default="")
+
+
+class ReferrelData(models.Model):
+    slID = models.AutoField(primary_key=True)
+    RefrelID = models.CharField(max_length=40)
+    fullname = models.CharField(max_length=122)
+    email = models.EmailField(max_length=254)
+    phone = models.CharField(max_length=20)
+    whatsapp = models.CharField(max_length=20 , null=True, blank=True)
+
+    discountAmount = models.IntegerField(null=True,blank=True,default=0)
+    discountPercentage = models.IntegerField(null=True,blank=True,default=0)
+
+    commitionAmount = models.IntegerField(null=True,blank=True,default=0)
+    commitionInPercentage = models.IntegerField(null=True,blank=True,default=0)
+
+    totalNumberOfRefer = models.IntegerField(null=True,blank=True,default=0)
+    totalEarning = models.IntegerField(null=True,blank=True,default=0)
+    totalTransferred = models.IntegerField(null=True,blank=True,default=0)
+    totalBalance = models.IntegerField(null=True,blank=True,default=0)
+    refrelList = models.JSONField()
+
+
+    lastUpdateTime = models.TimeField(auto_now=True)
+    lastUpdatedate = models.DateField(auto_now=True)
+    acceptTime = models.TimeField(auto_now_add=True)
+    acceptdate = models.DateField(auto_now_add=True)
+    AcceptAllAgriment = models.BooleanField(default=True)

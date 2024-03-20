@@ -1,6 +1,13 @@
 from django.contrib import admin
 from django.urls import path
 from goobusinessesapp import views
+from django.contrib.sitemaps.views import sitemap
+from goobusinessesproject.sitemaps import StaticViewsSitemap
+
+sitemaps = {
+    'sitemap': StaticViewsSitemap
+}
+
 
 urlpatterns = [
     path("", views.index, name='home'),
@@ -27,7 +34,7 @@ urlpatterns = [
     path("loginsuccess", views.loginsuccess, name='loginsuccess'),
     path("dashboard", views.dashboard, name='dashboard'),
     path("newadminmanagingdashboard", views.newadminmanagingdashboard, name='newadminmanagingdashboard'),
-    path("userbatchandemailrequest", views.userbatchandemailrequest, name='userbatchandemailrequest'),
+    path("interveiwemailsend", views.interveiwemailsend, name='interveiwemailsend'),
     path("notlogin/<int:startnum>", views.notlogin, name='notlogin'),
     path("contactdata", views.contactdata, name='contactdata'),
     path("resentuserbatchandemailrequest", views.resentuserbatchandemailrequest, name='resentuserbatchandemailrequest'),
@@ -37,6 +44,7 @@ urlpatterns = [
     path("termsandconditions", views.termsandconditions, name='termsandconditions'),
     path("CancellationRefundPolicy", views.CancellationRefundPolicy, name='CancellationRefundPolicy'),
     path("courses", views.courses, name='courses'),
+    path("studentregistation", views.studentregistation, name='studentregistation'),
     path("privacypolicy", views.privacypolicy, name='privacypolicy'),
     path("LearnMoreaboutrqt", views.LearnMoreaboutrqt, name='LearnMoreaboutrqt'),
     path("paymentVaryfyForInt", views.paymentVaryfyForInt, name='paymentVaryfyForInt'),
@@ -45,7 +53,11 @@ urlpatterns = [
     path("applicationpaymentrequest", views.applicationpaymentrequest, name='applicationpaymentrequest'),
     ############## Just for test ################
     path("bardatlogin", views.bardatlogin, name='bardatlogin'),
-
+    ############## 06/03/2024 ################
+    path("emailsendfromstaff", views.emailsendfromstaff, name='emailsendfromstaff'),
+    path("emailMarketingAthenticate", views.emailMarketingAthenticate, name='emailMarketingAthenticate'),
 
     
+    ############## 09/03/2024 For Sitemap ################
+    path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="django.contrib.sitemaps.views.sitemap"),
 ]

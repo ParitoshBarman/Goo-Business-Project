@@ -1,5 +1,5 @@
 from django.contrib import admin
-from goobusinessesapp.models import RegistationFormDB, InternUserDetails, AllServices, ClickHistry, UserDetails, PerDayOrderPerUser, OrderList, FreeTrialUser, FreeTrialRequest, FreeTrialUnderReview, ContactMessage, ControlWeb, WhyUsDB, AboutDB, EmailSeenDB, ExtraImageDB, OpenViaEmail, InternalVisit, ClickHistryByUser, UnsubscribeList, SubscribeList, BatchesInstractions, AllInternBatchs, CallingConverssionTrack, TransectionHistory
+from goobusinessesapp.models import RegistationFormDB, InternUserDetails, AllServices, ClickHistry, UserDetails, PerDayOrderPerUser, OrderList, FreeTrialUser, FreeTrialRequest, FreeTrialUnderReview, ContactMessage, ControlWeb, WhyUsDB, AboutDB, EmailSeenDB, ExtraImageDB, OpenViaEmail, InternalVisit, ClickHistryByUser, UnsubscribeList, SubscribeList, BatchesInstractions, AllInternBatchs, CallingConverssionTrack, TransectionHistory, ProductUser, AllStudentDetails, ReferrelData
 from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
@@ -95,7 +95,7 @@ admin.site.register(BatchesInstractions, BatchesInstractionsV)
 
 
 class AllInternBatchsV(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display=('slID', 'EmployeeID', 'batchName', 'fullname', 'email', 'countryCode', 'phone', 'whatsapp', 'ChooseJobOrInternship', 'ChooseFieldOfInterest', 'HighestQualification', 'CollegeName', 'MajorFieldOfStudy', 'YearOfGraduation', 'WorkExperienceIfAny', 'GitHubProfile', 'LinkedInProfile', 'address', 'country', 'pinCode', 'payment', 'paymentStatus', 'paymentAmount', 'projectGitHubLinkCount', 'liveLinkCount', 'totalMassage', 'confidenceMarks', 'codingMarks', 'outputMarks', 'onTimeSubmitMarks', 'remark','lastUpdateTime', 'lastUpdatedate', 'acceptTime', 'acceptdate','AcceptAllAgriment')
+    list_display=('slID', 'isInterviewSend', 'sendHireMessage', 'EmployeeID', 'batchName', 'fullname', 'email', 'countryCode', 'phone', 'whatsapp', 'ChooseJobOrInternship', 'ChooseFieldOfInterest', 'HighestQualification', 'CollegeName', 'MajorFieldOfStudy', 'YearOfGraduation', 'WorkExperienceIfAny', 'GitHubProfile', 'LinkedInProfile', 'address', 'country', 'pinCode', 'payment', 'paymentStatus', 'paymentAmount', 'projectGitHubLinkCount', 'liveLinkCount', 'totalMassage', 'confidenceMarks', 'codingMarks', 'outputMarks', 'onTimeSubmitMarks', 'remark','lastUpdateTime', 'lastUpdatedate', 'acceptTime', 'acceptdate','AcceptAllAgriment')
 admin.site.register(AllInternBatchs, AllInternBatchsV)
 
 class CallingConverssionTrackV(ImportExportModelAdmin, admin.ModelAdmin):
@@ -105,3 +105,15 @@ admin.site.register(CallingConverssionTrack, CallingConverssionTrackV)
 class TransectionHistoryV(ImportExportModelAdmin, admin.ModelAdmin):
     list_display=('slID', 'fullname', 'email', 'phone', 'payment', 'paymentStatus', 'paymentAmount', 'lastUpdateTime', 'lastUpdatedate', 'acceptTime', 'acceptdate','razorpay_payment_iddb','razorpay_order_iddb','razorpay_signaturedb')
 admin.site.register(TransectionHistory, TransectionHistoryV)
+
+class ProductUserV(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display=('slid', 'UserID', 'email', 'UserName', 'SenderEmail', 'SenderEmail', 'SSLType', 'port', 'DeviceIP', 'HostName', 'TotalSendEmail', 'lastUpdateTime','lastUpdatedate','joinTime','joindate')
+admin.site.register(ProductUser, ProductUserV)
+
+class AllStudentDetailsV(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display=('slID','StudentID','batchName','fullname','email','phone','whatsapp','age','gender','ChooseFieldOfInterest','HighestQualification','payment','paymentStatus','paymentAmount','installmentCount','lastUpdateTime','lastUpdatedate','acceptTime','acceptdate','otp','otpStatus','referdBy')
+admin.site.register(AllStudentDetails, AllStudentDetailsV)
+
+class ReferrelDataV(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display=('slID','RefrelID','fullname','email','phone','whatsapp','discountAmount','discountPercentage','commitionAmount','commitionInPercentage','totalNumberOfRefer','totalEarning','totalTransferred','totalBalance','refrelList','lastUpdateTime','lastUpdatedate','acceptTime','acceptdate','AcceptAllAgriment')
+admin.site.register(ReferrelData, ReferrelDataV)

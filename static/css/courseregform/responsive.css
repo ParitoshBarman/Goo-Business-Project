@@ -1,0 +1,197 @@
+
+
+@media screen and (max-width: 980px) {
+
+    /* First Section */
+    .first-section .content h1 {
+        font-size: 38px;
+    }
+    
+    .first-section .content p {
+        font-size: 20px;
+    }
+
+}
+
+@media screen and (max-width: 780px) {
+
+     /* First Section */
+
+    .first-section .content h1 {
+        text-align: center;
+        font-size: 25px;
+    }
+    
+    .first-section .content p {
+        text-align: center;
+        font-size: 17px;
+    }
+
+    /* Second Section */
+
+    .second-section .form-content {
+        flex-direction: column;
+    }
+
+    /* Feature Cards */
+
+    .feature {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+
+    /* Employee Section */
+
+    .employ-div {
+        flex-direction: column;
+    }
+
+    .employ-div-content h1 {
+        font-size: 30px;
+    }
+
+    /* Agenda Section */
+
+    .agenda h1 {
+        font-size: 30px;
+    }
+
+    /* Experience Section */
+
+    .experience-div {
+        flex-direction: column;
+    }
+
+    .experience-div-content  h1 {
+        font-size: 30px;
+    }
+
+    
+    .emperience-div-img img {
+        box-shadow: 2px 1px 7px 0px rgba(49, 49, 49, 0.75);
+    }
+
+    .experience-detail i {
+        font-size: 22px;
+    }
+
+    .experience-detail p {
+        font-size: 18px;
+    }
+
+
+    /* Tools Covered */
+
+    .tools-covered  h1 {
+        font-size: 30px;
+    }
+
+    .join-button-div  h1 {
+        font-size: 23px;
+    }
+
+    .tools-div-detail-icon i {
+        font-size: 40px;
+    }
+
+    .tools-div-detail-icon img {
+        width: 50px;
+    }
+
+    .tools-div {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    }
+
+}
+
+
+@media screen and (max-width: 480px) {
+
+     /* First Section */
+
+    .first-section .content {
+        flex-direction: column-reverse;
+        gap: 50px;
+    } 
+
+    /* Second Section */
+
+    .feature-card .icon i {
+        font-size: 40px;
+    }
+
+    .feature-card {
+        width: 200px;
+    }
+
+    /* Employ Section */
+
+    .employ-div-img {
+        width: 100%;
+    }
+
+    .employ-div-img img {
+        width: 100%;
+    }
+
+    .employ-div-content {
+        width: 100%;
+    }
+
+    .employ-div-content h1 {
+        font-size: 25px;
+    }
+
+    .employ-div-content p {
+        font-size: 16px;
+    }
+
+    /* Agenda Section */
+
+    .agenda h1 {
+        font-size: 25px;
+    }
+
+    .agenda p {
+        font-size: 16px;
+    }
+
+    /* Experience Section */
+
+    .experience-div {
+        gap: 20px;
+    }
+
+    .emperience-div-img {
+        width: 100%;
+    }
+
+    .emperience-div-img img {
+        width: 100%;
+    }
+
+    .experience-div-content {
+        width: 100%;
+    }
+    
+    .experience-div-content h1 {
+        font-size: 25px;
+    }
+
+    .experience-detail i {
+        font-size: 25px;
+    }
+
+    .experience-detail p {
+        font-size: 15px;
+    }
+
+    /* Tools covered */
+
+    .tools-covered  h1 {
+        font-size: 25px;
+    }
+
+    .join-button-div  h1 {
+        font-size: 15px;
+    }
+}

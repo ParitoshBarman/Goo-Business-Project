@@ -66,6 +66,7 @@
           {% csrf_token %}
           <input type="text" name="otp" maxlength="4" placeholder="Enter OTP" required>
           <input type="number" name="slid" value="{{slid}}" style="display: none;" hidden>
+          <input type="number" name="refcode" value="{{referrelcode}}" style="display: none;" hidden>
           
           <button type="submit">Verify</button>
      </form>
