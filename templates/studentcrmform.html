@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Call Request Page</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+  }
+
+  .container {
+    max-width: 400px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  input[type="text"],
+  input[type="tel"],
+  input[type="email"],
+  button {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+
+  button {
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  #message {
+    font-size: 16px;
+    margin-top: 10px;
+    text-align: center;
+    color: green;
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Request a Call</h2>
+  <input type="text" id="name" placeholder="Your Name">
+  <input type="tel" id="phone" placeholder="Your Phone Number">
+  <input type="email" id="email" placeholder="Your Email Address">
+  <button onclick="submitRequest()">Request Call</button>
+  <p id="message">Thank you for your request! We will contact you shortly.</p>
+</div>
+
+<script>
+function submitRequest() {
+  var name = document.getElementById("name").value;
+  var phone = document.getElementById("phone").value;
+  var email = document.getElementById("email").value;
+
+  if (name.trim() === '' || phone.trim() === '' || email.trim() === '') {
+    alert("Please fill in all fields.");
+    return;
+  }
+
+  document.getElementById("message").style.display = "block";
+}
+</script>
+
+</body>
+</html>

@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.http import FileResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 # from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-from goobusinessesapp.models import RegistationFormDB, InternUserDetails, AllServices, ClickHistry, UserDetails, PerDayOrderPerUser, OrderList, FreeTrialUser, FreeTrialRequest, FreeTrialUnderReview, ContactMessage, WhyUsDB, AboutDB, ControlWeb, EmailSeenDB, OpenViaEmail, InternalVisit, ClickHistryByUser, UnsubscribeList, SubscribeList, BatchesInstractions, AllInternBatchs, CallingConverssionTrack, TransectionHistory, ProductUser, AllStudentDetails, ReferrelData
+from goobusinessesapp.models import RegistationFormDB, InternUserDetails, AllServices, ClickHistry, UserDetails, PerDayOrderPerUser, OrderList, FreeTrialUser, FreeTrialRequest, FreeTrialUnderReview, ContactMessage, WhyUsDB, AboutDB, ControlWeb, EmailSeenDB, OpenViaEmail, InternalVisit, ClickHistryByUser, UnsubscribeList, SubscribeList, BatchesInstractions, AllInternBatchs, CallingConverssionTrack, TransectionHistory, ProductUser, AllStudentDetails, ReferrelData, StudentBatchesInstractions
 from goobusinessesapp import emailhandel 
+from goobusinessesapp import extraFunc
 from django.http import JsonResponse
 import random
 import re
@@ -181,7 +183,7 @@ h1{color: rgb(9, 164, 9);margin: 10px;text-align: center;}
         htmlBody = f"""<body>
 <div class="header"></div>
 <h1>Goo Business<br>Successfully accepted your resume</h1>
-<div class="msg">Your login credential:<br><br>Dashboard: <a href="{OurMainURL}dashboard">"{OurMainURL}dashboard"</a><br>Username: "{emailReceiver}"<br>Password: "{users_password}"</div>
+<div class="msg">Your login credential:<br><br>Dashboard: <a href="{OurMainURL}login">"{OurMainURL}login"</a><br>Username: "{emailReceiver}"<br>Password: "{users_password}"</div>
 <div class="msg">Please do not share your login credential with anyone.</div>
 <img src="{OurMainURL}emailseen/{emailReceiver}/intern01batchusernamepassword" alt="Image not found" hidden>
 </body>
@@ -1138,10 +1140,9 @@ def loginsuccess(request):
 def dashboard(request):
     try:
         if request.user.is_staff and request.GET['batch_name']:
-            searchStudent = AllInternBatchs.objects.get(email=request.user.username)
             data = BatchesInstractions.objects.get(batchName=request.GET['batch_name'])
             htmldata = markdown.markdown(data.Instractions)
-            return render(request, "dashboard.html", {"htmldata":htmldata, "studentName":searchStudent.fullname, "email":searchStudent.email, "batchname":searchStudent.batchName, "empid":searchStudent.EmployeeID})
+            return render(request, "dashboard.html", {"htmldata":htmldata, "studentName":"Staff Login", "email":"staff email", "batchname":"Staff Batch", "empid":"EmpID"})
     except:
         pass
     if request.user.is_authenticated:
@@ -1164,10 +1165,10 @@ def dashboard(request):
     
 
 def newadminmanagingdashboard(request):
-    if request.user.is_active and request.user.is_superuser:
+    if request.user.is_active and request.user.is_staff:
         obj = AllInternBatchs.objects.filter().all().order_by("-slID")
         
-        return render(request, "newadminmanagingdashboard.html", {'serverdata':obj[:20], "totalReamin":len(obj)})
+        return render(request, "newadminmanagingdashboard.html", {'serverdata':obj[:60], "totalReamin":len(obj)})
     else:
         return HttpResponse("<h1>Sorry you have not permition to access</h1>")
 
@@ -1395,18 +1396,27 @@ def applicationpaymentrequest(request):
     return render(request, 'intrnpaymentrequest.html', {'odr':order, 'pid':ControlWeb.objects.get(VarName="key_id").charecterVar, 'price':price})
 
 ############## Just for test ################
-def bardatlogin(request):
-    if(User.objects.filter(username="bardatloginusere")):
-        print("User present...")
-    else:
-        print("Sorry not present....")
-    try:
-        user = User.objects.create_user("bardatloginusere", "bardatloginemail.com", "Intern123")
-        user.save()
-        return HttpResponse("<h1>Successfully User createted </h1>")
-    except:
-        print("Failed...........................")
-        return HttpResponse("<h1>Sorry, User creation failed</h1>")
+def everythingtest(request):
+    searchReferrBy = ReferrelData.objects.get(RefrelID="ST3")
+    
+    refrelListJsonData = searchReferrBy.refrelList
+
+    print(searchReferrBy.refrelList)
+    print("********************")
+    print(searchReferrBy.refrelList['listdata'])
+    print("################")
+    searchReferrBy.refrelList['listdata'].append({'name': 'DaktarPata', 'service_name': 'TestBhagina_Course', 'date': f'{datetime.now().date()}', 'profit': 100})
+    print("################")
+
+    # print(searchReferrBy.refrelList['listdata'])
+    # print("################")
+    # searchReferrBy.refrelList['listdata'].append({'name': '3nd', 'service_name': '3ndTestBatch_Course', 'date': '2024-03-27', 'profit': 100})
+    print(searchReferrBy.refrelList)
+
+    searchReferrBy.save()
+
+    
+    return JsonResponse(searchReferrBy.refrelList)
 
 ############## 06/03/2024 ################
 def emailsendfromstaff(request):
@@ -1444,7 +1454,7 @@ def emailMarketingAthenticate(request):
         return JsonResponse({'massage':'success', 'sender_email':productUserData.email, "port":productUserData.port, "ssl":productUserData.SSLType,"password":productUserData.SenderEmailPassword})
     return JsonResponse({'massage':'error'})
 
-
+###############  LMS #################
 def studentregistation(request):
     try:
         if request.GET['refcode']:
@@ -1452,7 +1462,7 @@ def studentregistation(request):
     except:
         pass
     if request.method == 'POST':
-        allCoursePrice = 299
+        allCoursePrice = 499
         fullname = request.POST.get('fullName')
         email = request.POST.get('email')
         phone = request.POST.get('phone')
@@ -1462,17 +1472,18 @@ def studentregistation(request):
         ChooseFieldOfInterest = request.POST.get('fieldOfInterest')
         HighestQualification = request.POST.get('highestQualification')
         gender = request.POST.get('gender')
+        age = request.POST.get('age')
         referral = request.POST.get('referral')
         
         otp = random.randint(1000, 9999)
-        # try:
-        #     # sendEmail(email, str(otp))
-        #     thithi = threading.Thread(target=sendEmail, args=[email, str(otp)])
-        #     thithi.start()
-        # except:
-        #     sendEmailFaild("OTP can't send please cheack the system")
+        try:
+            # sendEmail(email, str(otp))
+            thithi = threading.Thread(target=sendEmail, args=[email, str(otp)])
+            thithi.start()
+        except:
+            sendEmailFaild("OTP can't send please cheack the system")
             
-        OrderListDB = AllStudentDetails(batchName=f"{ChooseFieldOfInterest}", fullname=fullname, email=email, phone=phone, gender=gender, ChooseFieldOfInterest=ChooseFieldOfInterest, HighestQualification=HighestQualification, otp=otp, otpStatus="oneChance", referdBy=referral)
+        OrderListDB = AllStudentDetails(batchName=f"{ChooseFieldOfInterest}", fullname=fullname, email=email, phone=phone, gender=gender, ChooseFieldOfInterest=ChooseFieldOfInterest, HighestQualification=HighestQualification, otp=otp, otpStatus="oneChance", referdBy=referral, age=age)
         # OrderListDB = OrderList(fullname=fullname, email=email, phone=phone, whatsapp=whatsapp, totalprice=totalprice, countryoption=countryoption, servicesOption=servicesOption, enterbuget=enterbuget, numberofleads=numberofleads, requirmentdesc=requirmentdesc, productID=productID, onlyCountryCode=onlyCountryCode, otp=otp, otpStatus="oneChance", orderStatus="received", orderCoplition=0, peymentStatus="due")
         OrderListDB.save()
         passingSLID = OrderListDB.slID
@@ -1498,3 +1509,228 @@ def studentregistation(request):
         return render(request, 'studentvarification.html', {'slid':passingSLID, 'referrelcode':referral})
     
     return render(request, 'studentregistation.html')
+
+
+def studentregistationsuccessfull(request):
+    if request.method == 'POST':
+        otp = request.POST.get('otp')
+        slid = request.POST.get('slid')
+        referrelcode = request.POST.get('referrelcode')
+        OrderDetails = AllStudentDetails.objects.get(slID=int(slid))
+        dbotp = OrderDetails.otp
+
+        if OrderDetails.otpStatus == "oneChance" and dbotp==int(otp):
+            OrderDetails.otpStatus = "OTP Verified"
+            OrderDetails.save()
+            
+            emailhandel.sendEmailAndPassword(OrderDetails.email, OrderDetails.StudentID)
+            
+
+            return render(request, "studentpaymentrequest.html", {"paymentmsg":"", "redirectEndpoint":f"studentpaymentrequest?slId={slid}", 'price':OrderDetails.paymentAmount})
+
+        else:
+            OrderDetails.otpStatus = "Verification Faild"
+            OrderDetails.save()
+            return render(request, 'verificationfail.html')
+
+
+def studentpaymentrequest(request):
+    slId = request.GET['slId']
+    searchStudent = AllStudentDetails.objects.get(slID=slId)
+    user = authenticate(request, username=searchStudent.email, password=searchStudent.StudentID)
+    if user is not None:
+        login(request, user)
+
+    client = razorpay.Client(auth=(ControlWeb.objects.get(VarName="key_id").charecterVar, ControlWeb.objects.get(VarName="key_secret").charecterVar))
+    price = searchStudent.paymentAmount
+    data = { "amount": price*100, "currency": "INR", "receipt": f"{searchStudent.StudentID}", "notes":{
+    "customername":f"{searchStudent.fullname}",
+    'customeremail':f"{searchStudent.email}",
+    'customerphone':f"{searchStudent.phone}",
+    "payfor":"Course registration fee"
+    } }
+
+    order = client.order.create(data=data)
+    # print(order)
+    return render(request, 'studentpaymentrequestcontinue.html', {'odr':order, 'pid':ControlWeb.objects.get(VarName="key_id").charecterVar, 'price':price})
+
+
+def studentpaymentverification(request):
+    pmtid = request.GET['pmtid']
+    odrid = request.GET['odrid']
+    sigid = request.GET['sigid']
+    amount = request.GET['amount']
+    client = razorpay.Client(auth=(ControlWeb.objects.get(VarName="key_id").charecterVar, ControlWeb.objects.get(VarName="key_secret").charecterVar))
+    dictData = {'razorpay_payment_id': pmtid, 'razorpay_order_id': odrid, 'razorpay_signature': sigid}
+    try:
+        client.utility.verify_payment_signature(dictData)
+        searchStudent = AllStudentDetails.objects.get(email=request.user.username)
+        searchStudent.payment = True
+        searchStudent.paymentStatus = "Success"
+        searchStudent.paymentAmount = int(amount)
+        searchStudent.save()
+        trnsHistry = TransectionHistory(slID=searchStudent.slID,fullname=searchStudent.fullname, email=searchStudent.email, phone=searchStudent.phone, payment=searchStudent.payment, paymentStatus="Success", paymentAmount=int(amount), razorpay_payment_iddb=pmtid, razorpay_order_iddb=odrid, razorpay_signaturedb=sigid)
+        trnsHistry.save()
+
+        referrelAccount = ReferrelData(fullname=searchStudent.fullname,email=searchStudent.email,phone=searchStudent.phone,whatsapp=searchStudent.whatsapp,discountAmount=50,discountPercentage=0,commitionAmount=100,commitionInPercentage=0)
+        referrelAccount.save()
+        referrelAccount.RefrelID = f"ST{extraFunc.numToHexSlice(referrelAccount.slID)}"
+        referrelAccount.save()
+
+        try:
+            rfID = searchStudent.referdBy
+            if rfID!="":
+                searchReferrBy = ReferrelData.objects.get(RefrelID=rfID)
+                searchReferrBy.totalNumberOfRefer+=1
+                searchReferrBy.totalEarning += searchReferrBy.commitionAmount
+                searchReferrBy.totalBalance += searchReferrBy.commitionAmount
+                searchReferrBy.save()
+                searchReferrBy.refrelList['listdata'].append({'name':f'{searchStudent.fullname}', 'service_name':f"{searchStudent.batchName}_Course", 'date':f'{datetime.now().date()}', 'profit':f'{searchReferrBy.commitionAmount}'}) 
+                searchReferrBy.save()
+        except:
+            pass
+        
+        try:
+            totalPaymentReceive = ControlWeb.objects.get(VarName="totalPaymentReceive")
+            totalPaymentReceive.integetVar += int(amount)
+            totalPaymentReceive.save()
+        except:
+            totalPaymentReceive = ControlWeb(VarName="totalPaymentReceive", integetVar=int(amount))
+            totalPaymentReceive.save()
+        return redirect("/studentdashboard")
+    except:
+        return HttpResponse("<h1>Sorry, your payment has been failed...(illegal activity detected!)</h1>")
+    
+
+
+def studentdashboard(request):
+    try:
+        if request.user.is_staff and request.GET['batch_name']:
+            data = BatchesInstractions.objects.get(batchName=request.GET['batch_name'])
+            htmldata = markdown.markdown(data.Instractions)
+            return render(request, "studentdashboard.html", {"htmldata":htmldata, "studentName":"Staff Login", "email":"staff email", "batchname":"Staff Batch", "empid":"EmpID"})
+    except:
+        pass
+    if request.user.is_authenticated:
+        # The user is logged in
+        # Perform actions for authenticated users
+        try:
+            searchStudent = AllStudentDetails.objects.get(email=request.user.username)
+            if(searchStudent.payment!=True):
+                # return render(request, "pymentforemp.html", {"paymentmsg":"To ensure serious candidates and prevent unnecessary applications, we charge a nominal fee (for Job Rs.9 INR and Internship Rs.49 INR) for the interview and skills testing process to cover the costs of our thorough code review, final project, and interview round, ensuring a quality experience for all participants.", "redirectEndpoint":"dashboard", 'price':searchStudent.paymentAmount})
+                print("***************************************///////")
+                return render(request, "studentpaymentrequest.html", {"paymentmsg":"", "redirectEndpoint":f"studentpaymentrequest?slId={searchStudent.slID}", 'price':searchStudent.paymentAmount})
+            data = StudentBatchesInstractions.objects.get(batchName=searchStudent.batchName)
+            htmldata = markdown.markdown(data.Instractions)
+            return render(request, "studentdashboard.html", {"htmldata":htmldata, "studentName":searchStudent.fullname, "email":searchStudent.email, "batchname":searchStudent.batchName, "empid":searchStudent.StudentID})
+        except:
+            htmldata = '<h2 style="color:red;">Sorry your batch has not been created yet Please wait.</h2>'
+            return render(request, "studentdashboard.html", {"htmldata":htmldata, "studentName":searchStudent.fullname, "email":searchStudent.email, "batchname":searchStudent.batchName, "empid":searchStudent.StudentID})
+    else:
+        # The user is not logged in
+        # Perform actions for unauthenticated users
+        return redirect("/studentLogin")
+   
+def studentLogin(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect("/studentdashboard")
+        else:
+            return render(request, "studentlogin.html", {"msg":"Invalid Credential!"})
+    else:
+        return render(request, "studentlogin.html")
+
+@csrf_exempt
+def referraldashboard(request):
+    if request.user.is_authenticated:
+        referrelData = ReferrelData.objects.get(email=request.user.username)
+
+        if request.method == 'POST':
+            return JsonResponse({'massage':'success', 'referrelListData':referrelData.refrelList["listdata"]})
+            
+        return render(request, "referraldashboard.html", {'referrelData':referrelData})
+
+    return render(request, "referral.html", {'loginshow':"true", 'signupshow':"false"})
+
+
+
+def referral(request):
+    # if(request.META.get('HTTP_REFERER')):
+    return render(request, "referral.html", {'loginshow':"false", 'signupshow':"false"})
+
+def referralsignup(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        if(User.objects.filter(username=username)):
+            return render(request, "referral.html", {'loginshow':"false", 'signupshow':"true", 'errmsg':"Sorry, this user already exists."})
+        
+        otp = random.randint(1000, 9999)
+        try:
+            # sendEmail(email, str(otp))
+            thithi = threading.Thread(target=sendEmail, args=[username, str(otp)])
+            thithi.start()
+        except:
+            sendEmailFaild("OTP can't send please cheack the system")
+        
+        user = User.objects.create_user(username, username, password)
+        user.save()
+
+        referrelAccount = ReferrelData(email=username,discountAmount=50,discountPercentage=0,commitionAmount=100,commitionInPercentage=0, otp=otp, otpStatus="oneChance")
+        referrelAccount.save()
+        referrelAccount.RefrelID = f"YT{extraFunc.numToHexSlice(referrelAccount.slID)}"
+        referrelAccount.save()
+        return render(request, 'referralotpverify.html', {'slid':referrelAccount.slID})
+
+def referralotpverify(request):
+    if request.method == 'POST':
+        otp = request.POST.get('otp')
+        slid = request.POST.get('slid')
+
+        OrderDetails = ReferrelData.objects.get(slID=int(slid))
+        dbotp = OrderDetails.otp
+
+        if OrderDetails.otpStatus == "oneChance" and dbotp==int(otp):
+            OrderDetails.otpStatus = "OTP Verified"
+            OrderDetails.save()
+            return render(request, "referral.html", {'loginshow':"true", 'signupshow':"false"})
+
+        else:
+            OrderDetails.otpStatus = "Verification Faild"
+            OrderDetails.save()
+            return render(request, 'verificationfail.html')
+     
+def referrallogin(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect("/referraldashboard")
+        else:
+            # return redirect("/referral")
+            return render(request, "referral.html", {'loginshow':"true", 'signupshow':"false", 'errmsg':"Invalid Credential!"})
+     
+def studentcrmform(request):
+    if request.method == 'POST':
+        # username = request.POST.get('username')
+        # password = request.POST.get('password')
+        # user = authenticate(request, username=username, password=password)
+        # if user is not None:
+        #     login(request, user)
+        #     return redirect("/referraldashboard")
+        # else:
+        #     # return redirect("/referral")
+        #     return render(request, "referral.html", {'loginshow':"true", 'signupshow':"false", 'errmsg':"Invalid Credential!"})
+        pass
+
+    return render(request, "studentcrmform.html")
+    
+     
+def studentcallrequestdashboard(request):
+    return render(request, "studentcallrequestdashboard.html")

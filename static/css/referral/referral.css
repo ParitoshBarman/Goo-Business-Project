@@ -1,0 +1,535 @@
+@import url('https://fonts.googleapis.com/css2?family=Cherry+Swash&family=Chivo:ital,wght@0,100..900;1,100..900&family=Edu+TAS+Beginner:wght@600&family=Playpen+Sans:wght@600&family=Poppins:ital,wght@0,300;0,400;1,200;1,300;1,400&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Intro Section */
+
+.refer-intro-section {
+  max-width: 1127px;
+    width: 90%;
+    margin: 30px auto 30px auto;
+}
+
+.refer-intro-section .loginsec{
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.refer-intro-div {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.refer-intro-content {
+    flex: 0.4;
+}
+
+
+.refer-intro-content a {
+    text-decoration: none;
+}
+
+.refer-intro-content h1 {
+  font-family: "Inter", sans-serif;
+  font-size: 50px;
+  color: #181818;
+  font-weight: 500;
+  line-height: 73px;
+  margin-bottom: 43px;
+}
+
+.refer-intro-image {
+    flex: 0.6;
+}
+
+.refer-intro-image img {
+    width: 100%;
+}
+
+.join-button {
+  padding: 10px;
+  width: 150px;
+  border-radius: 10px;
+  border: none;
+  background: #706FE5;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+}
+
+.share-with-friends {
+    background: white;
+    border: 1px solid rgb(50, 48, 48);
+    color: black;
+}
+
+/* How It Works Section */
+
+
+.how-it-works-section {
+    margin: 10px auto 100px auto;
+}
+
+.how-it-works-title {
+    background-image: url("../../img/referral/background.png");   
+    height: 70px;
+}
+
+.how-it-works-title h1 {
+    text-align: center;
+    padding-top: 17px;
+    font-size: 30px;
+    color: #FFFFFF;
+}
+
+.how-it-works-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.how-it-works-card {
+    display: flex;
+    width: 250px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    gap: 6px;
+}
+
+.how-it-works-card .card-img img {
+    width: 100%;
+}
+
+.how-it-works-card .card-content h3,
+.how-it-works-card .card-content p {
+    text-align: center;
+}
+
+
+/* Benefits Section */
+
+
+.benefits-section {
+    margin: 10px auto 100px auto;
+}
+
+.benefits-title {
+    background-image: url("../../img/referral/background.png");   
+    height: 70px;
+}
+
+.benefits-title h1 {
+    text-align: center;
+    padding-top: 17px;
+    font-size: 30px;
+    color: #FFFFFF;
+}
+
+.benefits-content {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.benefits-part1 {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+
+
+.benefit-div {
+    display: flex;
+    padding: 10px 10px;
+    align-items: center;
+    gap: 20px;
+    width: 350px;
+    border-radius: 10px;
+    box-shadow: 0px 8px 12px -6px rgba(0,0,0,0.75);
+}
+.benefit-div > img{
+  width: 40px;
+}
+.benefit-div i {
+    background: #8E54E9;
+    padding: 10px;
+    border-radius: 8px;
+    color: #ffff;
+    font-size: 20px;
+}
+
+.benefit-div p {
+    font-weight: bold;
+}
+
+
+/* Frequenly Asked Question */
+
+.frequently-asked-questions {
+    font-family: "Chivo";
+    width: 90%;
+    margin: 100px auto 80px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.faq-sub-block {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100px;
+    min-width: 200px;
+    border: 1px solid #8E54E9;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+.faq-sub-block-1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.faq-sub-block-1 p {
+    font-weight: 600;
+}
+
+
+
+.faq-sub-block:hover {
+    box-shadow: 1px 2px 6px 1px rgba(188, 76, 226, 0.5);
+}
+
+.faq-sub-block i {
+    padding-right: 20px;
+    color: #8E54E9;
+}
+
+
+.prev-button-div {
+    flex: 0.1;
+}
+
+.prev-button-div i {
+    color: #8E54E9;
+    font-weight: bolder;
+    font-size: 50px;
+    cursor: pointer;
+}
+
+
+.faqs-div {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+}
+
+
+/* Explore Courses */
+
+.explore-courses {
+    display: none;
+    margin: auto;
+    font-family: "Poppins";
+}
+
+.explore-courses-content {
+    display: flex;
+    width: 90%;
+    margin: auto;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    overflow-x: auto;
+
+}
+
+.explore-courses-frame {
+    font-family: "Chivo";
+    margin: 30px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.prev-button-div1 {
+  flex: 0.5;
+}
+
+.prev-button-div1 i {
+  color: #8E54E9;
+  font-weight: bolder;
+  font-size: 50px;
+  cursor: pointer;
+}
+
+
+.explore-courses-title h1 {
+  width: 83%;
+  margin: auto;
+    font-size: 32px;
+}
+
+.explore-courses-title h1 span {
+    color: #8E54E9;
+}
+
+.course-card {
+    min-width: 260px;
+    background-color: #FAFAFD;
+    box-shadow: 0px 0px 11px 1px rgba(0,0,0,0.1);
+    border-radius: 10px;
+}
+
+.course-content {
+    font-family: "Roboto";
+    padding: 10px;
+}
+
+.category {
+    color: #747C82;
+}
+
+.course-content h3 {
+    font-size: 16px;
+}
+
+.course-img img {
+    border-radius: 10px;
+    width: 100%;
+}
+
+.course-price {
+    color: #747C82;
+}
+
+.timings {
+    display: flex;
+
+    justify-content: space-between;
+}
+
+.course-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.course-buttons a {
+    text-decoration: none;
+}
+
+.course-buttons a button {
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid rgb(99, 94, 94);
+    background-color: transparent;
+    color: #465159;
+    /* font-weight: bold; */
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.start-learning {
+    background-color: #8E54E9 !important;
+    color: #FFFFFF !important;
+}
+
+.explore-course-button {
+  display: flex;
+  justify-content: center;
+
+}
+
+.explore-course-button a {
+  text-decoration: none;
+}
+
+.explore-course-button a button {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #8E54E9;
+  background-color: transparent;
+  color: #8E54E9;
+  font-weight: bold;
+  cursor: pointer;  
+}
+
+
+/* Review Section */
+
+.review-section {
+  display: none;
+  width: 90%;
+  margin: 100px auto 100px auto;
+}
+
+.review-div {
+  display: flex;
+  flex-direction: column;
+}
+
+.review-title h1 {
+  text-align: center;
+  font-family: "Inter";
+  font-weight: 500;
+  font-size: 25px;
+}
+
+.review-title h1 span {
+  font-weight: bolder;
+}
+
+.review-content {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.review-card {
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.review-card-content p {
+  font-style: italic;
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+
+.stars i {
+  font-size: 13px;
+  color: #F5AB00;
+}
+
+.review-card-user {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.user-image img {
+  width: 70px;
+}
+
+.user-details .name {
+  color: #000000;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.user-details .role {
+  font-size: 13px;
+}
+
+
+/* Sign up modal */
+.sign-up{
+  padding: 20px;
+}
+
+.sign-up-modal {
+  width: 600px;
+  border: 1px solid #8E54E9;
+  border-radius: 10px;
+  background-color: #eee;
+  display: none;
+
+  position: absolute;
+  position: fixed;
+  left: 25%;
+  top: 10%;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.sign-up h1 {
+  text-align: center;
+  color:rgb(67, 65, 65);
+  margin-bottom: 50px;
+}
+
+.sign-up form label,
+.sign-up form input {
+  display: block;
+  width: 90%;
+  margin: auto;
+  margin-top: 8px;
+}
+
+.sign-up form input {
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #414155;
+  font-size: 16px;
+}
+
+.sign-up form .sign-up-button {
+  display: block;
+  margin: auto;
+  padding: 8px;
+  width: 150px;
+  background-color: #8E54E9;
+  border: none;
+  border-radius: 10px;
+  color: #ffff;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.sign-up form p {
+  text-align: center;
+  margin: 5px auto;
+}
+
+.sign-up form p span {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.sign-up form p span:hover {
+  text-decoration: underline;
+}
+
+.close-button {
+  position: absolute;
+  top: 8px;
+  right: 15px;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  background-color: #8E54E9;
+  border-radius: 6px;
+  color: #fff;
+}

@@ -44,7 +44,6 @@ urlpatterns = [
     path("termsandconditions", views.termsandconditions, name='termsandconditions'),
     path("CancellationRefundPolicy", views.CancellationRefundPolicy, name='CancellationRefundPolicy'),
     path("courses", views.courses, name='courses'),
-    path("studentregistation", views.studentregistation, name='studentregistation'),
     path("privacypolicy", views.privacypolicy, name='privacypolicy'),
     path("LearnMoreaboutrqt", views.LearnMoreaboutrqt, name='LearnMoreaboutrqt'),
     path("paymentVaryfyForInt", views.paymentVaryfyForInt, name='paymentVaryfyForInt'),
@@ -52,11 +51,25 @@ urlpatterns = [
     path("intrnpaymentrequest", views.intrnpaymentrequest, name='intrnpaymentrequest'),
     path("applicationpaymentrequest", views.applicationpaymentrequest, name='applicationpaymentrequest'),
     ############## Just for test ################
-    path("bardatlogin", views.bardatlogin, name='bardatlogin'),
+    path("everythingtest", views.everythingtest, name='everythingtest'),
     ############## 06/03/2024 ################
     path("emailsendfromstaff", views.emailsendfromstaff, name='emailsendfromstaff'),
     path("emailMarketingAthenticate", views.emailMarketingAthenticate, name='emailMarketingAthenticate'),
 
+###############  LMS #################
+    path("studentregistation", views.studentregistation, name='studentregistation'),
+    path("studentregistationsuccessfull", views.studentregistationsuccessfull, name='studentregistationsuccessfull'),
+    path("studentpaymentrequest", views.studentpaymentrequest, name='studentpaymentrequest'),
+    path("studentpaymentverification", views.studentpaymentverification, name='studentpaymentverification'),
+    path("studentdashboard", views.studentdashboard, name='studentdashboard'),
+    path("studentLogin", views.studentLogin, name='studentLogin'),
+    path("referraldashboard", views.referraldashboard, name='referraldashboard'),
+    path("referral", views.referral, name='referral'),
+    path("referralsignup", views.referralsignup, name='referralsignup'),
+    path("referralotpverify", views.referralotpverify, name='referralotpverify'),
+    path("referrallogin", views.referrallogin, name='referrallogin'),
+    path("studentcallrequest", views.studentcrmform, name='studentcrmform'),
+    path("studentcallrequestdashboard", views.studentcallrequestdashboard, name='studentcallrequestdashboard'),
     
     ############## 09/03/2024 For Sitemap ################
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="django.contrib.sitemaps.views.sitemap"),

@@ -62,7 +62,7 @@
 <div class="container">
      <h2>OTP Verification</h2>
      
-     <form action="/registationsuccessfull" method="post" class="ffrm">
+     <form action="/studentregistationsuccessfull" method="post" class="ffrm">
           {% csrf_token %}
           <input type="text" name="otp" maxlength="4" placeholder="Enter OTP" required>
           <input type="number" name="slid" value="{{slid}}" style="display: none;" hidden>

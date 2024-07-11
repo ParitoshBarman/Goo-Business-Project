@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Call Dashboard</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  .container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th, td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+  }
+
+  th {
+    background-color: #007bff;
+    color: #fff;
+  }
+
+  .call-btn {
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .call-btn:hover {
+    background-color: #0056b3;
+  }
+
+  .status-select, .interest-select {
+    padding: 6px 10px;
+    border-radius: 4px;
+  }
+
+  .datetime-input {
+    padding: 8px 10px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    width: 100%;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Call Dashboard</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Field of Interest</th>
+        <th>Form Fill Time</th>
+        <th>Call Schedule Date</th>
+        <th>Call Schedule Time</th>
+        <th>Interest</th>
+        <th>Status</th>
+        <th>Remark/Query</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>John Doe</td>
+        <td>john@example.com</td>
+        <td>123-456-7890</td>
+        <td>Data Science</td>
+        <td><input type="datetime-local" class="datetime-input"></td>
+        <td><input type="date" class="datetime-input"></td>
+        <td><input type="time" class="datetime-input"></td>
+        <td>
+          <select class="interest-select">
+            <option value="interest">Interest</option>
+            <option value="not interest">Not Interest</option>
+            <option value="maybe">Maybe</option>
+          </select>
+        </td>
+        <td>
+          <select class="status-select">
+            <option value="done">Done</option>
+            <option value="not done">Not Done</option>
+          </select>
+        </td>
+        <td><input type="text"></td>
+        <td><button class="call-btn" onclick="makeCall('John Doe')">Call</button></td>
+      </tr>
+      <tr>
+        <td>Jane Smith</td>
+        <td>jane@example.com</td>
+        <td>987-654-3210</td>
+        <td>Web Development</td>
+        <td><input type="datetime-local" class="datetime-input"></td>
+        <td><input type="date" class="datetime-input"></td>
+        <td><input type="time" class="datetime-input"></td>
+        <td>
+          <select class="interest-select">
+            <option value="interest">Interest</option>
+            <option value="not interest">Not Interest</option>
+            <option value="maybe">Maybe</option>
+          </select>
+        </td>
+        <td>
+          <select class="status-select">
+            <option value="done">Done</option>
+            <option value="not done">Not Done</option>
+          </select>
+        </td>
+        <td><input type="text"></td>
+        <td><button class="call-btn" onclick="makeCall('Jane Smith')">Call</button></td>
+      </tr>
+      <!-- Add more rows with demo data as needed -->
+    </tbody>
+  </table>
+</div>
+
+<script>
+function makeCall(name) {
+  // Here you can implement the logic to make a call to the student
+  alert("Calling " + name + "... Thank you for your request! We will contact you shortly.");
+}
+</script>
+
+</body>
+</html>

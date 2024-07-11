@@ -31,10 +31,12 @@
                     <th>SlId</th>
                     <th>Name</th>
                     <th>Email</th>
+                    <th>Code</th>
                     <th>Phone</th>
-                    <th>Fild</th>
+                    <th>EmpID</th>
                     <th>OTPstatus</th>
                     <th>Date</th>
+                    <th>Time</th>
                     <th>Resume</th>
                     <th>Interview Email</th>
                     <th>Iv Date</th>
@@ -49,10 +51,12 @@
                     <td>{{singledata.slID}}</td>
                     <td id="candidatename{{singledata.slID}}">{{singledata.fullname}}</td>
                     <td>{{singledata.email}}</td>
+                    <td>{{singledata.countryCode}}</td>
                     <td>{{singledata.phone}}</td>
-                    <td>{{singledata.ChooseFieldOfInterest}}</td>
+                    <td>{{singledata.EmployeeID}}</td>
                     <td>{{singledata.otpStatus}}</td>
                     <td>{{singledata.acceptdate}}</td>
+                    <td>{{singledata.acceptTime}}</td>
                     <td><a href="/media/{{singledata.ResumePDF}}" target="_blank">Resume</a></td>
                     {% if singledata.isInterviewSend %}
                     <td style="background-color: green;color: white;" id="emailstatus{{singledata.slID}}">Sent</td>

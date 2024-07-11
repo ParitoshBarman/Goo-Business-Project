@@ -411,7 +411,7 @@ class ReferrelData(models.Model):
     totalEarning = models.IntegerField(null=True,blank=True,default=0)
     totalTransferred = models.IntegerField(null=True,blank=True,default=0)
     totalBalance = models.IntegerField(null=True,blank=True,default=0)
-    refrelList = models.JSONField()
+    refrelList = models.JSONField(default={'listdata':[]})
 
 
     lastUpdateTime = models.TimeField(auto_now=True)
@@ -419,3 +419,28 @@ class ReferrelData(models.Model):
     acceptTime = models.TimeField(auto_now_add=True)
     acceptdate = models.DateField(auto_now_add=True)
     AcceptAllAgriment = models.BooleanField(default=True)
+    otp = models.IntegerField(default=0)
+    otpStatus = models.CharField(max_length=50, default="")
+
+
+
+class StudentBatchesInstractions(models.Model):
+    batchName = models.CharField(max_length=50)
+    Instractions = models.TextField(null=True, blank=True)
+    lastUpdate = models.DateField(auto_now=True)
+    startDate = models.DateField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.batchName
+
+
+class StudentCallRequestData(models.Model):
+    fullname = models.CharField(max_length=122)
+    email = models.EmailField(max_length=254)
+    phone = models.CharField(max_length=20)
+    lastUpdateTime = models.TimeField(auto_now=True)
+    lastUpdateDate = models.DateField(auto_now=True)
+    fillTime = models.TimeField(auto_now_add=True)
+    fillDate = models.DateField(auto_now_add=True)
+    def __str__(self):
+        return self.batchName

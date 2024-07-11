@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Referral Rashboard | Goo Business{% endblock title %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/referraldashboard/style.css' %}">
+
+{% endblock head%}
+
+{% block body %}
+<main>
+
+    <div class="serchsection">
+        <h1>Referral Dashboard</h1>
+
+    </div>
+
+    <div class="pricingsection">
+        <div>
+            <div class="img">
+                <img src="{% static 'img/referraldashboard/007-referral.png.png' %}" alt="">
+            </div>
+            <div class="text">
+                <h3>{{referrelData.totalNumberOfRefer}}</h3>
+                <p>Total Referral</p>
+            </div>
+        </div>
+        <div>
+            <div class="img">
+                <img src="{% static 'img/referraldashboard/002-cash.png.png' %}" alt="">
+            </div>
+            <div class="text">
+                <h3>&#x20B9; {{referrelData.totalEarning}}</h3>
+                <p>Total Earning</p>
+            </div>
+        </div>
+        <div>
+            <div class="img">
+                <img src="{% static 'img/referraldashboard/006-wage.png.png' %}" alt="">
+            </div>
+            <div class="text">
+                <h3>&#x20B9; {{referrelData.totalBalance}}</h3>
+                <p>Total Balance</p>
+            </div>
+        </div>
+        <div>
+            <div class="img">
+                <img src="{% static 'img/referraldashboard/003-credit-card.png.png' %}" alt="">
+            </div>
+            <div class="text">
+                <h3>&#x20B9; {{referrelData.totalTransferred}}</h3>
+                <p>Total Bank Transfer</p>
+            </div>
+        </div>
+
+        <div>
+            <div class="img">
+                <img src="{% static 'img/referraldashboard/001-donation.png.png' %}" alt="">
+            </div>
+            <div class="text">
+                <h3>&#x20B9; {{referrelData.commitionAmount}}</h3>
+                <p>Commission Amount</p>
+            </div>
+        </div>
+        <div>
+            <div class="img">
+                <img src="{% static 'img/referraldashboard/005-percentage.png.png' %}" alt="">
+            </div>
+            <div class="text">
+                <h3>{{referrelData.commitionInPercentage}} %</h3>
+                <p>Commission Percentage</p>
+            </div>
+        </div>
+        <div>
+            <div class="img">
+                <img src="{% static 'img/referraldashboard/008-transfer.png.png' %}" alt="">
+            </div>
+            <div class="text">
+                <h3>&#x20B9; {{referrelData.discountAmount}}</h3>
+                <p>Discount Amount</p>
+            </div>
+        </div>
+        <div>
+            <div class="img">
+                <img src="{% static 'img/referraldashboard/004-hourglass.png.png' %}" alt="">
+            </div>
+            <div class="text">
+                <h3>{{referrelData.discountPercentage}} %</h3>
+                <p>Discount Percentage</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Calculetion Section -->
+    <div class="calculationsection">
+        <div>
+            <h3>Service</h3>
+            <p>Course</p>
+        </div>
+        <div>
+            <h3>Your Referrals</h3>
+            <p>{{referrelData.totalNumberOfRefer}}</p>
+        </div>
+        <div>
+            <h3>Active Referrals</h3>
+            <p>{{referrelData.totalNumberOfRefer}}</p>
+        </div>
+        <div>
+            <h3>Total Ref. Earnings</h3>
+            <p>&#x20B9; {{referrelData.totalEarning}}</p>
+        </div>
+    </div>
+
+    <div class="refQt">
+        <h2>Refer Friends And Earn More !!</h2>
+    </div>
+
+
+    <div class="copysection">
+        <div>
+            <h2>Your Referral Link</h2>
+            <div class="copyoptions">
+                <div class="copylink" id="reflink">
+                    https://goobusines.com/studentregistation?refcode={{referrelData.RefrelID}}</div>
+                <button onclick="copyRefLink()"><img src="{% static 'img/referraldashboard/Symbol.png' %}" alt="">
+                    <p id="reflinkText">Copy</p>
+                </button>
+            </div>
+        </div>
+        <div>
+            <h2>Your Referral Code</h2>
+            <div class="copyoptions">
+                <div class="copylink" id="refcode">{{referrelData.RefrelID}}</div>
+                <button onclick="copyRefCode()"><img src="{% static 'img/referraldashboard/Symbol.png' %}" alt="">
+                    <p id="refcodeText">Copy</p>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="reflistsection">
+        <table>
+            <caption>Your Referral List</caption>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Service</th>
+                    <th>Date</th>
+                    <th>Profit</th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+            </tbody>
+        </table>
+    </div>
+
+</main>
+
+<script>
+    let reflink = document.getElementById("reflink");
+    let refcode = document.getElementById("refcode");
+    let tableBody = document.querySelector(".reflistsection>table>tbody");
+
+    function copyRefLink() {
+        navigator.clipboard.writeText(reflink.textContent);
+        document.getElementById("reflinkText").textContent = "Copied!";
+        document.getElementById("refcodeText").textContent = "Copy";
+    }
+    function copyRefCode() {
+        navigator.clipboard.writeText(refcode.textContent);
+        document.getElementById("reflinkText").textContent = "Copy";
+        document.getElementById("refcodeText").textContent = "Copied!";
+    }
+
+    async function listdataRender() {
+        options = {
+            method: "POST",
+            body: JSON.stringify({}),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        }
+        let res = await fetch("/referraldashboard", options);
+        let data = await res.json();
+        if (data.referrelListData.length > 0) {
+            newReverseData = data.referrelListData.reverse()
+            newReverseData.forEach(element => {
+                let tr = document.createElement("tr");
+                let nametd = document.createElement("td");
+                let servicetd = document.createElement("td");
+                let datetd = document.createElement("td");
+                let profittd = document.createElement("td");
+                nametd.textContent = element.name;
+                servicetd.textContent = element.service_name;
+                datetd.textContent = element.date;
+                profittd.innerHTML = `&#x20B9; ${element.profit}`;
+
+                tr.appendChild(nametd, servicetd, datetd, profittd);
+                tr.appendChild(servicetd);
+                tr.appendChild(datetd);
+                tr.appendChild(profittd);
+                tableBody.appendChild(tr);
+            })
+        } else {
+            let caption = document.createElement("caption");
+            caption.innerHTML = "You haven't referred anyone yet, Refer and get &#x20B9;100 every time.";
+            document.querySelector(".reflistsection>table").appendChild(caption);
+        }
+
+    };
+
+    listdataRender();
+</script>
+
+{% endblock body %}

@@ -20,7 +20,7 @@ animation: pogressing 1s ease-in-out 1;
     /* --main-bg-color:#2874f0; */
     --main-bg-color:#2874f0;
 }
-
+/* 
 header{
     background: var(--main-bg-color);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -60,7 +60,7 @@ nav ul li a{
     justify-content: flex-start;
     align-items: center;
 }
-
+ */
 
 
 

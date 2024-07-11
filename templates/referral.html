@@ -1,0 +1,626 @@
+{% extends 'base.html' %}
+
+{% block title %}Referral Page - Goo Business{% endblock title %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/referral/referral.css' %}">
+<link rel="stylesheet" href="{% static 'css/referral/referralResponsive.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<!-- For icons -->
+{% endblock head%}
+
+
+{% block body %}
+
+
+<!-- Main Frame -->
+
+<main>
+    <!-- Modal Overlay -->
+
+    <!-- Intro Section -->
+    <section class="refer-intro-section">
+        <div class="refer-intro-div">
+            <div class="refer-intro-content">
+                <h1>Refer and Earn <br> ₹100 Invite Your <br> Friends Now</h1>
+
+                <div class="loginsec">
+
+                    <button class="join-button">Join now</button>
+
+                    <a href="/referraldashboard">
+                        <button class="join-button share-with-friends">Share with friends</button>
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="refer-intro-image">
+                <img src="{% static 'img/referral/referral.png' %}" alt="Referral Image">
+            </div>
+        </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="how-it-works-section">
+        <div class="how-it-works-div">
+            <div class="how-it-works-title">
+                <h1>How it works</h1>
+            </div>
+
+            <div class="how-it-works-content">
+                <div class="how-it-works-card">
+                    <div class="card-img">
+                        <img src="{% static 'img/referral/search.png' %}" alt="Users image">
+                    </div>
+
+                    <div class="card-content">
+                        <h3>Get a referral link</h3>
+
+                        <p>Invite your Friends and Family to join Go Business via your Invite Link or code.</p>
+                    </div>
+                </div>
+
+                <div class="how-it-works-card">
+                    <div class="card-img">
+                        <img src="{% static 'img/referral/users.png' %}" alt="Users image">
+                    </div>
+
+                    <div class="card-content">
+                        <h3>Refer friends to the Go!!</h3>
+
+                        <p>Your friends or family will get ₹50 discount on each course they’ll buy.</p>
+                    </div>
+                </div>
+
+                <div class="how-it-works-card">
+                    <div class="card-img">
+                        <img src="{% static 'img/referral/gifts.png' %}" alt="Users image">
+                    </div>
+
+                    <div class="card-content">
+                        <h3>Get rewarded</h3>
+
+                        <p>On every referral you’ll get ₹100 instantly in your bank account, withdraw anytime!! </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits-section">
+        <div class="benefits-div">
+            <div class="benefits-title">
+                <h1>What are the benefits you get?</h1>
+            </div>
+
+            <div class="benefits-content">
+                <div class="benefits-part1">
+                    <div class="benefit-div">
+                        <i class="fa-solid fa-gift"></i>
+                        <p>₹100 on each invite.</p>
+                    </div>
+
+                    <div class="benefit-div">
+                        <i class="fa-solid fa-gift"></i>
+                        <p>Refer five friends, access a course freely for a month.</p>
+                    </div>
+
+                    <div class="benefit-div">
+                        <i class="fa-solid fa-gift"></i>
+                        <p>Track refers and course registratins in real-time.</p>
+                    </div>
+                </div>
+
+                <div class="benefits-part1">
+                    <div class="benefit-div">
+                        <i class="fa-solid fa-gift"></i>
+                        <p>No limit on invites.</p>
+                    </div>
+
+                    <div class="benefit-div">
+                        <i class="fa-solid fa-gift"></i>
+                        <p>All money that you earn you'll get it in your bank account directly.</p>
+                    </div>
+
+                    <div class="benefit-div">
+                        <i class="fa-solid fa-gift"></i>
+                        <p>Learn more about promotions, courses and new features through News letters.</p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- How it is different -->
+
+    <section class="benefits-section">
+        <div class="benefits-div">
+            <div class="benefits-title">
+                <h1>How Learning with Goo Business is Different?</h1>
+            </div>
+
+            <div class="benefits-content">
+                <div class="benefits-part1">
+                    <div class="benefit-div">
+                        <img src="{% static 'img/referral/email.png' %}" alt="Email Image">
+                        <p>Live Mentor Support and Student
+                            Experience Team</p>
+                    </div>
+
+                    <div class="benefit-div">
+                        <img src="{% static 'img/referral/crowd.png' %}" alt="Crowd Image">
+                        <p>Prepare for Interviews by accessinng
+                            our content for free</p>
+                    </div>
+
+                    <div class="benefit-div">
+                        <img src="{% static 'img/referral/rupee.png' %}" alt="">
+                        <p>Just 199 Rupees Per
+                            Month</p>
+                    </div>
+                </div>
+
+                <div class="benefits-part1">
+                    <div class="benefit-div">
+                        <img src="{% static 'img/referral/timer.png' %}" alt="Timer Image">
+                        <p>Need a break? Pause your
+                            Course</p>
+                    </div>
+
+                    <div class="benefit-div">
+                        <img src="{% static 'img/referral/teacher.png' %}" alt="Teacher Image">
+                        <p>live soft skills and interview preparation classes</p>
+                    </div>
+
+                    <div class="benefit-div">
+                        <img src="{% static 'img/referral/online-class.png' %}" alt="Online Class image">
+                        <p>All of our classes will be live. Interview preparation, soft skills everything</p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Frequency Asked Questions -->
+
+    <section class="benefits-section">
+        <div class="benefits-div">
+            <div class="benefits-title">
+                <h1>Frequently Asked Questions?</h1>
+            </div>
+
+
+            <div class="frequently-asked-questions">
+
+                <div class="prev-button-div">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </div>
+
+                <div class="faqs-div">
+                    <div class="faq-sub-block">
+                        <div class="faq-sub-block-1">
+                            <i class="fa-solid fa-chevron-right"></i>
+                            <p>How does the referral program work?</p>
+                        </div>
+
+                        <div class="faq-block-content">
+
+                            <p>Simply share your unique referral link with friends and family, and when they sign up
+                                using your link, you'll receive a discount on your next purchase.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-sub-block">
+                        <div class="faq-sub-block-1">
+                            <i class="fa-solid fa-chevron-right"></i>
+                            <p>How does the referral program work?</p>
+                        </div>
+
+                        <div class="faq-block-content">
+
+                            <p>Simply share your unique referral link with friends and family, and when they sign up
+                                using your link, you'll receive a discount on your next purchase.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-sub-block">
+                        <div class="faq-sub-block-1">
+                            <i class="fa-solid fa-chevron-right"></i>
+                            <p>How does the referral program work?</p>
+                        </div>
+
+                        <div class="faq-block-content">
+
+                            <p>Simply share your unique referral link with friends and family, and when they sign up
+                                using your link, you'll receive a discount on your next purchase.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="prev-button-div">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+
+
+
+            </div>
+
+
+
+        </div>
+    </section>
+
+    <!-- Explore Courses -->
+
+    <section class="explore-courses">
+        <div class="explore-courses-div">
+            <div class="explore-courses-title">
+                <h1>Explore courses and Invite friends right now <br>and earn with the Go <span>Business!!</span></h1>
+            </div>
+
+            <div class="explore-courses-frame">
+                <div class="prev-button-div1">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </div>
+
+                <div class="explore-courses-content">
+                    <!-- Course Card -->
+                    <div class="course-card">
+                        <div class="course-img">
+                            <img src="images/frontend.png" alt="Frontend Image">
+                            <!-- <img class="certificate-img" src="images/certificate.png" alt="Certificate"> -->
+                        </div>
+
+                        <div class="course-content">
+                            <p class="category">
+                                Category
+                            </p>
+
+                            <h3>Front End Developer Course</h3>
+
+                            <p class="course-price">₹price</p>
+
+                            <div class="timings">
+                                <p>2 - 3 hrs</p>
+                                <p> 254,193 learners </p>
+                            </div>
+
+                            <div class="course-buttons">
+                                <a href="">
+                                    <button>More Info</button>
+                                </a>
+
+                                <a href="">
+                                    <button class="start-learning">Start Learning</button>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="course-card">
+                        <div class="course-img">
+                            <img src="images/backend.png" alt="backend Image">
+                            <!-- <img class="certificate-img" src="images/certificate.png" alt="Certificate"> -->
+                        </div>
+
+                        <div class="course-content">
+                            <p class="category">
+                                Category
+                            </p>
+
+                            <h3>Back End Developer Course</h3>
+
+                            <p class="course-price">₹price</p>
+
+                            <div class="timings">
+                                <p>2 - 3 hrs</p>
+                                <p> 254,193 learners </p>
+                            </div>
+
+                            <div class="course-buttons">
+                                <a href="">
+                                    <button>More Info</button>
+                                </a>
+
+                                <a href="">
+                                    <button class="start-learning">Start Learning</button>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="course-card">
+                        <div class="course-img">
+                            <img src="images/fullstack.png" alt="Frontend Image">
+                            <!-- <img class="certificate-img" src="images/certificate.png" alt="Certificate"> -->
+                        </div>
+
+                        <div class="course-content">
+                            <p class="category">
+                                Category
+                            </p>
+
+                            <h3>Fullstack Developer Course</h3>
+
+                            <p class="course-price">₹price</p>
+
+                            <div class="timings">
+                                <p>2 - 3 hrs</p>
+                                <p> 254,193 learners </p>
+                            </div>
+
+                            <div class="course-buttons">
+                                <a href="">
+                                    <button>More Info</button>
+                                </a>
+
+                                <a href="">
+                                    <button class="start-learning">Start Learning</button>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="course-card">
+                        <div class="course-img">
+                            <img src="images/frontend.png" alt="Frontend Image">
+                            <!-- <img class="certificate-img" src="images/certificate.png" alt="Certificate"> -->
+                        </div>
+
+                        <div class="course-content">
+                            <p class="category">
+                                Category
+                            </p>
+
+                            <h3>Front End Developer Course</h3>
+
+                            <p class="course-price">₹price</p>
+
+                            <div class="timings">
+                                <p>2 - 3 hrs</p>
+                                <p> 254,193 learners </p>
+                            </div>
+
+                            <div class="course-buttons">
+                                <a href="">
+                                    <button>More Info</button>
+                                </a>
+
+                                <a href="">
+                                    <button class="start-learning">Start Learning</button>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="prev-button-div1">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </div>
+
+            <div class="explore-course-button">
+                <a href="">
+                    <button>Explore More Courses</button>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews -->
+
+    <section class="review-section">
+        <div class="review-div">
+            <div class="review-title">
+                <h1>Don't take our word for it. <span> People ❤️ Go Business</span></h1>
+            </div>
+
+            <div class="review-content">
+
+                <!-- Review Card -->
+                <div class="review-card">
+                    <div class="review-card-content">
+                        <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation "</p>
+                        <div class="stars">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                    </div>
+
+                    <div class="review-card-user">
+                        <div class="user-image">
+                            <img src="images/user.png" alt="">
+                        </div>
+
+                        <div class="user-details">
+                            <p class="name">User 1</p>
+                            <p class="role">Manager <br>
+                                at company name</p>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-card-content">
+                        <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation "</p>
+                        <div class="stars">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                    </div>
+
+                    <div class="review-card-user">
+                        <div class="user-image">
+                            <img src="images/user.png" alt="">
+                        </div>
+
+                        <div class="user-details">
+                            <p class="name">User 2</p>
+                            <p class="role">Designer <br>
+                                at company name</p>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="review-card">
+                    <div class="review-card-content">
+                        <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation "</p>
+                        <div class="stars">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                    </div>
+
+                    <div class="review-card-user">
+                        <div class="user-image">
+                            <img src="images/user.png" alt="">
+                        </div>
+
+                        <div class="user-details">
+                            <p class="name">User 3</p>
+                            <p class="role">Developer <br>
+                                at company name</p>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-card-content">
+                        <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation "</p>
+                        <div class="stars">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                    </div>
+
+                    <div class="review-card-user">
+                        <div class="user-image">
+                            <img src="images/user.png" alt="">
+                        </div>
+
+                        <div class="user-details">
+                            <p class="name">User 4</p>
+                            <p class="role">UI/UX Designer<br>
+                                at company name</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Sign up Modal -->
+
+    <div class="sign-up-modal">
+        <div class="sign-up">
+            <button class="close-button">X</button>
+            <h1>Sign up</h1>
+            {% if errmsg %}
+            <div style="color:red;text-align:center;">{{errmsg}}</div>
+            {% endif %}
+            <form action="/referralsignup" method="post" id="signup-form">
+                {% csrf_token %}
+                <label for="emailId">Email</label>
+                <input type="email" id="emailId" name="username" placeholder="example@gmail.com" required>
+
+                <label for="password">Password</label>
+
+
+                <input type="password" id="password" name="password" required>
+                <!-- <i class="fa-regular fa-eye"></i> -->
+
+
+
+                <label for="conform-password">Conform Password</label>
+                <input type="password" id="confirm-password" name="confirm-password" required>
+
+                <div id="password-mismatch-error"
+                    style="display: none; color: red; padding-left: 25px; margin-bottom: 20px;">Passwords do not match!
+                    Try again</div>
+
+
+                <button type="submit" class="sign-up-button">Signup</button>
+                <p>Already Signed up? <span class="login-link">login</span></p>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Login Modal -->
+
+    <div class="sign-up-modal login-modal">
+        <div class="sign-up">
+            <button class="close-button close-button1">X</button>
+            <h1>Sign In</h1>
+
+            {% if errmsg %}
+            <div style="color:red;text-align:center;">{{errmsg}}</div>
+            {% endif %}
+            <form action="/referrallogin" method="post" id="loginFrom">
+                {% csrf_token %}
+                <label for="emailId1">Email</label>
+                <input type="email" name="username" id="emailId1" placeholder="example@gmail.com" required>
+
+                <label for="password1">Password</label>
+
+
+                <input type="password" name="password" id="password1" required>
+                <!-- <i class="fa-regular fa-eye"></i> -->
+
+
+
+
+
+
+                <button type="submit" class="sign-up-button">Sign In</button>
+                <p>New user? <span class="signup-link">signup</span></p>
+            </form>
+
+        </div>
+    </div>
+
+
+</main>
+<p id="modal-enable" style="display: none;">{{signupshow}}</p>
+<p id="modal-enableLogIn" style="display: none;">{{loginshow}}</p>
+
+
+
+
+
+<script src="{% static 'JS/referral/referral.js' %}"></script>
+
+{% endblock body %}

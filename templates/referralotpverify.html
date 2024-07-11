@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}OTP Varification...{% endblock title %}
+{% block head %}
+
+
+<style>
+     main {
+         font-family: Arial, sans-serif;
+         background-color: #f7f7f7;
+         margin: 0;
+         padding: 0;
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         align-items: center;
+         height: 100vh;
+     }
+     main .container {
+         background-color: #fff;
+         padding: 40px;
+         border-radius: 8px;
+         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+         text-align: center;
+     }
+     main h2 {
+         margin-top: 0;
+         margin-bottom: 20px;
+         color: #333;
+     }
+     main input[type="text"] {
+         width: 100%;
+         padding: 12px;
+         margin-bottom: 20px;
+         border-radius: 6px;
+         border: 1px solid #ddd;
+         box-sizing: border-box;
+     }
+     main button {
+         background-color: #007bff;
+         color: #fff;
+         border: none;
+         padding: 12px 24px;
+         border-radius: 6px;
+         cursor: pointer;
+         transition: background-color 0.3s ease;
+     }
+     main button:hover {
+         background-color: #0056b3;
+     }
+     @media (max-width: 768px) {
+         .container {
+             width: 80%;
+         }
+     }
+ </style>
+
+{% endblock head%}
+
+{% block body %}
+<main>
+     <div style="text-align: center; padding: 15px;">The OTP has been sent to your email</div>
+<div class="container">
+     <h2>OTP Verification</h2>
+     
+     <form action="/referralotpverify" method="post" class="ffrm">
+          {% csrf_token %}
+          <input type="text" name="otp" maxlength="4" placeholder="Enter OTP" required>
+          <input type="number" name="slid" value="{{slid}}" style="display: none;" hidden>
+          
+          <button type="submit">Verify</button>
+     </form>
+     
+ </div>
+
+</main>
+
+{% endblock body %}

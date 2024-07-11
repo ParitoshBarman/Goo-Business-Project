@@ -1,0 +1,122 @@
+
+/* Responsive */
+
+@media screen and (max-width: 980px) {
+    
+    /* Intro SEction */
+    .refer-intro-content h1 {
+        font-size: 30px;
+    }
+
+    /* Signup Modal */
+
+    .sign-up-modal {
+      left: 15%;
+    }
+}
+
+
+@media screen and (max-width: 780px) {
+    /* Intro Section */
+    .refer-intro-div {
+        flex-direction: column;
+    }
+
+    .refer-intro-div > * {
+        flex: 1;   
+    }
+    .refer-intro-content h1 {
+        font-size: 35px;
+    }
+
+    /* Benefits Section */
+
+    .benefits-content {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* Review Section */
+
+    .review-content {
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    }
+
+    /* Signup */
+
+    .sign-up-modal {
+      left: 20px;
+      width: 90%;
+    }
+    
+}
+
+@media screen and (max-width: 480px) {
+    /* Intro Section */
+
+    .refer-intro-section {
+        width: 100%;
+        padding: 10px;
+        
+    }
+
+    .refer-intro-div {
+        gap: 20px;
+    }
+    
+    .refer-intro-content h1 {
+        font-size: 30px;
+    }
+
+    .refer-intro-content div {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Benefits Section */
+
+    .benefits-title {
+        height: 80px;
+    }
+
+    .benefits-title h1 {
+        font-size: 22px;
+        padding-bottom: 10px;
+    }
+
+    .benefit-div {
+        width: 80%;
+        margin: auto;
+    }
+
+    /* FAQ Section */
+
+    .faq-sub-block {
+      min-width: 150px;
+    }
+
+
+    /* Explore Courses */
+
+    .prev-button-div1 i,
+    .prev-button-div i {
+      font-size: 20px;
+    }
+
+    .course-card {
+      min-width: 200px;
+    }
+
+    
+}
+
+@media screen and (max-width: 490px) {
+  /* Review Section */
+
+  .review-content {
+    margin: auto;
+  }
+}

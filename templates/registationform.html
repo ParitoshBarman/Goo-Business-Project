@@ -367,7 +367,7 @@
         <label for="jobType">Choose Job or Internship:</label>
         <select id="jobType" name="jobType" required>
             <option value="">Choose Job or Internship</option>
-            <option value="j">Job</option>
+            <option value="j" disabled>Job</option>
             <option value="i">Internship</option>
         </select>
 
@@ -422,7 +422,7 @@
         <!-- Upload Resume -->
         <label for="resume">Upload Resume (PDF only):</label>
         <input type="file" id="resume" name="resume" accept=".pdf" required>
-        <p style="font-size: 13px;">To ensure serious candidates and prevent unnecessary applications, we charge a nominal fee (for Job Rs.9 INR) for the interview and skills testing process. Which is fully refundable after selection.</p>
+        <!-- <p style="font-size: 13px;">To ensure serious candidates and prevent unnecessary applications, we charge a nominal fee (for Job Rs.9 INR) for the interview and skills testing process. Which is fully refundable after selection.</p> -->
         <label for="AcceptAllAgriment" style="display: flex;flex-direction: row;font-size: 14px;">
             <input type="checkbox" name="AcceptAllAgriment" required id="AcceptAllAgriment" style="width: auto;">Accept All Agreements <a href="/LearnMoreaboutrqt" target="_blank" style="font-size: 12px;">&nbsp;Learn more</a>.</label>
         <button type="submit" style="background-color:#3498db;" id="submitbtn">Continue</button>

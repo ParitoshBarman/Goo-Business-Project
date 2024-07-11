@@ -144,7 +144,7 @@ header>nav>div>ul>li>ul>li>a:hover{
 }
 
 .introSection>div>div>img{
-    width: 79%;
+    width: 100%;
 }
 .introSection>div>div>h1{
     color:#ed565a;
@@ -221,10 +221,12 @@ header>nav>div>ul>li>ul>li>a:hover{
     top: -534px;
     overflow: hidden;
     margin-bottom: -536px;
+    color: white;
 }
 .allInOneSection>div{
     max-width:1200px ;
     margin: auto;
+    color: white;
 }
 .allInOneSection>div:first-child>div{
     text-align: center;
@@ -233,14 +235,17 @@ header>nav>div>ul>li>ul>li>a:hover{
 .allInOneSection>div:first-child>div>h2{
     font-size: 14px;
     font-weight: 500;
+    color: whitesmoke;
 }
 .allInOneSection>div:first-child>div>h3{
     font-size: 36px;
+    color: white;
 }
 .allInOneSection>div:first-child>div>p{
     font-size: 18px;
     padding-top: 8px;
     line-height: 27px;
+    color: white;
 }
 
 
@@ -249,9 +254,11 @@ header>nav>div>ul>li>ul>li>a:hover{
     justify-content: space-between;
     margin-top: 50px;
     
+    color: white;
 }
 .allInOneSection>div:nth-child(2)>div{
     width: 50%;
+    color: white;
 }
 .allInOneSection>div:nth-child(2) a{
     color: #f1f1f1;
@@ -267,16 +274,19 @@ header>nav>div>ul>li>ul>li>a:hover{
 .text>h2{
     padding: 17px 0;
     display: flex;
+    color: white;
 }
 .text>h2>div{
     width: 50px;
     background-repeat: no-repeat;
     background-size: contain;
+    color: white;
 }
 
 .text>p{
     display: none;
     line-height: 23px;
+    color: whitesmoke;
 }
 
 .allInOneSection>div>div>img{

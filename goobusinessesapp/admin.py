@@ -1,5 +1,5 @@
 from django.contrib import admin
-from goobusinessesapp.models import RegistationFormDB, InternUserDetails, AllServices, ClickHistry, UserDetails, PerDayOrderPerUser, OrderList, FreeTrialUser, FreeTrialRequest, FreeTrialUnderReview, ContactMessage, ControlWeb, WhyUsDB, AboutDB, EmailSeenDB, ExtraImageDB, OpenViaEmail, InternalVisit, ClickHistryByUser, UnsubscribeList, SubscribeList, BatchesInstractions, AllInternBatchs, CallingConverssionTrack, TransectionHistory, ProductUser, AllStudentDetails, ReferrelData
+from goobusinessesapp.models import RegistationFormDB, InternUserDetails, AllServices, ClickHistry, UserDetails, PerDayOrderPerUser, OrderList, FreeTrialUser, FreeTrialRequest, FreeTrialUnderReview, ContactMessage, ControlWeb, WhyUsDB, AboutDB, EmailSeenDB, ExtraImageDB, OpenViaEmail, InternalVisit, ClickHistryByUser, UnsubscribeList, SubscribeList, BatchesInstractions, AllInternBatchs, CallingConverssionTrack, TransectionHistory, ProductUser, AllStudentDetails, ReferrelData, StudentBatchesInstractions
 from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
@@ -48,7 +48,7 @@ class OrderListAdminV(ImportExportModelAdmin, admin.ModelAdmin):
 admin.site.register(OrderList,OrderListAdminV)
 
 class RegistationFormDBAdminV(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display=('slID','fullname','email','phone','otpStatus','date','odrTime','LinkedInProfile','ResumePDF', 'AcceptAllAgriment')
+    list_display=('slID','fullname','YearOfGraduation','WorkExperienceIfAny','ChooseFieldOfInterest','email','phone','date','odrTime','LinkedInProfile','ResumePDF')
 admin.site.register(RegistationFormDB, RegistationFormDBAdminV)
 
 class UserAdminNC(ImportExportModelAdmin, admin.ModelAdmin):
@@ -115,5 +115,11 @@ class AllStudentDetailsV(ImportExportModelAdmin, admin.ModelAdmin):
 admin.site.register(AllStudentDetails, AllStudentDetailsV)
 
 class ReferrelDataV(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display=('slID','RefrelID','fullname','email','phone','whatsapp','discountAmount','discountPercentage','commitionAmount','commitionInPercentage','totalNumberOfRefer','totalEarning','totalTransferred','totalBalance','refrelList','lastUpdateTime','lastUpdatedate','acceptTime','acceptdate','AcceptAllAgriment')
+    list_display=('slID','RefrelID','fullname','email','phone','whatsapp','discountAmount','discountPercentage','commitionAmount','commitionInPercentage','totalNumberOfRefer','totalEarning','totalTransferred','totalBalance','lastUpdateTime','lastUpdatedate','acceptTime','acceptdate','AcceptAllAgriment', 'otp','otpStatus')
 admin.site.register(ReferrelData, ReferrelDataV)
+
+
+
+class StudentBatchesInstractionsV(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display=('batchName','lastUpdate', 'startDate')
+admin.site.register(StudentBatchesInstractions, StudentBatchesInstractionsV)
