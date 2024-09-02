@@ -1442,9 +1442,10 @@ def emailMarketingAthenticate(request):
         ip_address = objdata["ip_address"]
         host_name = objdata["host_name"]
         email_send = objdata["email_send"]
+        password = objdata["password"]
 
         try:
-            productUserData = ProductUser.objects.get(slid=slid, email=email, DeviceIP=ip_address, HostName=host_name, UserID=user_id)
+            productUserData = ProductUser.objects.get(slid=slid, email=email, UserID=user_id, SenderEmailPassword=password)
             if email_send:
                 productUserData.TotalSendEmail += 1
                 productUserData.save()
