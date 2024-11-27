@@ -1449,6 +1449,7 @@ def emailMarketingAthenticate(request):
             if email_send:
                 productUserData.TotalSendEmail += 1
                 productUserData.save()
+            
         except:
             return JsonResponse({'massage':'error'})
 
